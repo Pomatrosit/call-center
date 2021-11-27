@@ -1,0 +1,20 @@
+@import "./variables.scss";
+
+@mixin app-wrapper {
+  width: 95%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+@mixin flex(
+  $alignItems: center,
+  $justifyContent: center,
+  $direction: row,
+  $wrap: no-wrap
+) {
+  display: flex;
+  align-items: $alignItems;
+  justify-content: $justifyContent;
+  flex-direction: $direction;
+  flex-wrap: $wrap;
+}

@@ -1,0 +1,38 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.userSettings {
+  margin-left: 35px;
+  @include flex();
+  text-align: right;
+
+  .userIcon {
+    margin-right: 15px;
+  }
+
+  .rightSide {
+    @include flex(flex-end, center, column);
+
+    .userName {
+      margin-bottom: 0;
+      font-size: 16px;
+      color: $primaryColor;
+      font-weight: 700;
+    }
+
+    .exitBtn {
+      margin-bottom: 0;
+      font-size: 12px;
+      cursor: pointer;
+      color: $defaultColor;
+      font-weight: 400;
+      transition: 0.3s;
+    }
+  }
+}
+
+@media (hover: hover) {
+  .exitBtn:hover {
+    opacity: 0.7;
+  }
+}

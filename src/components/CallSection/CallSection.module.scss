@@ -1,0 +1,27 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.callSection {
+  @include flex();
+}
+
+.callInfo {
+  margin-left: 25px;
+
+  &__status {
+    font-weight: 500;
+    font-size: 16px;
+    color: $dangerColor;
+  }
+
+  &__time {
+    font-weight: normal;
+    font-size: 14px;
+    color: $primaryColor;
+
+    span {
+      color: $successColor;
+      font-weight: 600;
+    }
+  }
+}

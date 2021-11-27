@@ -1,0 +1,11 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.status {
+  margin-left: 35px;
+  @include flex();
+
+  &__icon {
+    margin-right: 20px;
+  }
+}

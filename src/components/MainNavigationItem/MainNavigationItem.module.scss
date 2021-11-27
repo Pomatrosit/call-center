@@ -1,0 +1,15 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.navItem {
+  @include flex();
+  margin-right: 40px;
+  cursor: pointer;
+
+  &__title {
+    margin-left: 16px;
+    font-weight: 500;
+    font-size: 15px;
+    color: $primaryColor;
+  }
+}
