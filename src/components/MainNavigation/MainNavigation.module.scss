@@ -1,0 +1,11 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.mainNavigation {
+  padding: 15px 0;
+}
+
+.appWrapper {
+  @include app-wrapper();
+  @include flex(center, flex-start);
+}

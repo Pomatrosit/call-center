@@ -2,7 +2,7 @@ import { IUser } from "../../common-types/user"
 import { types, UserActions } from "./types"
 
 const initialState: IUser = {
-  firstName: "Jonh",
+  firstName: "John",
   lastName: "Doe",
 }
 
