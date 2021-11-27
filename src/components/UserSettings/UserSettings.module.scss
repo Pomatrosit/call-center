@@ -10,18 +10,29 @@
     margin-right: 15px;
   }
 
-  .userName {
-    margin-bottom: 0;
-    font-size: 16px;
-    color: $primaryColor;
-    font-weight: 700;
-  }
+  .rightSide {
+    @include flex(flex-end, center, column);
 
-  .exitBtn {
-    margin-bottom: 0;
-    font-size: 12px;
-    cursor: pointer;
-    color: $defaultColor;
-    font-weight: 600;
+    .userName {
+      margin-bottom: 0;
+      font-size: 16px;
+      color: $primaryColor;
+      font-weight: 700;
+    }
+
+    .exitBtn {
+      margin-bottom: 0;
+      font-size: 12px;
+      cursor: pointer;
+      color: $defaultColor;
+      font-weight: 400;
+      transition: 0.3s;
+    }
+  }
+}
+
+@media (hover: hover) {
+  .exitBtn:hover {
+    opacity: 0.7;
   }
 }
