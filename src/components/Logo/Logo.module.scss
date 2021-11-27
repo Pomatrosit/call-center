@@ -1,0 +1,20 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.logo {
+  flex-grow: 1;
+  @include flex(center, flex-start);
+
+  &__img {
+    width: 50px;
+  }
+
+  &__title {
+    width: 90px;
+    font-size: 16px;
+    line-height: 19px;
+    color: $primaryColor;
+    margin: 0 0 0 15px;
+    font-weight: 600;
+  }
+}
