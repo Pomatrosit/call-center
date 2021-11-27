@@ -1,0 +1,18 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.header {
+  position: relative;
+}
+
+.appWrapper {
+  @include app-wrapper();
+  @include flex(center, space-between);
+  padding: 20px 0;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.pinCode {
+  font-size: 16px;
+  color: $primaryColor;
+}
