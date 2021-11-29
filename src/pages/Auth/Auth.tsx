@@ -7,6 +7,11 @@ import { setAuth } from "../../store/auth/actions";
 import style from "./Auth.module.scss";
 import cls from "classnames";
 
+const enum ErrorCode {
+  BadRequest = 400, // Неверный пароль
+  NotFound = 404, // Неверный логин
+}
+
 // TODO: use auth api
 const authMock = async (login: string, pwd: string) => {
   if (login === "123123") {
@@ -78,7 +83,7 @@ const Auth: FC = () => {
             <Form.Text className={style.dangerText}>
               {errors.isLoginEmpty
                 ? "Заполните поле"
-                : "Вы ввели неверный пароль"}
+                : "Вы ввели неверный логин"}
             </Form.Text>
           )}
         </Form.Group>
