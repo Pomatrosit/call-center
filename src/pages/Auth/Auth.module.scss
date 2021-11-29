@@ -2,6 +2,9 @@
 @import "../../styles/mixins.scss";
 
 .auth {
+  background: rgba(0, 0, 0, 0.05);
+  padding: 2vh;
+
   margin: 200px auto;
   width: 400px;
 
@@ -23,6 +26,10 @@
 
   .marginTop {
     margin-top: 1vh;
+  }
+
+  .error {
+    color: $dangerColor;
   }
 
   .button {

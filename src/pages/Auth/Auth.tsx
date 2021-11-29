@@ -10,6 +10,7 @@ import cls from "classnames";
 const enum ErrorCode {
   BadRequest = 400, // Неверный пароль
   NotFound = 404, // Неверный логин
+  Internal = 500, // Вутренняя ошибка сервера
 }
 
 // TODO: use auth api
@@ -31,12 +32,14 @@ const Auth: FC = () => {
 
   const [login, setLogin] = useState("");
   const [pwd, setPwd] = useState("");
+  const [checked, setChecked] = useState(false);
 
   const [errors, setErrors] = useState({
     isLoginEmpty: false,
     isPwdEmpty: false,
     isLoginFailed: false,
     isPwdFailed: false,
+    isInternalErr: false,
   });
 
   const loginBtnClickHandler = async () => {
@@ -49,6 +52,7 @@ const Auth: FC = () => {
     }
 
     try {
+      // Добавить запрос с обработкой ошибок
       const res = await authMock(login, pwd);
 
       navigate("/");
@@ -110,8 +114,19 @@ const Auth: FC = () => {
           )}
         </Form.Group>
 
-        <Form.Group className={style.marginTop} controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Запомнить меня" />
+        {!errors.isInternalErr && (
+          <p className={cls(style.error, style.marginTop)}>
+            Произошла внутренняя ошибка
+          </p>
+        )}
+
+        <Form.Group className={style.marginTop} controlId="checkbox">
+          <Form.Check
+            checked={checked}
+            onChange={(e) => setChecked(e.target.checked)}
+            type="checkbox"
+            label="Запомнить меня"
+          />
         </Form.Group>
 
         <Button
