@@ -1,8 +1,25 @@
 import { FC } from "react";
-import NewBid from "../components/NewBid";
+import { Row, Col } from "react-bootstrap";
+import NewBidProducts from "../components/NewBidProducts";
+import NewBidForms from "../components/NewBidForms";
 
 const CreateBid: FC = () => {
-  return <NewBid />;
+  const handleSaveForms = () => {};
+  const handleSaveProduct = () => {};
+
+  return (
+    <div style={{ marginBottom: "4vh" }}>
+      <Row>
+        <Col lg={5}>
+          <NewBidForms handleSave={handleSaveForms} />
+        </Col>
+
+        <Col md={7}>
+          <NewBidProducts handleSave={handleSaveProduct} />
+        </Col>
+      </Row>
+    </div>
+  );
 };
 
 export default CreateBid;
