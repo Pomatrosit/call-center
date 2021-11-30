@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import { privateRoutes, publicRoutes } from "./constants/router"
+import { PRIVATE_ROUTES, PUBLIC_ROUTES } from "./constants/router"
 import { useAppSelector } from "./hooks/useAppSelector"
 import Layout from "./components/Layout/Layout"
 
@@ -12,7 +12,7 @@ const App = () => {
         {auth ? (
           <Layout>
             <Routes>
-              {privateRoutes.map((item) => (
+              {PRIVATE_ROUTES.map((item) => (
                 <Route
                   key={item.id}
                   path={item.path}
@@ -23,7 +23,7 @@ const App = () => {
           </Layout>
         ) : (
           <Routes>
-            {publicRoutes.map((item) => (
+            {PUBLIC_ROUTES.map((item) => (
               <Route
                 key={item.id}
                 path={item.path}

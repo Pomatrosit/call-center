@@ -8,4 +8,5 @@
 .appWrapper {
   @include app-wrapper();
   @include flex(center, flex-start);
+  margin-bottom:30px;
 }
