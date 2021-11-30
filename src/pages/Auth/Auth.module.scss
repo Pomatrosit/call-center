@@ -1,0 +1,38 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.auth {
+  background: rgba(0, 0, 0, 0.05);
+  padding: 2vh;
+
+  margin: 200px auto;
+  width: 400px;
+
+  border-radius: 10px;
+
+  .logo {
+    & > div {
+      justify-content: center;
+    }
+  }
+
+  h3 {
+    text-align: center;
+  }
+
+  .dangerText {
+    color: $dangerColor;
+  }
+
+  .marginTop {
+    margin-top: 1vh;
+  }
+
+  .error {
+    color: $dangerColor;
+  }
+
+  .button {
+    width: 100%;
+  }
+}
