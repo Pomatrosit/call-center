@@ -25,23 +25,18 @@ interface IProps {
 }
 
 const InsuranseInput: FC<IProps> = ({ value, onChange }) => {
-  const [insuranse, setInsuranse] = useState(value);
   const [formatted, setFormatted] = useState("");
 
   useEffect(() => {
-    setFormatted(format(insuranse));
-  }, [insuranse]);
+    setFormatted(format(value));
+  }, [value]);
 
   const onInsuranseChange = (str: string) => {
-    const value = str.trimLeft().replace(".", "");
+    const newStr = str.trimLeft().replace(".", "");
 
-    if (value.length > 11) return;
-    setInsuranse(value);
+    if (newStr.length > 11) return;
+    onChange(newStr);
   };
-
-  useEffect(() => {
-    onChange(insuranse);
-  }, [onChange, insuranse]);
 
   return (
     <Form.Control

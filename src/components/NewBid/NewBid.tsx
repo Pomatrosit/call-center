@@ -63,7 +63,9 @@ const NewBid: FC = () => {
               <Form.Control
                 placeholder="Отчество"
                 value={state.secondname}
-                onChange={(e) => setState({ ...state, secondname: e.target.value })}
+                onChange={(e) =>
+                  setState({ ...state, secondname: e.target.value })
+                }
               />
             </div>
 
