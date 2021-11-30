@@ -1,0 +1,22 @@
+@import "../../styles/mixins.scss";
+
+.productList {
+  height: 100%;
+  padding: 20px 20px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 37%;
+
+    .element {
+      @include flex(center, flex-start);
+    }
+  }
+
+  .marginTop {
+    margin-top: 35px;
+    width: 32.5%;
+  }
+}
