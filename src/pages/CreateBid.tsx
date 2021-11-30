@@ -1,7 +1,8 @@
-import { FC } from "react"
+import { FC } from "react";
+import NewBid from "../components/NewBid";
 
 const CreateBid: FC = () => {
-  return <div>CREATE BID</div>
-}
+  return <NewBid />;
+};
 
-export default CreateBid
+export default CreateBid;
