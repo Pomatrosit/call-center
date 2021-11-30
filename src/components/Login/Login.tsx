@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../components/Logo";
 import { setAuth } from "../../store/auth/actions";
-import style from "./Auth.module.scss";
+import style from "./Login.module.scss";
 import cls from "classnames";
 
 const enum ErrorCode {
@@ -114,7 +114,7 @@ const Auth: FC = () => {
           )}
         </Form.Group>
 
-        {!errors.isInternalErr && (
+        {errors.isInternalErr && (
           <p className={cls(style.error, style.marginTop)}>
             Произошла внутренняя ошибка
           </p>
@@ -122,6 +122,7 @@ const Auth: FC = () => {
 
         <Form.Group className={style.marginTop} controlId="checkbox">
           <Form.Check
+            className={style.check}
             checked={checked}
             onChange={(e) => setChecked(e.target.checked)}
             type="checkbox"
@@ -130,7 +131,7 @@ const Auth: FC = () => {
         </Form.Group>
 
         <Button
-          className={cls(style.marginTop, style.button)}
+          className={cls(style.button)}
           variant="success"
           onClick={() => loginBtnClickHandler()}
         >
