@@ -11,6 +11,8 @@ export class Bid {
   insuranse = ""; // снилс
   creditTime = ""; // срок кредита
   creditAmount = ""; // сумма кредита
+  productId = 0;
+  statusId = 0;
 }
 
 export const enum types {

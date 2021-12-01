@@ -5,12 +5,18 @@ import {
   BID_CREATE_PRODUCT_LIST,
   BID_CREATE_STATUS_LIST,
 } from "../../constants/bidCreate";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { setNewBidParams } from "../../store/newBid/actions";
 
 interface IProps {
   handleSave(): void;
 }
 
 const NewBidProducts: FC<IProps> = ({ handleSave }) => {
+  const newBid = useAppSelector((state) => state.newBid);
+  const dispatch = useAppDispatch();
+
   return (
     <div className={style.productList}>
       <h4>Оформленные заявки</h4>
