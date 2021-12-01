@@ -1,0 +1,29 @@
+@import "../../styles/mixins.scss";
+
+.main {
+  height: 100%;
+  padding: 20px 20px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+
+  .element {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+
+    margin: 10px 0;
+
+    @include flex(center, flex-end);
+
+    & > label {
+      color: #333;
+      margin: 0 auto;
+      width: max(310px, 40%);
+    }
+
+    & > button {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
+}
