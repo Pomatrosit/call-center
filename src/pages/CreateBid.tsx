@@ -2,9 +2,14 @@ import { FC } from "react";
 import { Row, Col } from "react-bootstrap";
 import NewBidProducts from "../components/NewBidProducts";
 import NewBidForms from "../components/NewBidForms";
+import { useAppSelector } from "../hooks/useAppSelector";
 
 const CreateBid: FC = () => {
-  const handleSaveForms = () => {};
+  const newBid = useAppSelector((state) => state.newBid);
+
+  const handleSaveForms = () => {
+    console.log(newBid);
+  };
   const handleSaveProduct = () => {};
 
   return (

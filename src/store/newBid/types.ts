@@ -3,7 +3,7 @@ export class Bid {
   firstName = ""; // имя
   lastName = ""; // фамилия
   secondName = ""; // отчество
-  status = ""; // статус лица
+  status = 0; // статус лица
   dateOfBirth = ""; // дата рождения
   region = ""; // регион
   city = ""; // город

@@ -29,7 +29,13 @@ const NewBidProducts: FC<IProps> = ({ handleSave }) => {
         <div>
           {BID_CREATE_PRODUCT_LIST.map(({ name, id }) => (
             <InputGroup size="sm" key={id}>
-              <InputGroup.Radio />
+              <InputGroup.Radio
+                checked={newBid.productId === id}
+                onChange={(e: any) =>
+                  e.target.checked &&
+                  dispatch(setNewBidParams({ productId: id }))
+                }
+              />
               <InputGroup.Text>{name}</InputGroup.Text>
             </InputGroup>
           ))}
@@ -37,7 +43,13 @@ const NewBidProducts: FC<IProps> = ({ handleSave }) => {
         <div>
           {BID_CREATE_STATUS_LIST.map(({ name, id }) => (
             <InputGroup size="sm" key={id}>
-              <InputGroup.Radio />
+              <InputGroup.Radio
+                checked={newBid.statusId === id}
+                onChange={(e: any) =>
+                  e.target.checked &&
+                  dispatch(setNewBidParams({ statusId: id }))
+                }
+              />
               <InputGroup.Text>{name}</InputGroup.Text>
             </InputGroup>
           ))}
@@ -48,8 +60,8 @@ const NewBidProducts: FC<IProps> = ({ handleSave }) => {
 
       <Form.Control placeholder="Комментарий" />
 
-      <Button className={style.marginTop} onClick={handleSave}>
-        Сохранить
+      <Button variant="secondary" className={style.marginTop} onClick={handleSave}>
+        Добавить
       </Button>
     </div>
   );
