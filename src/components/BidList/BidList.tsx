@@ -41,7 +41,7 @@ const BidList: FC = () => {
       </Table>
 
       <div className={ classes.pagination }>
-          <CustomPagination pageCount = { 12 } activePage = { activePage } setActivePage={ setActivePage }/>
+          <CustomPagination pageCount = { 20 } activePage = { activePage } setActivePage={ setActivePage }/>
       </div>
     </div>
   )
