@@ -1,20 +1,12 @@
-import { FC } from "react"
-import { Table, Pagination } from 'react-bootstrap'
+import { FC, useState } from "react"
+import { Table } from 'react-bootstrap' 
+import CustomPagination from '../CustomPagination/CustomPagitation'
 import classes from "./BidList.module.scss"
 import { BID_LIST_TABLE_COLUMNS } from '../../constants/bidListTableColumns'
 
 const BidList: FC = () => {
 
-  const activePage = 1
-  let bids = []
-
-  for (let number = 1; number <= 5; number++) {
-      bids.push(
-      <Pagination.Item key={number} active={number === activePage}>
-        {number}
-      </Pagination.Item>,
-    );
-  }
+  const [activePage, setActivePage] = useState<number>(1)
 
   return (
     <div className={classes.bidList}>
@@ -49,7 +41,7 @@ const BidList: FC = () => {
       </Table>
 
       <div className={ classes.pagination }>
-          <Pagination>{bids}</Pagination>
+          <CustomPagination pageCount = { 12 } activePage = { activePage } setActivePage={ setActivePage }/>
       </div>
     </div>
   )
