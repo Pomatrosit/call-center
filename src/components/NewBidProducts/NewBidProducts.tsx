@@ -60,7 +60,11 @@ const NewBidProducts: FC<IProps> = ({ handleSave }) => {
 
       <Form.Control placeholder="Комментарий" />
 
-      <Button variant="secondary" className={style.marginTop} onClick={handleSave}>
+      <Button
+        variant="secondary"
+        className={style.marginTop}
+        onClick={handleSave}
+      >
         Добавить
       </Button>
     </div>

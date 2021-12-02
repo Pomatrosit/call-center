@@ -89,11 +89,15 @@ const NewBidForms: FC<IProps> = ({ handleSave }) => {
       <div className={style.element}>
         <Form.Label>Регион</Form.Label>
         <Form.Control
+          list="regionOptions"
           value={newBid.region}
           onChange={(e) =>
             dispatch(setNewBidParams({ region: e.target.value }))
           }
         />
+        <datalist id="regionOptions">
+          <option value="Кировская область" />
+        </datalist>
       </div>
 
       <div className={style.element}>
@@ -102,6 +106,9 @@ const NewBidForms: FC<IProps> = ({ handleSave }) => {
           value={newBid.city}
           onChange={(e) => dispatch(setNewBidParams({ city: e.target.value }))}
         />
+        <datalist id="cityOptions">
+          <option value="Киров" />
+        </datalist>
       </div>
 
       <div className={style.element}>
