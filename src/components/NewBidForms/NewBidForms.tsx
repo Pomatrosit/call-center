@@ -62,27 +62,64 @@ const NewBidForms: FC<IProps> = ({ handleSave }) => {
 
       <div className={style.element}>
         <Form.Label>Статус лица</Form.Label>
-        <Form.Control />
+        <Form.Select
+          value={newBid.status}
+          onChange={(e) =>
+            dispatch(setNewBidParams({ status: +e.target.value }))
+          }
+        >
+          <option value={0}>Не выбрано</option>
+          <option value={1}>Индивидуальный предпрениматель</option>
+          <option value={2}>Физическое лицо</option>
+          <option value={3}>Юридическое лицо</option>
+        </Form.Select>
       </div>
 
       <div className={style.element}>
         <Form.Label>Дата рождения</Form.Label>
-        <Form.Control />
+        <Form.Control
+          type="date"
+          value={newBid.dateOfBirth}
+          onChange={(e) =>
+            dispatch(setNewBidParams({ dateOfBirth: e.target.value }))
+          }
+        />
       </div>
 
       <div className={style.element}>
         <Form.Label>Регион</Form.Label>
-        <Form.Control />
+        <Form.Control
+          list="regionOptions"
+          value={newBid.region}
+          onChange={(e) =>
+            dispatch(setNewBidParams({ region: e.target.value }))
+          }
+        />
+        <datalist id="regionOptions">
+          <option value="Кировская область" />
+        </datalist>
       </div>
 
       <div className={style.element}>
         <Form.Label>Город</Form.Label>
-        <Form.Control />
+        <Form.Control
+          value={newBid.city}
+          onChange={(e) => dispatch(setNewBidParams({ city: e.target.value }))}
+        />
+        <datalist id="cityOptions">
+          <option value="Киров" />
+        </datalist>
       </div>
 
       <div className={style.element}>
         <Form.Label>Дата визита в банк</Form.Label>
-        <Form.Control />
+        <Form.Control
+          type="date"
+          value={newBid.dateOfVisit}
+          onChange={(e) =>
+            dispatch(setNewBidParams({ dateOfVisit: e.target.value }))
+          }
+        />
       </div>
 
       <div className={style.element}>

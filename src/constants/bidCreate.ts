@@ -59,43 +59,43 @@ export const BID_CREATE_PRODUCT_LIST = [
 
 export const BID_CREATE_STATUS_LIST = [
   {
-    id: 1,
+    id: 0,
     name: "Не указано",
   },
   {
-    id: 2,
+    id: 1,
     name: "Одобрено",
   },
   {
-    id: 3,
+    id: 2,
     name: "Не одобрено",
   },
   {
-    id: 4,
+    id: 3,
     name: "Связаться",
   },
   {
-    id: 5,
+    id: 4,
     name: "Долг до 100 тыс",
   },
   {
-    id: 6,
+    id: 5,
     name: "Долг 100-300 тыс",
   },
   {
-    id: 7,
+    id: 6,
     name: "Долг 300-500 тыс",
   },
   {
-    id: 8,
+    id: 7,
     name: "Долг свыше 500 тыс",
   },
   {
-    id: 9,
+    id: 8,
     name: "Дубль",
   },
   {
-    id: 10,
+    id: 9,
     name: "Брокер",
   },
 ];
