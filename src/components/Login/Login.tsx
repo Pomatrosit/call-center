@@ -1,11 +1,12 @@
 import { FC, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../components/Logo";
 import { setAuth } from "../../store/auth/actions";
 import style from "./Login.module.scss";
 import cls from "classnames";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { setUser } from "../../store/user/actions";
 
 const enum ErrorCode {
   BadRequest = 400, // Неверный пароль
@@ -13,52 +14,65 @@ const enum ErrorCode {
   Internal = 500, // Вутренняя ошибка сервера
 }
 
-// TODO: use auth api
-const authMock = async (login: string, pwd: string) => {
-  if (login === "123123") {
-    if (pwd === "123123") {
-      return {};
-    } else {
-      throw new Error();
-    }
-  } else {
-    throw new Error();
-  }
-};
+const HOST = "http://192.168.1.250:3050";
+
+const defaultErr = {
+  isLoginEmpty: false,
+  isPwdEmpty: false,
+  isLoginFailed: false,
+  isPwdFailed: false,
+  isInternalErr: false,
+}
 
 const Auth: FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [login, setLogin] = useState("");
   const [pwd, setPwd] = useState("");
   const [checked, setChecked] = useState(false);
 
-  const [errors, setErrors] = useState({
-    isLoginEmpty: false,
-    isPwdEmpty: false,
-    isLoginFailed: false,
-    isPwdFailed: false,
-    isInternalErr: false,
-  });
+  const [errors, setErrors] = useState({ ...defaultErr });
 
   const loginBtnClickHandler = async () => {
     if (login.trim() === "") {
-      setErrors({ ...errors, isLoginEmpty: true });
+      setErrors({ ...defaultErr, isLoginEmpty: true });
       return;
     } else if (pwd.trim() === "") {
-      setErrors({ ...errors, isPwdEmpty: true });
+      setErrors({ ...defaultErr, isPwdEmpty: true });
       return;
     }
 
     try {
-      // Добавить запрос с обработкой ошибок
-      const res = await authMock(login, pwd);
+      const path = `${HOST}/auth?login=${login}&password=${pwd}`;
+      let response = await fetch(path);
 
-      navigate("/");
-      dispatch(setAuth(true));
+      if (response.ok) {
+        const { token, user } = await response.json();
+
+        console.log('auth token', token);
+
+        dispatch(setUser(user));
+
+        navigate("/");
+        dispatch(setAuth(true));
+      } else {
+        switch (response.status) {
+          case ErrorCode.BadRequest: {
+            return setErrors({ ...defaultErr, isPwdFailed: true });
+          }
+
+          case ErrorCode.NotFound: {
+            return setErrors({ ...defaultErr, isLoginFailed: true });
+          }
+
+          default: {
+            return setErrors({ ...defaultErr, isInternalErr: true });
+          }
+        }
+      }
     } catch (e) {
-      setErrors({ ...errors, isLoginFailed: true, isPwdFailed: true });
+      setErrors({ ...defaultErr, isInternalErr: true });
     }
   };
 
