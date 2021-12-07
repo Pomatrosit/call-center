@@ -1,12 +1,12 @@
-import { types, AuthActions } from "./types"
+import { types, AuthActions } from "./types";
 
 interface IAuthState {
-  auth: boolean
+  auth: boolean;
 }
 
 const initialState: IAuthState = {
-  auth: true,
-}
+  auth: !!localStorage.getItem("token"),
+};
 
 const reducer = (
   state: IAuthState = initialState,
@@ -14,13 +14,13 @@ const reducer = (
 ): IAuthState => {
   switch (action.type) {
     case types.SET_AUTH: {
-      return { ...state, auth: action.payload }
+      return { ...state, auth: action.payload };
     }
 
     default: {
-      return state
+      return state;
     }
   }
-}
+};
 
-export default reducer
+export default reducer;

@@ -1,22 +1,23 @@
-import { FC } from "react"
-import classes from "./UserSettings.module.scss"
-import UserIcon from "../Icons/UserIcon"
-import { useAppSelector } from "../../hooks/useAppSelector"
-import { useDispatch } from "react-redux"
-import { setAuth } from "../../store/auth/actions"
-import { useNavigate } from "react-router-dom"
+import { FC } from "react";
+import classes from "./UserSettings.module.scss";
+import UserIcon from "../Icons/UserIcon";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { useDispatch } from "react-redux";
+import { setAuth } from "../../store/auth/actions";
+import { useNavigate } from "react-router-dom";
 
 const UserSettings: FC = () => {
-  const { firstName, lastName } = useAppSelector((state) => state.user)
+  const { firstName, lastName } = useAppSelector((state) => state.user);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const logoutBtnClickHandler = () => {
-    dispatch(setAuth(false))
-    navigate("/auth")
-  }
+    localStorage.removeItem("token");
+    dispatch(setAuth(false));
+    navigate("/auth");
+  };
 
   return (
     <div className={classes.userSettings}>
@@ -30,7 +31,7 @@ const UserSettings: FC = () => {
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default UserSettings
+export default UserSettings;

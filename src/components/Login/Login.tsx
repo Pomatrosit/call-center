@@ -7,6 +7,7 @@ import style from "./Login.module.scss";
 import cls from "classnames";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { setUser } from "../../store/user/actions";
+import { API_URL } from "../../constants/common";
 
 const enum ErrorCode {
   BadRequest = 400, // Неверный пароль
@@ -14,15 +15,13 @@ const enum ErrorCode {
   Internal = 500, // Вутренняя ошибка сервера
 }
 
-const HOST = "http://192.168.1.250:3050";
-
 const defaultErr = {
   isLoginEmpty: false,
   isPwdEmpty: false,
   isLoginFailed: false,
   isPwdFailed: false,
   isInternalErr: false,
-}
+};
 
 const Auth: FC = () => {
   const navigate = useNavigate();
@@ -44,14 +43,12 @@ const Auth: FC = () => {
     }
 
     try {
-      const path = `${HOST}/auth?login=${login}&password=${pwd}`;
+      const path = `${API_URL}/auth?login=${login}&password=${pwd}`;
       let response = await fetch(path);
 
       if (response.ok) {
         const { token, user } = await response.json();
-
-        console.log('auth token', token);
-
+        localStorage.setItem("token", token);
         dispatch(setUser(user));
 
         navigate("/");
