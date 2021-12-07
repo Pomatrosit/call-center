@@ -1,13 +1,13 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import { PRIVATE_ROUTES, PUBLIC_ROUTES } from "./constants/router"
-import { useAppSelector } from "./hooks/useAppSelector"
-import Layout from "./components/Layout/Layout"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { PRIVATE_ROUTES, PUBLIC_ROUTES } from "./constants/router";
+import { useAppSelector } from "./hooks/useAppSelector";
+import Layout from "./components/Layout/Layout";
 
 const App = () => {
-  const { auth } = useAppSelector((state) => state.auth)
+  const { auth } = useAppSelector((state) => state.auth);
 
   return (
-    <div className='App'>
+    <div className="App">
       <Router>
         {auth ? (
           <Layout>
@@ -34,7 +34,7 @@ const App = () => {
         )}
       </Router>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
