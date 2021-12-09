@@ -13,7 +13,8 @@ const App = () => {
   useEffect(() => {
     if (!auth) navigate("/auth");
     else navigate("/");
-  }, [auth, navigate]);
+    //eslint-disable-next-line
+  }, [auth]);
 
   return (
     <div className="App">
