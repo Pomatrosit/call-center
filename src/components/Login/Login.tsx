@@ -1,6 +1,5 @@
 import { FC, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import Logo from "../../components/Logo";
 import { setAuth } from "../../store/auth/actions";
 import style from "./Login.module.scss";
@@ -24,7 +23,6 @@ const defaultErr = {
 };
 
 const Auth: FC = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const [login, setLogin] = useState("");
@@ -50,8 +48,6 @@ const Auth: FC = () => {
         const { token, user } = await response.json();
         localStorage.setItem("token", token);
         dispatch(setUser(user));
-
-        navigate("/");
         dispatch(setAuth(true));
       } else {
         switch (response.status) {

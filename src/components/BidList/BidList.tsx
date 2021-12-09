@@ -3,29 +3,19 @@ import { Table } from "react-bootstrap";
 import CustomPagination from "../CustomPagination/CustomPagitation";
 import classes from "./BidList.module.scss";
 import { BID_LIST_TABLE_COLUMNS } from "../../constants/bidListTableColumns";
-import axios from "axios";
-import { API_URL } from "../../constants/common";
+import { useDispatch } from "react-redux";
+import { getBids } from "../../store/bids/actions";
+import { useAppSelector } from "../../hooks/useAppSelector";
 
 const BidList: FC = () => {
   const [activePage, setActivePage] = useState<number>(1);
-
-  const getBids = async (page: number) => {
-    const response = await axios.post(
-      `${API_URL}/getBids`,
-      { page },
-      {
-        headers: {
-          authorization: String(localStorage.getItem("token")),
-        },
-      }
-    );
-
-    console.log(response);
-  };
+  const dispatch = useDispatch();
+  const { page, pageCount } = useAppSelector((state) => state.bids);
 
   useEffect(() => {
-    getBids(1);
-  }, []);
+    dispatch(getBids(page));
+    //eslint-disable-next-line
+  }, [page]);
 
   return (
     <div className={classes.bidList}>
@@ -61,8 +51,8 @@ const BidList: FC = () => {
 
       <div className={classes.pagination}>
         <CustomPagination
-          pageCount={20}
-          activePage={activePage}
+          pageCount={pageCount}
+          activePage={page}
           setActivePage={setActivePage}
         />
       </div>

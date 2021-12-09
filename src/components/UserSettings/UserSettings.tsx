@@ -4,19 +4,15 @@ import UserIcon from "../Icons/UserIcon";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../store/auth/actions";
-import { useNavigate } from "react-router-dom";
 
 const UserSettings: FC = () => {
   const { firstName, lastName } = useAppSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
-
   const logoutBtnClickHandler = () => {
     localStorage.removeItem("token");
     dispatch(setAuth(false));
-    navigate("/auth");
   };
 
   return (
