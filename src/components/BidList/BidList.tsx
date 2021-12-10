@@ -1,14 +1,13 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import CustomPagination from "../CustomPagination/CustomPagitation";
 import classes from "./BidList.module.scss";
 import { BID_LIST_TABLE_COLUMNS } from "../../constants/bidListTableColumns";
 import { useDispatch } from "react-redux";
-import { getBids } from "../../store/bids/actions";
+import { getBids, setPage } from "../../store/bids/actions";
 import { useAppSelector } from "../../hooks/useAppSelector";
 
 const BidList: FC = () => {
-  const [activePage, setActivePage] = useState<number>(1);
   const dispatch = useDispatch();
   const { page, pageCount } = useAppSelector((state) => state.bids);
 
@@ -16,6 +15,10 @@ const BidList: FC = () => {
     dispatch(getBids(page));
     //eslint-disable-next-line
   }, [page]);
+
+  const setActivePage = (page: number) => {
+    dispatch(setPage(page));
+  };
 
   return (
     <div className={classes.bidList}>
