@@ -1,18 +1,25 @@
 import { Dispatch } from "redux";
 import { types, BidsActions } from "./types";
 import { IBid } from "../../common-types/bid";
-import { useAxios } from "../../hooks/useAxios";
 import { API_URL } from "../../constants/common";
 import { addNotification } from "../notifications/actions";
+import axios from "axios";
 
 export const getBids = (page: number) => {
   return async (dispatch: Dispatch<any>) => {
     try {
-      const axiosWrapper = useAxios();
-      const response = await axiosWrapper(`${API_URL}/getBids`, "POST", {
-        page,
-      });
-      dispatch(setBids(response?.data.bids ?? [], response?.data.pageCount));
+      const { data } = await axios.post(
+        `${API_URL}/getBids`,
+        {
+          page,
+        },
+        {
+          headers: {
+            authorization: String(localStorage.getItem("token")),
+          },
+        }
+      );
+      dispatch(setBids(data.bids, data.pageCount));
     } catch (e) {
       dispatch(
         addNotification({
