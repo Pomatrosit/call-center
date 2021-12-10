@@ -1,8 +1,9 @@
-import { FC } from "react"
-import BidList from '../components/BidList/BidList'
+import { FC } from "react";
+import BidList from "../components/BidList/BidList";
+import withAuth from "../hoc/withAuth";
 
 const Index: FC = () => {
-  return <BidList />
-}
+  return <BidList />;
+};
 
-export default Index
+export default withAuth(Index);

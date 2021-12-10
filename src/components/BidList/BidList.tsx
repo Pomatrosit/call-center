@@ -9,7 +9,7 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 
 const BidList: FC = () => {
   const dispatch = useDispatch();
-  const { page, pageCount } = useAppSelector((state) => state.bids);
+  const { page, pageCount, bids } = useAppSelector((state) => state.bids);
 
   useEffect(() => {
     dispatch(getBids(page));
@@ -19,6 +19,8 @@ const BidList: FC = () => {
   const setActivePage = (page: number) => {
     dispatch(setPage(page));
   };
+
+  console.log(bids);
 
   return (
     <div className={classes.bidList}>
@@ -31,24 +33,20 @@ const BidList: FC = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Larry the Bird</td>
-            <td>@twitter</td>
-            <td>123</td>
-          </tr>
+          {bids.map((bid) => (
+            <tr key={bid.id}>
+              <td>{bid.id}</td>
+              <td>{bid.im}</td>
+              <td>{bid.fm}</td>
+              <td>{bid.ot}</td>
+              <td>{bid.phone}</td>
+              <td>{new Date(bid.date_add).toLocaleString()}</td>
+              <td>Дата визита</td>
+              <td>{bid.status}</td>
+              <td></td>
+              <td>{bid.comment || ""}</td>
+            </tr>
+          ))}
         </tbody>
       </Table>
 

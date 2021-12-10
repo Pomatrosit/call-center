@@ -3,6 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import NewBidProducts from "../components/NewBidProducts";
 import NewBidForms from "../components/NewBidForms";
 import { useAppSelector } from "../hooks/useAppSelector";
+import withAuth from "../hoc/withAuth";
 
 const CreateBid: FC = () => {
   const newBid = useAppSelector((state) => state.newBid);
@@ -27,4 +28,4 @@ const CreateBid: FC = () => {
   );
 };
 
-export default CreateBid;
+export default withAuth(CreateBid);
