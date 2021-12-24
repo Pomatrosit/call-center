@@ -1,0 +1,11 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.webPhone {
+  @include flex(flex-start, space-between);
+
+  .leftSide,
+  .rightSide {
+    width: 47%;
+  }
+}
