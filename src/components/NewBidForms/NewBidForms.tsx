@@ -6,6 +6,7 @@ import { setNewBidParams } from "../../store/newBid/actions";
 import style from "./NewBidForms.module.scss";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useDispatch } from "react-redux";
+import { addNotification } from "../../store/notifications/actions";
 
 interface IProps {
   handleSave(): void;
@@ -122,13 +123,13 @@ const NewBidForms: FC<IProps> = ({ handleSave }) => {
         />
       </div>
 
-      <div className={style.element}>
+      {/* <div className={style.element}>
         <Form.Label>Снилс</Form.Label>
         <InsuranseInput
           value={newBid.insuranse}
           onChange={(v) => dispatch(setNewBidParams({ insuranse: v }))}
         />
-      </div>
+      </div> */}
 
       <hr />
 
