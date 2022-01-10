@@ -62,8 +62,8 @@ const NewBidProducts: FC<IProps> = ({ handleSave }) => {
 
       <Button
         variant="secondary"
-        className={style.marginTop}
         onClick={handleSave}
+        className={style.marginTop}
       >
         Добавить
       </Button>
