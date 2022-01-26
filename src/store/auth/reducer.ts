@@ -5,7 +5,7 @@ interface IAuthState {
 }
 
 const initialState: IAuthState = {
-  auth: !!localStorage.getItem("token"),
+  auth: true, //!!localStorage.getItem("token"),
 };
 
 const reducer = (
