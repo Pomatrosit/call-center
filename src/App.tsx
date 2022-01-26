@@ -4,6 +4,8 @@ import { useAppSelector } from "./hooks/useAppSelector";
 import Layout from "./components/Layout/Layout";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { io } from "socket.io-client";
+import { SOCKET_URL } from "./constants/common";
 
 const App = () => {
   const { auth } = useAppSelector((state) => state.auth);
@@ -13,6 +15,23 @@ const App = () => {
   useEffect(() => {
     if (!auth) navigate("/auth");
     else navigate("/");
+
+    const ioOptions = {
+      extraHeaders: {
+        Authorization: "Bearer authorization_token_here",
+      },
+    };
+
+    const socketClient = io(`${SOCKET_URL}`, ioOptions);
+
+    socketClient.on("connect", () => {
+      console.log("connect");
+
+      socketClient.on("connect_error", () => {
+        console.log("socket connection error!");
+      });
+    });
+
     //eslint-disable-next-line
   }, [auth]);
 

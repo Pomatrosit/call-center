@@ -1,12 +1,12 @@
 import { FC } from "react";
 import { Form, Button } from "react-bootstrap";
 import PhoneInput from "../Inputs/PhoneInput";
-import InsuranseInput from "../Inputs/InsuranseInput";
+// import InsuranseInput from "../Inputs/InsuranseInput";
 import { setNewBidParams } from "../../store/newBid/actions";
 import style from "./NewBidForms.module.scss";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useDispatch } from "react-redux";
-import { addNotification } from "../../store/notifications/actions";
+// import { addNotification } from "../../store/notifications/actions";
 
 interface IProps {
   handleSave(): void;

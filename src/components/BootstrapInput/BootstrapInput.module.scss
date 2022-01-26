@@ -1,0 +1,13 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.root {
+  @include flex(center, flex-start);
+  margin-bottom: 20px;
+
+  .label {
+    margin-bottom: 0;
+    margin-right: 15px;
+    width: 150px;
+  }
+}

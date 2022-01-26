@@ -1,0 +1,28 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.newBid {
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+}
+
+.main {
+  @include flex(flex-start, space-between);
+  margin-top: 40px;
+
+  .leftSide {
+    width: 30%;
+  }
+}
+
+.formElement {
+  @include flex(center, flex-start);
+  margin-bottom: 20px;
+
+  .label {
+    margin-bottom: 0;
+    margin-right: 15px;
+    width: 150px;
+  }
+}
