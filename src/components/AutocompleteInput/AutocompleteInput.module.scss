@@ -1,0 +1,86 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.root {
+  @include flex(center, flex-start);
+
+  .label {
+    min-width: 120px;
+    margin-bottom: 0;
+  }
+
+  .input {
+    position: relative;
+    width: 100%;
+  }
+
+  .optionList {
+    position: absolute;
+    z-index: 10;
+    top: 38px;
+    left: 0;
+    right: 0;
+    border: 1px solid red;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    color: $primaryColor;
+    background: $white;
+    max-height: 200px;
+    overflow-y: scroll;
+
+    .option {
+      cursor: pointer;
+      position: relative;
+      min-height: 30px;
+      transition: 0.2s;
+      border: 1px solid #eee;
+      border-radius: 0.25rem;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .optionsOverlay {
+    position: fixed;
+    z-index: 9;
+    background: transparent;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+  }
+
+  .loader {
+    @include flex();
+    padding: 20px 0;
+  }
+
+  .errorMessage {
+    text-align: center;
+    color: $dangerColor;
+    padding: 10px 0;
+  }
+
+  .epmtyOptionsMessage {
+    text-align: center;
+    padding: 10px 0;
+  }
+}
+
+.optionList::-webkit-scrollbar-thumb {
+  background-color: rgba(8, 66, 152, 0.5);
+  border-radius: 9em;
+}
+
+.optionList::-webkit-scrollbar {
+  width: 5px;
+  background-color: $white;
+}
+
+@media (hover: hover) {
+  .option:hover {
+    color: $black;
+    background: rgba(238, 238, 238, 0.3);
+  }
+}

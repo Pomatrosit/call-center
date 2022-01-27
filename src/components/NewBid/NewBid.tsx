@@ -5,7 +5,7 @@ import { NEW_BIDS_FORM_CONTROLS } from "../../constants/newBid";
 import { initialInputState } from "../../constants/initialInputState";
 import { IFormControl } from "../../common-types/formControl";
 import { STATUS_SELECT_OPTIONS } from "../../constants/statusSelectOptions";
-import { Form } from "react-bootstrap";
+import AutocompleteInput from "../AutocompleteInput/AutocompleteInput";
 
 interface INewBidFormState {
   phone: IFormControl;
@@ -71,15 +71,7 @@ const NewBid: FC = () => {
           ))}
         </div>
         <div className={classes.rightSide}>
-          <div className={classes.autoComplete}>
-            <Form.Label>Autocomplete</Form.Label>
-            <Form.Control
-              type="text"
-              name="autocomplete"
-              value=""
-              onChange={() => {}}
-            />
-          </div>
+          <AutocompleteInput />
         </div>
       </div>
     </div>
