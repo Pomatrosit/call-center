@@ -5,6 +5,7 @@ interface IAuthState {
 }
 
 const initialState: IAuthState = {
+  // to-do change back after be implementation
   auth: true, //!!localStorage.getItem("token"),
 };
 

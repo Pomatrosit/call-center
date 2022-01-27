@@ -16,21 +16,21 @@ const App = () => {
     if (!auth) navigate("/auth");
     else navigate("/");
 
-    const ioOptions = {
-      extraHeaders: {
-        Authorization: "Bearer authorization_token_here",
-      },
-    };
+    // const ioOptions = {
+    //   extraHeaders: {
+    //     Authorization: "Bearer authorization_token_here",
+    //   },
+    // };
 
-    const socketClient = io(`${SOCKET_URL}`, ioOptions);
+    // const socketClient = io(`${SOCKET_URL}`, ioOptions);
 
-    socketClient.on("connect", () => {
-      console.log("connect");
+    // socketClient.on("connect", () => {
+    //   console.log("connect");
 
-      socketClient.on("connect_error", () => {
-        console.log("socket connection error!");
-      });
-    });
+    //   socketClient.on("connect_error", () => {
+    //     console.log("socket connection error!");
+    //   });
+    // });
 
     //eslint-disable-next-line
   }, [auth]);

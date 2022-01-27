@@ -4,12 +4,18 @@ import BootstrapInput from "../BootstrapInput/BootstrapInput";
 import { NEW_BIDS_FORM_CONTROLS } from "../../constants/newBid";
 import { initialInputState } from "../../constants/initialInputState";
 import { IFormControl } from "../../common-types/formControl";
+import { STATUS_SELECT_OPTIONS } from "../../constants/statusSelectOptions";
+import { Form } from "react-bootstrap";
 
 interface INewBidFormState {
   phone: IFormControl;
   firstName: IFormControl;
   lastName: IFormControl;
   middleName: IFormControl;
+  status: IFormControl;
+  birthDate: IFormControl;
+  region: IFormControl;
+  city: IFormControl;
 }
 
 const NewBid: FC = () => {
@@ -18,6 +24,13 @@ const NewBid: FC = () => {
     firstName: initialInputState,
     lastName: initialInputState,
     middleName: initialInputState,
+    status: {
+      ...initialInputState,
+      selectOptions: STATUS_SELECT_OPTIONS,
+    },
+    birthDate: initialInputState,
+    region: initialInputState,
+    city: initialInputState,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,12 +55,32 @@ const NewBid: FC = () => {
               label={formControl.label}
               name={formControl.name}
               type={formControl.type}
-              value={String(form[formControl.name].value)}
+              value={String(
+                form[formControl.name as keyof INewBidFormState].value
+              )}
               setValue={handleChange}
+              isError={form[formControl.name as keyof INewBidFormState].isError}
+              errorMessage={
+                form[formControl.name as keyof INewBidFormState].errorMessage
+              }
+              selectOptions={
+                form[formControl.name as keyof INewBidFormState]
+                  .selectOptions || null
+              }
             />
           ))}
         </div>
-        <div className={classes.rightSide}></div>
+        <div className={classes.rightSide}>
+          <div className={classes.autoComplete}>
+            <Form.Label>Autocomplete</Form.Label>
+            <Form.Control
+              type="text"
+              name="autocomplete"
+              value=""
+              onChange={() => {}}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,12 +1,4 @@
-type names = "phone" | "firstName" | "lastName" | "middleName";
-
-interface INewBidsFormControl {
-  label: string;
-  name: names;
-  type: string;
-}
-
-export const NEW_BIDS_FORM_CONTROLS: INewBidsFormControl[] = [
+export const NEW_BIDS_FORM_CONTROLS = [
   {
     label: "Телефон",
     name: "phone",
@@ -25,6 +17,26 @@ export const NEW_BIDS_FORM_CONTROLS: INewBidsFormControl[] = [
   {
     label: "Отчество",
     name: "middleName",
+    type: "text",
+  },
+  {
+    label: "Статус лица",
+    name: "status",
+    type: "select",
+  },
+  {
+    label: "Дата рождения",
+    name: "birthDate",
+    type: "date",
+  },
+  {
+    label: "Регион",
+    name: "region",
+    type: "text",
+  },
+  {
+    label: "Город",
+    name: "city",
     type: "text",
   },
 ];
