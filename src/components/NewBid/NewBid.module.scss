@@ -9,15 +9,16 @@
 }
 
 .main {
-  @include flex(flex-start, space-between);
+  @include flex(flex-start, flex-start);
   margin-top: 40px;
 
   .leftSide {
-    width: 30%;
+    width: 35%;
   }
 
   .rightSide {
-    width: 65%;
+    width: 35%;
+    margin-left: 50px;
   }
 }
 

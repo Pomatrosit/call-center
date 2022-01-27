@@ -4,8 +4,8 @@ import { useAppSelector } from "./hooks/useAppSelector";
 import Layout from "./components/Layout/Layout";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
-import { SOCKET_URL } from "./constants/common";
+// import { io } from "socket.io-client";
+// import { SOCKET_URL } from "./constants/common";
 
 const App = () => {
   const { auth } = useAppSelector((state) => state.auth);
