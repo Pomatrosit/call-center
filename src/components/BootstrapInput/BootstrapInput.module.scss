@@ -2,12 +2,22 @@
 @import "../../styles/mixins.scss";
 
 .root {
-  @include flex(center, flex-start);
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+
+  .main {
+    @include flex(center, flex-start);
+  }
 
   .label {
     margin-bottom: 0;
     margin-right: 15px;
     width: 150px;
+  }
+
+  .errorMessage {
+    color: $dangerColor;
+    text-align: right;
+    margin-top: 5px;
+    font-size: 12px;
   }
 }

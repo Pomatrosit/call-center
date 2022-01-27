@@ -6,7 +6,7 @@ import { setAuth } from "../store/auth/actions";
 import { addNotification } from "../store/notifications/actions";
 
 const withAuth = (WrappedComponent: FC) => {
-  return (props: any) => {
+  return () => {
     const [verified, setVerified] = useState(false);
     const dispatch = useDispatch();
 
@@ -53,7 +53,7 @@ const withAuth = (WrappedComponent: FC) => {
     }, []);
 
     if (verified) {
-      return <WrappedComponent {...props} />;
+      return <WrappedComponent />;
     } else {
       return null;
     }

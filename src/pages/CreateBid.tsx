@@ -8,4 +8,5 @@ const CreateBid: FC = () => {
 
 export default CreateBid;
 
+// to-do change back after be implementation
 //export default withAuth(CreateBid);
