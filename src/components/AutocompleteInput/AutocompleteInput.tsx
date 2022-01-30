@@ -3,7 +3,21 @@ import classes from "./AutocompleteInput.module.scss";
 import { Form, Spinner } from "react-bootstrap";
 import axios from "axios";
 
-const AutocompleteInput: FC = () => {
+interface IProps {
+  label: string;
+  name: string;
+  apiUrl: string;
+  value: string;
+  setValue: () => void;
+}
+
+const AutocompleteInput: FC<IProps> = ({
+  label,
+  name,
+  apiUrl,
+  value,
+  setValue,
+}) => {
   const [text, setText] = useState<string>("");
   const [isOptionsOpen, setOptionsOpen] = useState<boolean>(false);
   const [isReadyForLoading, setReadyForLoading] = useState<boolean>(false);
@@ -36,9 +50,7 @@ const AutocompleteInput: FC = () => {
       setLoading(true);
       setError(false);
       try {
-        const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/users?limit=10"
-        );
+        const response = await axios.get(apiUrl);
         setOptions(response.data);
       } catch (e) {
         setError(true);
@@ -56,11 +68,11 @@ const AutocompleteInput: FC = () => {
 
   return (
     <div className={classes.root}>
-      <Form.Label className={classes.label}>Autocomplete</Form.Label>
+      <Form.Label className={classes.label}>{label}</Form.Label>
       <div className={classes.input}>
         <Form.Control
           type="text"
-          name="autocomplete"
+          name={name}
           value={text}
           onChange={inputChangeHandler}
         />

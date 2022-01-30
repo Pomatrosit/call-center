@@ -29,8 +29,14 @@ const NewBid: FC = () => {
       selectOptions: STATUS_SELECT_OPTIONS,
     },
     birthDate: initialInputState,
-    region: initialInputState,
-    city: initialInputState,
+    region: {
+      ...initialInputState,
+      apiUrl: "https://jsonplaceholder.typicode.com/users?limit=10",
+    },
+    city: {
+      ...initialInputState,
+      apiUrl: "https://jsonplaceholder.typicode.com/users?limit=10",
+    },
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,6 +49,8 @@ const NewBid: FC = () => {
     }));
   };
 
+  console.log("form", form);
+
   return (
     <div className={classes.newBid}>
       <h4>Создание заявки</h4>
@@ -50,29 +58,45 @@ const NewBid: FC = () => {
       <div className={classes.main}>
         <div className={classes.leftSide}>
           {NEW_BIDS_FORM_CONTROLS.map((formControl, idx) => (
-            <BootstrapInput
-              key={idx}
-              label={formControl.label}
-              name={formControl.name}
-              type={formControl.type}
-              value={String(
-                form[formControl.name as keyof INewBidFormState].value
+            <div key={idx}>
+              {formControl.type === "autocomplete" ? (
+                <AutocompleteInput
+                  label={formControl.label}
+                  name={formControl.name}
+                  apiUrl={String(
+                    form[formControl.name as keyof INewBidFormState].apiUrl
+                  )}
+                  value={String(
+                    form[formControl.name as keyof INewBidFormState].value
+                  )}
+                  setValue={() => {}}
+                />
+              ) : (
+                <BootstrapInput
+                  label={formControl.label}
+                  name={formControl.name}
+                  type={formControl.type}
+                  value={String(
+                    form[formControl.name as keyof INewBidFormState].value
+                  )}
+                  setValue={handleChange}
+                  isError={
+                    form[formControl.name as keyof INewBidFormState].isError
+                  }
+                  errorMessage={
+                    form[formControl.name as keyof INewBidFormState]
+                      .errorMessage
+                  }
+                  selectOptions={
+                    form[formControl.name as keyof INewBidFormState]
+                      .selectOptions || null
+                  }
+                />
               )}
-              setValue={handleChange}
-              isError={form[formControl.name as keyof INewBidFormState].isError}
-              errorMessage={
-                form[formControl.name as keyof INewBidFormState].errorMessage
-              }
-              selectOptions={
-                form[formControl.name as keyof INewBidFormState]
-                  .selectOptions || null
-              }
-            />
+            </div>
           ))}
         </div>
-        <div className={classes.rightSide}>
-          <AutocompleteInput />
-        </div>
+        <div className={classes.rightSide}></div>
       </div>
     </div>
   );
