@@ -49,7 +49,15 @@ const NewBid: FC = () => {
     }));
   };
 
-  console.log("form", form);
+  const handleAutocompleteChange = (name: string, value: string): void => {
+    setForm((prev: INewBidFormState) => ({
+      ...prev,
+      [name]: {
+        ...prev[name as keyof INewBidFormState],
+        value: value,
+      },
+    }));
+  };
 
   return (
     <div className={classes.newBid}>
@@ -69,7 +77,15 @@ const NewBid: FC = () => {
                   value={String(
                     form[formControl.name as keyof INewBidFormState].value
                   )}
-                  setValue={() => {}}
+                  setValue={handleChange}
+                  handleOptionClick={handleAutocompleteChange}
+                  isError={
+                    form[formControl.name as keyof INewBidFormState].isError
+                  }
+                  errorMessage={
+                    form[formControl.name as keyof INewBidFormState]
+                      .errorMessage
+                  }
                 />
               ) : (
                 <BootstrapInput
