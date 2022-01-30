@@ -2,13 +2,20 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import classes from "./AutocompleteInput.module.scss";
 import { Form, Spinner } from "react-bootstrap";
 import axios from "axios";
+import {
+  emptyAutocompleteInputMessage,
+  errorAutocomleteInputMessage,
+} from "../../constants/messages";
 
 interface IProps {
   label: string;
   name: string;
   apiUrl: string;
   value: string;
-  setValue: () => void;
+  setValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleOptionClick: (name: string, value: string) => void;
+  isError: boolean;
+  errorMessage: string | null;
 }
 
 const AutocompleteInput: FC<IProps> = ({
@@ -17,8 +24,10 @@ const AutocompleteInput: FC<IProps> = ({
   apiUrl,
   value,
   setValue,
+  handleOptionClick,
+  isError,
+  errorMessage,
 }) => {
-  const [text, setText] = useState<string>("");
   const [isOptionsOpen, setOptionsOpen] = useState<boolean>(false);
   const [isReadyForLoading, setReadyForLoading] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -28,7 +37,7 @@ const AutocompleteInput: FC<IProps> = ({
 
   const optionClickHandler = (e: React.MouseEvent<HTMLElement>) => {
     const $option = e.target as Element;
-    setText($option.innerHTML);
+    handleOptionClick(name, $option.innerHTML);
     setOptionsOpen(false);
   };
 
@@ -36,7 +45,7 @@ const AutocompleteInput: FC<IProps> = ({
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.trim().length < 2) setOptionsOpen(false);
-    setText(e.target.value);
+    setValue(e);
     setReadyForLoading(false);
     clearInterval(timeout.current);
     timeout.current = setTimeout(() => {
@@ -45,7 +54,7 @@ const AutocompleteInput: FC<IProps> = ({
   };
 
   const loadOptions = async () => {
-    if (isReadyForLoading && text.trim().length >= 2) {
+    if (isReadyForLoading && value.trim().length >= 2) {
       setOptionsOpen(true);
       setLoading(true);
       setError(false);
@@ -68,44 +77,52 @@ const AutocompleteInput: FC<IProps> = ({
 
   return (
     <div className={classes.root}>
-      <Form.Label className={classes.label}>{label}</Form.Label>
-      <div className={classes.input}>
-        <Form.Control
-          type="text"
-          name={name}
-          value={text}
-          onChange={inputChangeHandler}
-        />
-        {isOptionsOpen && (
-          <>
-            <div className={classes.optionList}>
-              {isLoading ? (
-                <div className={classes.loader}>
-                  <Spinner animation="border" variant="secondary" />
-                </div>
-              ) : error ? (
-                <p className={classes.errorMessage}>Ошибка загрузки</p>
-              ) : !options.length ? (
-                <p className={classes.epmtyOptionsMessage}>Нет совпадений</p>
-              ) : (
-                options.map((option: any) => (
-                  <div
-                    key={option.id}
-                    className={classes.option}
-                    onClick={optionClickHandler}
-                  >
-                    {option.name}
+      <div className={classes.main}>
+        <Form.Label className={classes.label}>{label}</Form.Label>
+        <div className={classes.input}>
+          <Form.Control
+            type="text"
+            name={name}
+            value={value}
+            onChange={inputChangeHandler}
+            isInvalid={isError}
+          />
+          {isOptionsOpen && (
+            <>
+              <div className={classes.optionList}>
+                {isLoading ? (
+                  <div className={classes.loader}>
+                    <Spinner animation="border" variant="secondary" />
                   </div>
-                ))
-              )}
-            </div>
-            <div
-              className={classes.optionsOverlay}
-              onClick={() => setOptionsOpen(false)}
-            ></div>
-          </>
-        )}
+                ) : error ? (
+                  <p className={classes.errorMessage}>
+                    {errorAutocomleteInputMessage}
+                  </p>
+                ) : !options.length ? (
+                  <p className={classes.epmtyOptionsMessage}>
+                    {emptyAutocompleteInputMessage}
+                  </p>
+                ) : (
+                  options.map((option: any) => (
+                    <div
+                      key={option.id}
+                      className={classes.option}
+                      onClick={optionClickHandler}
+                    >
+                      {option.name}
+                    </div>
+                  ))
+                )}
+              </div>
+              <div
+                className={classes.optionsOverlay}
+                onClick={() => setOptionsOpen(false)}
+              ></div>
+            </>
+          )}
+        </div>
       </div>
+      {errorMessage && <p className={classes.errorMessage}>{errorMessage}</p>}
     </div>
   );
 };
