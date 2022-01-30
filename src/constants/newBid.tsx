@@ -32,11 +32,11 @@ export const NEW_BIDS_FORM_CONTROLS = [
   {
     label: "Регион",
     name: "region",
-    type: "text",
+    type: "autocomplete",
   },
   {
     label: "Город",
     name: "city",
-    type: "text",
+    type: "autocomplete",
   },
 ];

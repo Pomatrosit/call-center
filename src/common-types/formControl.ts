@@ -8,4 +8,5 @@ export interface IFormControl {
   isError: boolean;
   errorMessage: string | null;
   selectOptions?: ISelectOption[];
+  apiUrl?: string;
 }
