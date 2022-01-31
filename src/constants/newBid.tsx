@@ -39,4 +39,14 @@ export const NEW_BIDS_FORM_CONTROLS = [
     name: "city",
     type: "autocomplete",
   },
+  {
+    label: "Визит в банк",
+    name: "visitDate",
+    type: "date",
+  },
+  {
+    label: "Снилс",
+    name: "insurance",
+    type: "text",
+  },
 ];
