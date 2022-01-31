@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import classes from "./NewBid.module.scss";
 import BootstrapInput from "../BootstrapInput/BootstrapInput";
 import { NEW_BIDS_FORM_CONTROLS } from "../../constants/newBid";
@@ -6,6 +6,7 @@ import { initialInputState } from "../../constants/initialInputState";
 import { IFormControl } from "../../common-types/formControl";
 import { STATUS_SELECT_OPTIONS } from "../../constants/statusSelectOptions";
 import AutocompleteInput from "../AutocompleteInput/AutocompleteInput";
+import IMask from "imask";
 
 interface INewBidFormState {
   phone: IFormControl;
@@ -16,6 +17,8 @@ interface INewBidFormState {
   birthDate: IFormControl;
   region: IFormControl;
   city: IFormControl;
+  visitDate: IFormControl;
+  insurance: IFormControl;
 }
 
 const NewBid: FC = () => {
@@ -37,6 +40,8 @@ const NewBid: FC = () => {
       ...initialInputState,
       apiUrl: "https://jsonplaceholder.typicode.com/users?limit=10",
     },
+    visitDate: initialInputState,
+    insurance: initialInputState,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,6 +50,8 @@ const NewBid: FC = () => {
       [e.target.name]: {
         ...prev[e.target.name as keyof INewBidFormState],
         value: e.target.value,
+        isError: false,
+        errorMessage: null,
       },
     }));
   };
@@ -55,9 +62,28 @@ const NewBid: FC = () => {
       [name]: {
         ...prev[name as keyof INewBidFormState],
         value: value,
+        isError: false,
+        errorMessage: null,
       },
     }));
   };
+
+  useEffect(() => {
+    const $pnoneInput: HTMLInputElement | null = document.querySelector(
+      'input[name="phone"]'
+    );
+    let mask: any;
+    if ($pnoneInput) {
+      mask = IMask($pnoneInput, {
+        mask: "+{7} (000) 000-00-00",
+      });
+    }
+
+    return () => {
+      mask.destroy();
+    };
+    //eslint-disable-next-line
+  }, []);
 
   return (
     <div className={classes.newBid}>

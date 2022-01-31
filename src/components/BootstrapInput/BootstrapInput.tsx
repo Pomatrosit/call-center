@@ -26,7 +26,7 @@ const BootstrapInput: FC<IProps> = ({
 }) => {
   return (
     <div className={classes.root}>
-      {(type === "text" || type === "date") && (
+      {(type === "text" || type === "date" || type === "number") && (
         <>
           <div className={classes.main}>
             <Form.Label className={classes.label}>{label}</Form.Label>
