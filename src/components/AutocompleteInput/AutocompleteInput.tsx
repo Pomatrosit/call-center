@@ -4,7 +4,7 @@ import { Form, Spinner } from "react-bootstrap";
 import axios from "axios";
 import {
   emptyAutocompleteInputMessage,
-  errorAutocomleteInputMessage,
+  loadingErrorMessage,
 } from "../../constants/messages";
 
 interface IProps {
@@ -95,9 +95,7 @@ const AutocompleteInput: FC<IProps> = ({
                     <Spinner animation="border" variant="secondary" />
                   </div>
                 ) : error ? (
-                  <p className={classes.errorMessage}>
-                    {errorAutocomleteInputMessage}
-                  </p>
+                  <p className={classes.errorMessage}>{loadingErrorMessage}</p>
                 ) : !options.length ? (
                   <p className={classes.epmtyOptionsMessage}>
                     {emptyAutocompleteInputMessage}

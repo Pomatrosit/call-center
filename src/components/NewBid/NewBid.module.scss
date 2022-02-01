@@ -6,20 +6,44 @@
   border-radius: 10px;
   border: 1px solid #eee;
   margin-bottom: 50px;
+
+  .subtitle {
+    text-align: center;
+    font-weight: 500;
+    margin-bottom: 30px;
+  }
+
+  .loader {
+    @include flex();
+  }
+
+  .errorMessage {
+    text-align: center;
+    color: $dangerColor;
+  }
 }
 
 .main {
-  @include flex(flex-start, flex-start);
+  @include flex(flex-start, space-between);
   margin-top: 40px;
 
-  .leftSide {
-    width: 35%;
+  .leftSide,
+  .midSide,
+  .rightSide {
+    width: 28%;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 20px;
   }
 
-  .rightSide {
-    width: 35%;
-    margin-left: 50px;
+  .leftSide {
+    width: 40%;
   }
+}
+
+.saveBtnWrapper {
+  margin: 30px 0;
+  @include flex();
 }
 
 .formElement {

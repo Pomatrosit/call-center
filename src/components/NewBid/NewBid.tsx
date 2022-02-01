@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import classes from "./NewBid.module.scss";
 import BootstrapInput from "../BootstrapInput/BootstrapInput";
 import { NEW_BIDS_FORM_CONTROLS } from "../../constants/newBid";
@@ -7,6 +7,9 @@ import { IFormControl } from "../../common-types/formControl";
 import { STATUS_SELECT_OPTIONS } from "../../constants/statusSelectOptions";
 import AutocompleteInput from "../AutocompleteInput/AutocompleteInput";
 import IMask from "imask";
+import { Button, Form, Spinner } from "react-bootstrap";
+import axios from "axios";
+import { loadingErrorMessage } from "../../constants/messages";
 
 interface INewBidFormState {
   phone: IFormControl;
@@ -19,6 +22,13 @@ interface INewBidFormState {
   city: IFormControl;
   visitDate: IFormControl;
   insurance: IFormControl;
+}
+
+interface IProducts {
+  list: any[];
+  isLoading: boolean;
+  error: string | null;
+  active: number;
 }
 
 const NewBid: FC = () => {
@@ -42,6 +52,13 @@ const NewBid: FC = () => {
     },
     visitDate: initialInputState,
     insurance: initialInputState,
+  });
+
+  const [products, setProducts] = useState<IProducts>({
+    list: [],
+    isLoading: false,
+    error: null,
+    active: 0,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,6 +85,25 @@ const NewBid: FC = () => {
     }));
   };
 
+  const loadProducts = async () => {
+    setProducts((prev) => ({ ...prev, isLoading: true, error: null }));
+
+    try {
+      const response = await axios.get(
+        "https://jsonplaceholder.typicode.com/users?limit=10"
+      );
+      setProducts((prev) => ({ ...prev, list: response.data }));
+    } catch (e) {
+      setProducts((prev) => ({ ...prev, error: loadingErrorMessage }));
+    } finally {
+      setProducts((prev) => ({ ...prev, isLoading: false }));
+    }
+  };
+
+  const handleProductClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setProducts((prev) => ({ ...prev, active: +e.target.id }));
+  };
+
   useEffect(() => {
     const $pnoneInput: HTMLInputElement | null = document.querySelector(
       'input[name="phone"]'
@@ -79,11 +115,23 @@ const NewBid: FC = () => {
       });
     }
 
+    loadProducts();
+
     return () => {
       mask.destroy();
+      setProducts({
+        list: [],
+        isLoading: false,
+        error: null,
+        active: 0,
+      });
     };
     //eslint-disable-next-line
   }, []);
+
+  const saveNewBidBtn = () => {
+    console.log(form);
+  };
 
   return (
     <div className={classes.newBid}>
@@ -91,6 +139,7 @@ const NewBid: FC = () => {
       <hr />
       <div className={classes.main}>
         <div className={classes.leftSide}>
+          <h5 className={classes.subtitle}>Данные клиента</h5>
           {NEW_BIDS_FORM_CONTROLS.map((formControl, idx) => (
             <div key={idx}>
               {formControl.type === "autocomplete" ? (
@@ -138,7 +187,37 @@ const NewBid: FC = () => {
             </div>
           ))}
         </div>
-        <div className={classes.rightSide}></div>
+        <div className={classes.midSide}>
+          <h5 className={classes.subtitle}>Продукт</h5>
+          {products.isLoading ? (
+            <div className={classes.loader}>
+              <Spinner animation="border" variant="secondary" />
+            </div>
+          ) : products.error ? (
+            <p className={classes.errorMessage}>{loadingErrorMessage}</p>
+          ) : (
+            products.list.map((product) => (
+              <Form.Check
+                key={product.id}
+                type="radio"
+                label={product.username}
+                id={product.id}
+                checked={product.id === products.active}
+                onChange={handleProductClick}
+              />
+            ))
+          )}
+        </div>
+        <div className={classes.rightSide}>
+          <h5 className={classes.subtitle}>Статус</h5>
+          <Form.Check type="radio" label="Не указано" />
+        </div>
+      </div>
+
+      <div className={classes.saveBtnWrapper}>
+        <Button variant="success" onClick={saveNewBidBtn}>
+          Сохранить
+        </Button>
       </div>
     </div>
   );
