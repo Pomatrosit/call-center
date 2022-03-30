@@ -2,18 +2,7 @@
 @import "../../styles/mixins.scss";
 
 .root {
-  margin-bottom: 15px;
-
-  .main {
-    @include flex(center, flex-start);
-  }
-
-  .label {
-    min-width: 120px;
-    margin-bottom: 0;
-    margin-right: 15px;
-  }
-
+  width: 100%;
   .input {
     position: relative;
     width: 100%;
@@ -61,9 +50,10 @@
   }
 
   .errorMessage {
-    text-align: center;
+    text-align: center !important;
     color: $dangerColor;
     padding: 10px 0;
+    font-size: 16px !important;
   }
 
   .epmtyOptionsMessage {
