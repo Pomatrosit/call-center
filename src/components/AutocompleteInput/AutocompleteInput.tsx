@@ -1,4 +1,11 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, {
+  FC,
+  useEffect,
+  useRef,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import classes from "./AutocompleteInput.module.scss";
 import { Form, Spinner } from "react-bootstrap";
 import axios from "axios";
@@ -8,26 +15,29 @@ import {
 } from "../../constants/messages";
 
 interface IProps {
-  label: string;
   name: string;
   apiUrl: string;
   value: string;
-  setValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleOptionClick: (name: string, value: string) => void;
-  isError: boolean;
-  errorMessage: string | null;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  isInvalid: boolean;
+  isValid: boolean;
+  formik: any;
+  disabled?: boolean;
+  setClicked?: Dispatch<SetStateAction<boolean>>;
 }
 
 const AutocompleteInput: FC<IProps> = ({
-  label,
   name,
   apiUrl,
   value,
-  setValue,
-  handleOptionClick,
-  isError,
-  errorMessage,
+  onChange,
+  isInvalid,
+  isValid,
+  formik,
+  disabled,
+  setClicked,
 }) => {
+  const token = "4deffe40706c5ed31b307087627fd4610856abd0";
   const [isOptionsOpen, setOptionsOpen] = useState<boolean>(false);
   const [isReadyForLoading, setReadyForLoading] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -35,9 +45,15 @@ const AutocompleteInput: FC<IProps> = ({
 
   const [options, setOptions] = useState<any>([]);
 
-  const optionClickHandler = (e: React.MouseEvent<HTMLElement>) => {
-    const $option = e.target as Element;
-    handleOptionClick(name, $option.innerHTML);
+  const optionClickHandler = (value: string) => {
+    if (setClicked) {
+      setClicked(true);
+      if (name === "region") {
+        formik.setFieldValue("city", "", true);
+        formik.setFieldTouched("city", false);
+      }
+    }
+    formik.setFieldValue(name, value, true);
     setOptionsOpen(false);
   };
 
@@ -45,7 +61,8 @@ const AutocompleteInput: FC<IProps> = ({
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.trim().length < 2) setOptionsOpen(false);
-    setValue(e);
+    if (setClicked) setClicked(false);
+    onChange(e);
     setReadyForLoading(false);
     clearInterval(timeout.current);
     timeout.current = setTimeout(() => {
@@ -59,8 +76,18 @@ const AutocompleteInput: FC<IProps> = ({
       setLoading(true);
       setError(false);
       try {
-        const response = await axios.get(apiUrl);
-        setOptions(response.data);
+        const response = await axios.post(
+          apiUrl,
+          { query: value },
+          {
+            headers: {
+              Authorization: "Token " + token,
+            },
+          }
+        );
+
+        console.log(response.data);
+        setOptions(response.data.suggestions);
       } catch (e) {
         setError(true);
       } finally {
@@ -77,50 +104,49 @@ const AutocompleteInput: FC<IProps> = ({
 
   return (
     <div className={classes.root}>
-      <div className={classes.main}>
-        <Form.Label className={classes.label}>{label}</Form.Label>
-        <div className={classes.input}>
-          <Form.Control
-            type="text"
-            name={name}
-            value={value}
-            onChange={inputChangeHandler}
-            isInvalid={isError}
-          />
-          {isOptionsOpen && (
-            <>
-              <div className={classes.optionList}>
-                {isLoading ? (
-                  <div className={classes.loader}>
-                    <Spinner animation="border" variant="secondary" />
+      <div className={classes.input}>
+        <Form.Control
+          type="text"
+          name={name}
+          onChange={inputChangeHandler}
+          value={formik.values[name]}
+          onBlur={formik.handleBlur}
+          isInvalid={isInvalid}
+          isValid={isValid}
+          disabled={disabled}
+        />
+        {isOptionsOpen && (
+          <>
+            <div className={classes.optionList}>
+              {isLoading ? (
+                <div className={classes.loader}>
+                  <Spinner animation="border" variant="secondary" />
+                </div>
+              ) : error ? (
+                <p className={classes.errorMessage}>{loadingErrorMessage}</p>
+              ) : !options.length ? (
+                <p className={classes.epmtyOptionsMessage}>
+                  {emptyAutocompleteInputMessage}
+                </p>
+              ) : (
+                options.map((option: any, idx: number) => (
+                  <div
+                    key={idx}
+                    className={classes.option}
+                    onClick={() => optionClickHandler(option.value)}
+                  >
+                    {option.value}
                   </div>
-                ) : error ? (
-                  <p className={classes.errorMessage}>{loadingErrorMessage}</p>
-                ) : !options.length ? (
-                  <p className={classes.epmtyOptionsMessage}>
-                    {emptyAutocompleteInputMessage}
-                  </p>
-                ) : (
-                  options.map((option: any) => (
-                    <div
-                      key={option.id}
-                      className={classes.option}
-                      onClick={optionClickHandler}
-                    >
-                      {option.name}
-                    </div>
-                  ))
-                )}
-              </div>
-              <div
-                className={classes.optionsOverlay}
-                onClick={() => setOptionsOpen(false)}
-              ></div>
-            </>
-          )}
-        </div>
+                ))
+              )}
+            </div>
+            <div
+              className={classes.optionsOverlay}
+              onClick={() => setOptionsOpen(false)}
+            ></div>
+          </>
+        )}
       </div>
-      {errorMessage && <p className={classes.errorMessage}>{errorMessage}</p>}
     </div>
   );
 };
