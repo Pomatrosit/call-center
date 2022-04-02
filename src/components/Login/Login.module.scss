@@ -16,6 +16,8 @@
   border: 1px solid #eee;
 
   .logo {
+    margin-bottom: 30px;
+
     & > div {
       justify-content: center;
     }
@@ -26,23 +28,16 @@
     text-align: center;
   }
 
-  .dangerText {
-    color: $dangerColor;
-  }
-
-  .check {
-    margin: 20px 0;
-  }
-
   .marginTop {
     margin-top: 1vh;
   }
 
-  .error {
-    color: $dangerColor;
+  .sendBtnWrapper {
+    margin-top: 40px;
+    @include flex();
   }
 
-  .button {
-    width: 100%;
+  .errorMessage {
+    color: $dangerColor;
   }
 }

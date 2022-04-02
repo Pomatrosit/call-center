@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { Table } from "react-bootstrap";
+import { Spinner, Table } from "react-bootstrap";
 import CustomPagination from "../CustomPagination/CustomPagitation";
 import classes from "./BidList.module.scss";
 import { BID_LIST_TABLE_COLUMNS } from "../../constants/bidListTableColumns";
@@ -9,7 +9,9 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 
 const BidList: FC = () => {
   const dispatch = useDispatch();
-  const { page, pageCount, bids } = useAppSelector((state) => state.bids);
+  const { page, pageCount, bids, loading, error } = useAppSelector(
+    (state) => state.bids
+  );
 
   useEffect(() => {
     dispatch(getBids(page));
@@ -20,11 +22,18 @@ const BidList: FC = () => {
     dispatch(setPage(page));
   };
 
-  console.log(bids);
+  if (loading)
+    return (
+      <div className={classes.loader}>
+        <Spinner animation="border" variant="primary" />
+      </div>
+    );
+
+  if (error) return <p className={classes.errorMessage}>{error}</p>;
 
   return (
     <div className={classes.bidList}>
-      <Table striped bordered hover>
+      {/* <Table striped bordered hover>
         <thead>
           <tr>
             {BID_LIST_TABLE_COLUMNS.map((item) => (
@@ -56,7 +65,8 @@ const BidList: FC = () => {
           activePage={page}
           setActivePage={setActivePage}
         />
-      </div>
+      </div> */}
+      bids
     </div>
   );
 };

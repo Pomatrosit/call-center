@@ -6,7 +6,7 @@ interface IBidsState {
   page: number;
   pageCount: number;
   loading: boolean;
-  error: boolean;
+  error: string;
 }
 
 const initialState: IBidsState = {
@@ -14,7 +14,7 @@ const initialState: IBidsState = {
   page: 1,
   pageCount: 1,
   loading: false,
-  error: false,
+  error: "",
 };
 
 const reducer = (
@@ -22,11 +22,29 @@ const reducer = (
   action: BidsActions
 ): IBidsState => {
   switch (action.type) {
-    case types.SET_BIDS: {
+    case types.SET_BIDS_FETCHING: {
       return {
         ...state,
+        loading: true,
+        error: "",
+        bids: [],
+      };
+    }
+
+    case types.SET_BIDS_FETCHING_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
         bids: action.payload.bids,
         pageCount: action.payload.pageCount,
+      };
+    }
+
+    case types.SET_BIDS_FETCHING_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        error: "Ошибка загрузки",
       };
     }
 

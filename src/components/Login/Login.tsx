@@ -1,151 +1,91 @@
+import { useFormik } from "formik";
 import { FC, useState } from "react";
-import { Button, Form } from "react-bootstrap";
 import Logo from "../../components/Logo";
+import classes from "./Login.module.scss";
+import * as Yup from "yup";
+import FormikInput from "../FormikInput/FormikInput";
+import { Button } from "react-bootstrap";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { useDispatch } from "react-redux";
 import { setAuth } from "../../store/auth/actions";
-import style from "./Login.module.scss";
-import cls from "classnames";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { setUser } from "../../store/user/actions";
-import { API_URL } from "../../constants/common";
+import { TOKENS } from "../../constants/common";
+import { HTTP_STATUS_CODES } from "../../constants/statusCodes";
 
-const enum ErrorCode {
-  BadRequest = 400, // Неверный пароль
-  NotFound = 404, // Неверный логин
-  Internal = 500, // Вутренняя ошибка сервера
+interface IValues {
+  login: string;
+  password: string;
 }
 
-const defaultErr = {
-  isLoginEmpty: false,
-  isPwdEmpty: false,
-  isLoginFailed: false,
-  isPwdFailed: false,
-  isInternalErr: false,
+const initialValues: IValues = {
+  login: "",
+  password: "",
 };
 
+const validationSchema = Yup.object({
+  login: Yup.string().required("Обязательное поле"),
+  password: Yup.string().required("Обязательное поле"),
+});
+
 const Auth: FC = () => {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
+  const [error, setError] = useState<string>("");
 
-  const [login, setLogin] = useState("");
-  const [pwd, setPwd] = useState("");
-  const [checked, setChecked] = useState(false);
-
-  const [errors, setErrors] = useState({ ...defaultErr });
-
-  const loginBtnClickHandler = async () => {
-    if (login.trim() === "") {
-      setErrors({ ...defaultErr, isLoginEmpty: true });
-      return;
-    } else if (pwd.trim() === "") {
-      setErrors({ ...defaultErr, isPwdEmpty: true });
-      return;
-    }
-
-    try {
-      const path = `${API_URL}/auth?login=${login}&password=${pwd}`;
-      let response = await fetch(path);
-
-      if (response.ok) {
-        const { token, user } = await response.json();
-        localStorage.setItem("token", token);
-        dispatch(setUser(user));
+  const onSubmit = (values: IValues) => {
+    setError("");
+    axios
+      .post("auth/login", values)
+      .then((response: AxiosResponse) => {
+        const { accessToken, refreshToken } = response.data;
+        sessionStorage.setItem(TOKENS.accessToken, accessToken);
+        sessionStorage.setItem(TOKENS.refreshToken, refreshToken);
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${accessToken}`;
         dispatch(setAuth(true));
-      } else {
-        switch (response.status) {
-          case ErrorCode.BadRequest: {
-            return setErrors({ ...defaultErr, isPwdFailed: true });
-          }
-
-          case ErrorCode.NotFound: {
-            return setErrors({ ...defaultErr, isLoginFailed: true });
-          }
-
-          default: {
-            return setErrors({ ...defaultErr, isInternalErr: true });
-          }
+      })
+      .catch((reason: AxiosError) => {
+        if (
+          reason.response?.data?.statusCode === HTTP_STATUS_CODES.BAD_REQUEST
+        ) {
+          setError("Ошибка авторизации, некорректный логин или пароль");
+        } else {
+          setError("Неизвестная ошибка сервера");
         }
-      }
-    } catch (e) {
-      setErrors({ ...defaultErr, isInternalErr: true });
-    }
+      });
   };
 
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit,
+  });
+
   return (
-    <div className={style.auth}>
-      <div className={style.logo}>
+    <form className={classes.auth} onSubmit={formik.handleSubmit}>
+      <div className={classes.logo}>
         <Logo />
       </div>
-
-      <h3 className={style.marginTop}>Авторизация</h3>
-
-      <Form>
-        <Form.Group className={style.marginTop} controlId="login">
-          <Form.Label>Логин</Form.Label>
-          <Form.Control
-            isInvalid={errors.isLoginEmpty || errors.isLoginFailed}
-            placeholder="Введите логин"
-            value={login}
-            onChange={(e) => setLogin(e.target.value)}
-            onBlur={() =>
-              setErrors({ ...errors, isLoginEmpty: login.trim() === "" })
-            }
-          />
-
-          {(errors.isLoginEmpty || errors.isLoginFailed) && (
-            <Form.Text className={style.dangerText}>
-              {errors.isLoginEmpty
-                ? "Заполните поле"
-                : "Вы ввели неверный логин"}
-            </Form.Text>
-          )}
-        </Form.Group>
-
-        <Form.Group className={style.marginTop} controlId="pwd">
-          <Form.Label>Пароль</Form.Label>
-          <Form.Control
-            isInvalid={errors.isPwdEmpty || errors.isPwdFailed}
-            type="password"
-            placeholder="Введите пароль"
-            value={pwd}
-            onChange={(e) => setPwd(e.target.value)}
-            onBlur={() =>
-              setErrors({ ...errors, isPwdEmpty: pwd.trim() === "" })
-            }
-          />
-
-          {(errors.isPwdEmpty || errors.isPwdFailed) && (
-            <Form.Text className={style.dangerText}>
-              {errors.isPwdEmpty
-                ? "Заполните поле"
-                : "Вы ввели неверный пароль"}
-            </Form.Text>
-          )}
-        </Form.Group>
-
-        {errors.isInternalErr && (
-          <p className={cls(style.error, style.marginTop)}>
-            Произошла внутренняя ошибка
-          </p>
-        )}
-
-        <Form.Group className={style.marginTop} controlId="checkbox">
-          <Form.Check
-            className={style.check}
-            checked={checked}
-            onChange={(e) => setChecked(e.target.checked)}
-            type="checkbox"
-            label="Запомнить меня"
-          />
-        </Form.Group>
-
-        <Button
-          className={cls(style.button)}
-          variant="success"
-          onClick={() => loginBtnClickHandler()}
-        >
+      <h3 className={classes.marginTop}>Авторизация</h3>
+      <FormikInput
+        label="Логин"
+        name="login"
+        formik={formik}
+        variant="secondary"
+      />
+      <FormikInput
+        label="Пароль"
+        name="password"
+        formik={formik}
+        variant="secondary"
+        type="password"
+      />
+      {error !== "" && <p className={classes.errorMessage}>{error}</p>}
+      <div className={classes.sendBtnWrapper}>
+        <Button variant="success" type="submit">
           Войти
         </Button>
-      </Form>
-    </div>
+      </div>
+    </form>
   );
 };
 

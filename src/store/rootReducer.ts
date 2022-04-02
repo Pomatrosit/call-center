@@ -5,6 +5,7 @@ import newBidReducer from "./newBid/reducer";
 import modalReducer from "./modal/reducer";
 import notificationReducer from "./notifications/reducer";
 import bidsReducer from "./bids/reducer";
+import socketReducer from "./socket/reducer";
 
 export const rootReducer = combineReducers({
   user: userReducer,
@@ -13,6 +14,7 @@ export const rootReducer = combineReducers({
   modal: modalReducer,
   notifications: notificationReducer,
   bids: bidsReducer,
+  socket: socketReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
