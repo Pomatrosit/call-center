@@ -1,0 +1,21 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.subtitle {
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
+.loader {
+  @include flex();
+}
+
+.errorMessage {
+  text-align: center;
+  color: $dangerColor;
+}
+
+.emptyMessage {
+  text-align: center;
+}

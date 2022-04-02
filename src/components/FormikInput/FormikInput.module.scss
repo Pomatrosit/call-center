@@ -1,0 +1,63 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.formControl {
+  margin-bottom: 15px;
+
+  &.smallMargin {
+    margin-bottom: 10px;
+  }
+
+  &.dateFormControl {
+    input::-webkit-calendar-picker-indicator {
+      display: none;
+    }
+  }
+
+  .formControlInner {
+    @include flex(center, flex-start);
+    position: relative;
+
+    .disableLayout {
+      position: absolute;
+      left: 134px;
+      right: -1px;
+      top: -1px;
+      bottom: -1px;
+      background: #e9ecef;
+      border-radius: 0.25rem;
+    }
+  }
+
+  .validationError {
+    text-align: left;
+    padding-left: 135px;
+    color: $dangerColor;
+    margin-top: 5px;
+    font-size: 14px;
+  }
+
+  .label {
+    margin-bottom: 0;
+    margin-right: 15px;
+    min-width: 120px;
+    line-height: 120%;
+  }
+
+  .cancelMiddleName {
+    margin-top: 5px;
+    @include flex(center, flex-end);
+  }
+
+  &.variantSecondary .formControlInner {
+    display: block;
+
+    .label {
+      margin-bottom: 5px;
+    }
+  }
+
+  &.variantSecondary .validationError {
+    padding-left: 0;
+  }
+}

@@ -10,42 +10,7 @@ const withAuth = (WrappedComponent: FC) => {
     const [verified, setVerified] = useState(false);
     const dispatch = useDispatch();
 
-    const verifyToken = async () => {
-      const token = localStorage.getItem("token");
-
-      try {
-        const { data } = await axios.get<{ access: boolean }>(
-          `${API_URL}/verifyToken`,
-          {
-            headers: {
-              authorization: String(localStorage.getItem("token")),
-            },
-          }
-        );
-        if (!token) {
-          setVerified(false);
-          dispatch(setAuth(false));
-        } else {
-          if (data.access) {
-            setVerified(true);
-            dispatch(setAuth(true));
-          } else {
-            localStorage.removeItem("token");
-            setVerified(false);
-            dispatch(setAuth(false));
-          }
-        }
-      } catch (error) {
-        dispatch(
-          addNotification({
-            id: Date.now(),
-            autoHideDuration: null,
-            variant: "danger",
-            text: "Ошибка загрузки!",
-          })
-        );
-      }
-    };
+    const verifyToken = async () => {};
 
     useEffect(() => {
       verifyToken();
@@ -54,9 +19,9 @@ const withAuth = (WrappedComponent: FC) => {
 
     if (verified) {
       return <WrappedComponent />;
-    } else {
-      return null;
     }
+
+    return null;
   };
 };
 

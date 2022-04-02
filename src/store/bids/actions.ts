@@ -1,34 +1,26 @@
 import { Dispatch } from "redux";
 import { types, BidsActions } from "./types";
-import { IBid } from "../../common-types/bid";
-import { API_URL } from "../../constants/common";
-import { addNotification } from "../notifications/actions";
 import axios from "axios";
 
 export const getBids = (page: number) => {
-  return async (dispatch: Dispatch<any>) => {
+  return async (dispatch: Dispatch<BidsActions>) => {
+    dispatch({
+      type: types.SET_BIDS_FETCHING,
+    });
     try {
-      const { data } = await axios.post(
-        `${API_URL}/getBids`,
-        {
-          page,
+      const { data } = await axios.get(`/bids/list?page=${page}`);
+      console.log(data);
+      dispatch({
+        type: types.SET_BIDS_FETCHING_SUCCESS,
+        payload: {
+          bids: data,
+          pageCount: 1,
         },
-        {
-          headers: {
-            authorization: String(localStorage.getItem("token")),
-          },
-        }
-      );
-      dispatch(setBids(data.bids, data.pageCount));
+      });
     } catch (e) {
-      dispatch(
-        addNotification({
-          id: Date.now(),
-          variant: "danger",
-          autoHideDuration: null,
-          text: "Ошибка загрузки данных",
-        })
-      );
+      dispatch({
+        type: types.SET_BIDS_FETCHING_ERROR,
+      });
     }
   };
 };
@@ -38,18 +30,6 @@ export const setPage = (page: number) => {
     dispatch({
       type: types.SET_PAGE,
       payload: page,
-    });
-  };
-};
-
-export const setBids = (bids: IBid[], pageCount: number) => {
-  return (dispatch: Dispatch<BidsActions>) => {
-    dispatch({
-      type: types.SET_BIDS,
-      payload: {
-        bids,
-        pageCount,
-      },
     });
   };
 };

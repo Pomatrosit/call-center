@@ -1,12 +1,12 @@
 import { types, AuthActions } from "./types";
 
 interface IAuthState {
-  auth: boolean;
+  auth: null | boolean;
 }
 
 const initialState: IAuthState = {
-  // to-do change back after be implementation
-  auth: true, //!!localStorage.getItem("token"),
+  // auth: null,
+  auth: true,
 };
 
 const reducer = (
