@@ -2,10 +2,10 @@
 @import "../../styles/mixins.scss";
 
 .formControl {
-  margin-bottom: 15px;
+  margin-bottom: 0.75vmax;
 
   &.smallMargin {
-    margin-bottom: 10px;
+    margin-bottom: 0.5vmax;
   }
 
   &.dateFormControl {
@@ -20,32 +20,35 @@
 
     .disableLayout {
       position: absolute;
-      left: 134px;
+      left: 6.73vmax;
       right: -1px;
       top: -1px;
       bottom: -1px;
       background: #e9ecef;
-      border-radius: 0.25rem;
+      border-radius: 0.4vmax;
     }
   }
 
   .validationError {
     text-align: left;
-    padding-left: 135px;
+    padding-left: 6.75vmax;
     color: $dangerColor;
-    margin-top: 5px;
-    font-size: 14px;
+    margin-top: 0.25vmax;
+    font-size: 0.78vmax;
   }
 
   .label {
     margin-bottom: 0;
-    margin-right: 15px;
-    min-width: 120px;
+    margin-right: 0.75vmax;
+    min-width: 6vmax;
     line-height: 120%;
+    font-size: 0.9vmax;
+    font-weight: 300;
+    color: $light-gray;
   }
 
   .cancelMiddleName {
-    margin-top: 5px;
+    margin-top: 0.5vmax;
     @include flex(center, flex-end);
   }
 
@@ -53,7 +56,7 @@
     display: block;
 
     .label {
-      margin-bottom: 5px;
+      margin-bottom: 0.25vmax;
     }
   }
 

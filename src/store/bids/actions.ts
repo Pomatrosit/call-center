@@ -9,12 +9,11 @@ export const getBids = (page: number) => {
     });
     try {
       const { data } = await axios.get(`/bids/list?page=${page}`);
-      console.log(data);
       dispatch({
         type: types.SET_BIDS_FETCHING_SUCCESS,
         payload: {
-          bids: data,
-          pageCount: 1,
+          bids: data.bids,
+          pageCount: data.pageCount,
         },
       });
     } catch (e) {

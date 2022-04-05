@@ -4,7 +4,8 @@
 .subtitle {
   text-align: center;
   font-weight: 500;
-  margin-bottom: 30px;
+  margin-bottom: 1.5vmax;
+  font-size: 1vmax;
 }
 
 .loader {
@@ -14,8 +15,33 @@
 .errorMessage {
   text-align: center;
   color: $dangerColor;
+  font-size: 0.83vmax;
 }
 
 .emptyMessage {
   text-align: center;
+  font-size: 0.83vmax;
+}
+
+.itemWrapper {
+  position: relative;
+
+  .item {
+    margin-bottom: 0.5vmax;
+    position: relative;
+    z-index: 1;
+    cursor: pointer !important;
+  }
+
+  &:nth-child(2n):after {
+    position: absolute;
+    z-index: 0;
+    content: "";
+    left: -0.5vmax;
+    right: -0.5vmax;
+    top: -0.2vmax;
+    bottom: -0.2vmax;
+    border-radius: 0.25vmax;
+    background-color: $blue-7;
+  }
 }

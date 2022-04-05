@@ -2,11 +2,37 @@
 @import "../../styles/mixins.scss";
 
 .mainNavigation {
-  padding: 15px 0;
-}
+  position: fixed;
+  background: $background-gray;
+  border-right: 1px solid $border-color;
+  left: 0;
+  top: 0;
+  width: 15vw;
+  height: 100vh;
 
-.appWrapper {
-  @include app-wrapper();
-  @include flex(center, flex-start);
-  margin-bottom:30px;
+  .logo {
+    @include flex(center, flex-start);
+    height: 6vmax;
+    padding: 0 1.5vmax;
+    border-bottom: 1px solid #e7e7e7;
+  }
+
+  h2 {
+    margin-bottom: 0;
+    font-weight: 700;
+    font-size: 0.83vmax;
+    text-transform: uppercase;
+    line-height: 130%;
+    color: $black;
+  }
+
+  .logotype {
+    width: 2vmax;
+    height: 2vmax;
+    margin-right: 0.8vmax;
+  }
+
+  .nav {
+    padding: 2vmax 1.5vmax;
+  }
 }

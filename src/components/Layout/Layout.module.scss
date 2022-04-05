@@ -3,8 +3,20 @@
 
 .layout {
   position: relative;
+  @include flex(flex-start);
+
+  .nav {
+    width: 15vw;
+    height: 100vh;
+  }
 }
 
 .appWrapper {
-  @include app-wrapper();
+  width: 85vmax;
+  min-height: 100vh;
+
+  .page {
+    min-height: calc(100vh - 6vmax);
+    position: relative;
+  }
 }

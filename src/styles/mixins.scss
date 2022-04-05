@@ -18,3 +18,33 @@
   flex-direction: $direction;
   flex-wrap: $wrap;
 }
+
+@mixin greenShadowImportant() {
+  box-shadow: 0px 9px 20px rgba(44, 198, 124, 0.22),
+    0px 4px 15px rgba(44, 198, 124, 0.44) !important;
+}
+
+@mixin greenShadowHoverImportant() {
+  box-shadow: 0px 18px 30px rgba(44, 198, 124, 0.22),
+    0px 8px 30px rgba(44, 198, 124, 0.44) !important;
+}
+
+@mixin greenShadow() {
+  box-shadow: 0px 9px 20px rgba(44, 198, 124, 0.22),
+    0px 4px 15px rgba(44, 198, 124, 0.44);
+}
+
+@mixin greenShadowHover() {
+  box-shadow: 0px 18px 30px rgba(44, 198, 124, 0.22),
+    0px 8px 30px rgba(44, 198, 124, 0.44);
+}
+
+@mixin redShadow() {
+  box-shadow: 0px 9px 20px rgba(242, 79, 80, 0.22),
+    0px 4px 15px rgba(242, 79, 80, 0.44) !important;
+}
+
+@mixin redShadowHover() {
+  box-shadow: 0px 18px 30px rgba(242, 79, 80, 0.22),
+    0px 8px 30px rgba(242, 79, 80, 0.44) !important;
+}

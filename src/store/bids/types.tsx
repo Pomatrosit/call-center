@@ -8,14 +8,6 @@ export enum types {
   SET_BIDS_FETCHING_SUCCESS = "SET_BIDS_FETCHING_SUCCESS",
 }
 
-// interface setBidsAction {
-//   type: types.SET_BIDS;
-//   payload: {
-//     bids: IBid[];
-//     pageCount: number;
-//   };
-// }
-
 interface setBidsFetchingSuccess {
   type: types.SET_BIDS_FETCHING_SUCCESS;
   payload: {

@@ -8,11 +8,15 @@ import NotificationList from "../NotificationList/NotificationList";
 const Layout: FC = ({ children }) => {
   return (
     <div className={classes.layout}>
-      <Header />
-      <MainNavigation />
-      <ModalWindow />
-      <NotificationList />
-      <div className={classes.appWrapper}>{children}</div>
+      <nav className={classes.nav}>
+        <MainNavigation />
+      </nav>
+      <div className={classes.appWrapper}>
+        <Header />
+        <ModalWindow />
+        <NotificationList />
+        <div className={classes.page}>{children}</div>
+      </div>
     </div>
   );
 };

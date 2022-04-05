@@ -1,28 +1,23 @@
-import { FC, useState } from "react"
-import classes from "./Status.module.scss"
-import AtworkIcon from "../Icons/AtWorkIcon"
-import OnPauseIcon from "../Icons/OnPauseIcon"
-import { Form } from "react-bootstrap"
+import { FC, useState } from "react";
+import Switcher from "../Switcher/Switcher";
+import classes from "./Status.module.scss";
 
 const Status: FC = () => {
-  const [status, setStatus] = useState<number>(1)
+  const [status, setStatus] = useState<boolean>(true);
 
-  const onChangeStatus = (e: any): void => {
-    setStatus(+e.target.value)
-  }
-
-  let icon = <AtworkIcon />
-  if (status === 2) icon = <OnPauseIcon />
+  const toggle = () => {
+    setStatus(!status);
+  };
 
   return (
     <div className={classes.status}>
-      <div className={classes.status__icon}>{icon}</div>
-      <Form.Select aria-label='Status' onChange={onChangeStatus} value={status}>
-        <option value={1}>Работа</option>
-        <option value={2}>Пауза</option>
-      </Form.Select>
+      <p className={classes.title}>
+        {" "}
+        {status ? <span>Работа</span> : <span>Пауза</span>}
+      </p>
+      <Switcher value={status} onToggle={toggle} />
     </div>
-  )
-}
+  );
+};
 
-export default Status
+export default Status;

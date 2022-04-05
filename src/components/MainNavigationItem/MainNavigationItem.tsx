@@ -1,26 +1,35 @@
-import { FC } from "react"
-import classes from "./MainNavigationItem.module.scss"
-import { useNavigate } from "react-router-dom"
+import { FC } from "react";
+import classes from "./MainNavigationItem.module.scss";
+import { NavLink } from "react-router-dom";
 
 interface IMainNavigationItemProps {
-  title: string
-  path: string
-  Icon: FC
+  title: string;
+  path: string;
+  Icon: FC;
 }
+
+interface IGetActiveLinkParameters {
+  isActive: boolean;
+}
+
+const getActiveLink = ({ isActive }: IGetActiveLinkParameters): string =>
+  isActive ? classes.activeNavLink : "";
 
 const MainNavigationItem: FC<IMainNavigationItemProps> = ({
   title,
-  Icon,
   path,
+  Icon,
 }) => {
-  const navigate = useNavigate()
-
   return (
-    <div className={classes.navItem} onClick={() => navigate(path)}>
-      <Icon />
-      <p className={classes.navItem__title}>{title}</p>
+    <div className={classes.navItem}>
+      <NavLink to={path} className={getActiveLink}>
+        <div className={classes.linkInner}>
+          <Icon />
+          <p className={classes.title}>{title}</p>
+        </div>
+      </NavLink>
     </div>
-  )
-}
+  );
+};
 
-export default MainNavigationItem
+export default MainNavigationItem;

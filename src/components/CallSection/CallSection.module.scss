@@ -3,25 +3,38 @@
 
 .callSection {
   @include flex();
+  padding-right: 2vmax;
+  position: relative;
+
+  &:after {
+    position: absolute;
+    content: "";
+    right: 0;
+    top: 50%;
+    width: 1px;
+    height: 3.3vmax;
+    background-color: $border-color;
+    transform: translateY(-50%);
+  }
 }
 
 .callInfo {
-  margin-left: 25px;
+  margin-left: 1.25vmax;
 
   &__status {
-    font-weight: 500;
-    font-size: 16px;
+    font-weight: 300;
+    font-size: 0.83vmax;
     color: $dangerColor;
   }
 
   &__time {
-    font-weight: normal;
-    font-size: 14px;
+    font-weight: 300;
+    font-size: 0.73vmax;
     color: $primaryColor;
 
     span {
       color: $successColor;
-      font-weight: 600;
+      font-weight: 400;
     }
   }
 }

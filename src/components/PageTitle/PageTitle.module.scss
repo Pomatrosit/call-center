@@ -1,0 +1,24 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.pageTitle {
+  h4 {
+    color: $absolute-black;
+    font-weight: 500;
+    margin-bottom: 1.5vmax;
+    font-size: 1.3vmax;
+    @include flex(center, flex-start);
+
+    svg {
+      width: 1.7vmax;
+      height: 1.7vmax;
+      margin-right: 1vmax;
+    }
+  }
+
+  .divider {
+    background-color: $gray-2;
+    height: 0.15vmax;
+    margin: 2vmax 0;
+  }
+}

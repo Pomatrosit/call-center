@@ -1,0 +1,38 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.switcher {
+  background: $border-color;
+  border-radius: 0.25vmax;
+  width: 4vmax;
+  height: 1.5vmax;
+  cursor: pointer;
+  position: relative;
+
+  .ball {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: $successColor;
+    @include greenShadow();
+    border-radius: 0.25vmax;
+    width: 2vmax;
+    height: 1.5vmax;
+    transition: 0.3s;
+
+    &.unactive {
+      transform: translateX(-2vmax);
+      background: $dangerColor;
+      @include redShadow();
+    }
+  }
+}
+
+@media (hover: hover) {
+  .switcher:hover .ball {
+    @include greenShadowHover();
+  }
+  .switcher:hover .unactive {
+    @include redShadowHover();
+  }
+}

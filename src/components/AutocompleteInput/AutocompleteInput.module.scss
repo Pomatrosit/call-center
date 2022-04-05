@@ -11,26 +11,28 @@
   .optionList {
     position: absolute;
     z-index: 10;
-    top: 38px;
+    top: 1.95vmax;
     left: 0;
     right: 0;
     border: 1px solid red;
-    padding: 0.375rem 0.75rem;
+    padding: 0.5vmax;
     border: 1px solid #ced4da;
-    border-radius: 0.25rem;
+    border-radius: 0.4vmax;
     color: $primaryColor;
     background: $white;
-    max-height: 200px;
+    max-height: 10vmax;
     overflow-y: scroll;
 
     .option {
       cursor: pointer;
       position: relative;
-      min-height: 30px;
+      min-height: 1.5vmax;
       transition: 0.2s;
-      border-radius: 0.25rem;
-      padding: 5px;
-      margin-bottom: 5px;
+      border-radius: 0.2vmax;
+      padding: 0.3vmax;
+      margin-bottom: 0.25vmax;
+      font-size: 0.83vmax;
+      color: $dark-gray;
     }
   }
 
@@ -46,37 +48,38 @@
 
   .loader {
     @include flex();
-    padding: 20px 0;
+    padding: 1vmax 0;
   }
 
   .errorMessage {
     text-align: center !important;
     color: $dangerColor;
-    padding: 10px 0;
-    font-size: 16px !important;
+    padding: 0.5vmax 0;
+    font-size: 0.83vmax !important;
   }
 
   .epmtyOptionsMessage {
     text-align: center;
-    padding: 10px 0;
+    padding: 0.5vmax 0;
+    font-size: 0.75vmax;
   }
 
   .errorMessage {
     color: $dangerColor;
     text-align: right;
-    margin-top: 5px;
-    font-size: 12px;
+    margin-top: 0.25vmax;
+    font-size: 0.75vmax;
     padding: 0;
   }
 }
 
 .optionList::-webkit-scrollbar-thumb {
-  background-color: rgba(8, 66, 152, 0.5);
-  border-radius: 9em;
+  background-color: $blue-5;
+  border-radius: 0.25vmax;
 }
 
 .optionList::-webkit-scrollbar {
-  width: 5px;
+  width: 0.25vmax;
   background-color: $white;
 }
 
