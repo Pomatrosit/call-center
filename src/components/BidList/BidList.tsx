@@ -6,6 +6,8 @@ import { BID_LIST_TABLE_COLUMNS } from "../../constants/bidListTableColumns";
 import { useDispatch } from "react-redux";
 import { getBids, setPage } from "../../store/bids/actions";
 import { useAppSelector } from "../../hooks/useAppSelector";
+import BidListIcon from "../Icons/BidListIcon";
+import PageTitle from "../PageTitle/PageTitle";
 
 const BidList: FC = () => {
   const dispatch = useDispatch();
@@ -18,55 +20,72 @@ const BidList: FC = () => {
     //eslint-disable-next-line
   }, [page]);
 
+  useEffect(() => {
+    return () => {
+      setActivePage(1);
+    };
+    //eslint-disable-next-line
+  }, []);
+
   const setActivePage = (page: number) => {
     dispatch(setPage(page));
   };
 
-  if (loading)
-    return (
-      <div className={classes.loader}>
-        <Spinner animation="border" variant="primary" />
-      </div>
-    );
-
-  if (error) return <p className={classes.errorMessage}>{error}</p>;
-
   return (
     <div className={classes.bidList}>
-      {/* <Table striped bordered hover>
-        <thead>
-          <tr>
-            {BID_LIST_TABLE_COLUMNS.map((item) => (
-              <th key={item.id}>{item.title}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {bids.map((bid) => (
-            <tr key={bid.id}>
-              <td>{bid.id}</td>
-              <td>{bid.im}</td>
-              <td>{bid.fm}</td>
-              <td>{bid.ot}</td>
-              <td>{bid.phone}</td>
-              <td>{new Date(bid.date_add).toLocaleString()}</td>
-              <td>Дата визита</td>
-              <td>{bid.status}</td>
-              <td></td>
-              <td>{bid.comment || ""}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <PageTitle title="Список заявок" Icon={BidListIcon} />
+      {loading ? (
+        <div className={classes.loader}>
+          <Spinner animation="border" variant="primary" />
+        </div>
+      ) : error ? (
+        <p className={classes.errorMessage}>{error}</p>
+      ) : bids.length <= 0 ? (
+        <p className={classes.emptyMessage}>Заявок не найдено</p>
+      ) : (
+        <>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                {BID_LIST_TABLE_COLUMNS.map((item) => (
+                  <th key={item.id}>{item.title}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {bids.map((bid) => {
+                const date = new Date(bid.dateAdd);
+                return (
+                  <tr key={bid.id}>
+                    <td>{bid.id}</td>
+                    <td>{bid.surname}</td>
+                    <td>{bid.name}</td>
+                    <td>{bid.patronymic}</td>
+                    <td>Телефон</td>
+                    <td>{bid.product}</td>
+                    <td>{bid.pbStatus}</td>
+                    <td>
+                      {date.toLocaleDateString() +
+                        " " +
+                        date.toLocaleTimeString()}
+                    </td>
+                    <td>{bid.dateVisitBank}</td>
+                    <td>{bid.statusBid}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
 
-      <div className={classes.pagination}>
-        <CustomPagination
-          pageCount={pageCount}
-          activePage={page}
-          setActivePage={setActivePage}
-        />
-      </div> */}
-      bids
+          <div className={classes.pagination}>
+            <CustomPagination
+              pageCount={pageCount}
+              activePage={page}
+              setActivePage={setActivePage}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 };

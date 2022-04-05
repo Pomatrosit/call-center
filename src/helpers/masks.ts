@@ -6,6 +6,11 @@ let firstNameMask: any;
 let middleNameMask: any;
 let regionMask: any;
 let cityMask: any;
+let passportSeriesMask: any;
+let passportNumberMask: any;
+let passportCodeMask: any;
+let creditDurationMask: any;
+let creditAmountMask: any;
 
 export const applyMasks = (): void => {
   const $pnoneInput: HTMLInputElement | null = document.querySelector(
@@ -66,6 +71,57 @@ export const applyMasks = (): void => {
       mask: /[А-Яа-я\-\.\,\s]+$/,
     });
   }
+
+  const $passportSeriesInput: HTMLInputElement | null = document.querySelector(
+    'input[name="passportSeries"]'
+  );
+  if ($passportSeriesInput) {
+    passportSeriesMask = IMask($passportSeriesInput, {
+      mask: "0000",
+    });
+  }
+
+  const $passportNumberInput: HTMLInputElement | null = document.querySelector(
+    'input[name="passportNumber"]'
+  );
+  if ($passportNumberInput) {
+    passportNumberMask = IMask($passportNumberInput, {
+      mask: "000000",
+    });
+  }
+
+  const $passportCodeInput: HTMLInputElement | null = document.querySelector(
+    'input[name="passportCode"]'
+  );
+  if ($passportCodeInput) {
+    passportCodeMask = IMask($passportCodeInput, {
+      mask: "000-000",
+    });
+  }
+
+  const $creditDurationInput: HTMLInputElement | null = document.querySelector(
+    'input[name="creditDuration"]'
+  );
+  if ($creditDurationInput) {
+    $creditDurationInput.setAttribute("placeholder", "от 1 до 180 дней");
+    creditDurationMask = IMask($creditDurationInput, {
+      mask: Number,
+      min: 1,
+      max: 180,
+    });
+  }
+
+  const $creditAmountInput: HTMLInputElement | null = document.querySelector(
+    'input[name="creditAmount"]'
+  );
+  if ($creditAmountInput) {
+    $creditAmountInput.setAttribute("placeholder", "от 2000 до 100000 рублей");
+    creditAmountMask = IMask($creditAmountInput, {
+      mask: Number,
+      min: 2000,
+      max: 100000,
+    });
+  }
 };
 
 export const destroyMasks = (): void => {
@@ -75,4 +131,9 @@ export const destroyMasks = (): void => {
   middleNameMask.destroy();
   regionMask.destroy();
   cityMask.destroy();
+  passportSeriesMask.destroy();
+  passportNumberMask.destroy();
+  passportCodeMask.destroy();
+  creditDurationMask.destroy();
+  creditAmountMask.destroy();
 };

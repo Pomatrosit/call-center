@@ -2,12 +2,21 @@
 @import "../../styles/mixins.scss";
 
 .userSettings {
-  margin-left: 35px;
+  margin-left: 1.7vmax;
   @include flex();
   text-align: right;
 
   .userIcon {
-    margin-right: 15px;
+    margin-right: 0.75vmax;
+
+    svg {
+      width: 2vmax;
+      height: 2vmax;
+
+      path {
+        fill: $blue-4;
+      }
+    }
   }
 
   .rightSide {
@@ -15,16 +24,16 @@
 
     .userName {
       margin-bottom: 0;
-      font-size: 16px;
-      color: $primaryColor;
-      font-weight: 700;
+      font-size: 0.83vmax;
+      color: $absolute-black;
+      font-weight: 400;
     }
 
     .exitBtn {
       margin-bottom: 0;
-      font-size: 12px;
+      font-size: 0.625vmax;
       cursor: pointer;
-      color: $defaultColor;
+      color: $primaryColor;
       font-weight: 400;
       transition: 0.3s;
     }

@@ -4,8 +4,6 @@ import UserIcon from "../Icons/UserIcon";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../store/auth/actions";
-// import { TOKENS } from "../../constants/common";
-// import { setSocket } from "../../store/socket/actions";
 
 const UserSettings: FC = () => {
   const { firstName, lastName } = useAppSelector((state) => state.user);
@@ -13,10 +11,7 @@ const UserSettings: FC = () => {
   const dispatch = useDispatch();
 
   const logoutBtnClickHandler = () => {
-    // sessionStorage.removeItem(TOKENS.accessToken);
-    // sessionStorage.removeItem(TOKENS.refreshToken);
     dispatch(setAuth(false));
-    // dispatch(setSocket(null));
   };
 
   return (

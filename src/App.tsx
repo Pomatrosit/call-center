@@ -30,7 +30,7 @@ const App = () => {
   useEffect(() => {
     axiosConfig();
     axiosInterceptor(login, logout);
-    // checkAuth(login, logout);
+    checkAuth(login, logout);
     //eslint-disable-next-line
   }, []);
 

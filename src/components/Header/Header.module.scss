@@ -3,20 +3,32 @@
 
 .header {
   position: relative;
-}
-
-.appWrapper {
-  @include app-wrapper();
+  height: 6vmax;
+  @include flex(center, space-between);
+  padding: 0 2vmax;
+  border-bottom: 1px solid $border-color;
 }
 
 .headerFirst,
 .headerSecond {
-  @include flex(center, space-between);
-  padding: 15px 0;
-  border-bottom: 1px solid #eeeeee;
+  @include flex();
 }
 
-.pinCode {
-  font-size: 16px;
-  color: $primaryColor;
+.headerSecond .pinCode {
+  font-size: 0.83vmax;
+  color: $black;
+  font-weight: 300;
+  padding-right: 2vmax;
+  position: relative;
+
+  &:after {
+    position: absolute;
+    content: "";
+    right: 0;
+    top: 50%;
+    width: 1px;
+    height: 3.3vmax;
+    background-color: $border-color;
+    transform: translateY(-50%);
+  }
 }

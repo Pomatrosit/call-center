@@ -2,14 +2,69 @@
 @import "../../styles/mixins.scss";
 
 .navItem {
-  @include flex();
-  margin-right: 40px;
   cursor: pointer;
+  margin-bottom: 2vmax;
+  position: relative;
 
-  &__title {
-    margin-left: 16px;
-    font-weight: 500;
-    font-size: 15px;
-    color: $primaryColor;
+  a {
+    @include flex(center, flex-start);
+    text-decoration: none;
+
+    &:after {
+      position: absolute;
+      z-index: 0;
+      content: "";
+      top: -0.6vmax;
+      left: -0.5vmax;
+      right: -0.5vmax;
+      bottom: -0.6vmax;
+      border-radius: 0.25vmax;
+      background: $blue-2;
+      opacity: 0;
+      transition: 0.3s;
+    }
+
+    svg {
+      height: 1.4vmax;
+      width: 1.4vmax;
+    }
+  }
+
+  svg {
+    margin-right: 1vmax;
+  }
+
+  .title {
+    font-weight: 400;
+    font-size: 0.9vmax;
+    line-height: 0.9vmax;
+    color: $absolute-black;
+    transition: 0.3s;
+  }
+
+  .linkInner {
+    position: relative;
+    z-index: 1;
+    @include flex(center);
+  }
+
+  .activeNavLink {
+    &:after {
+      opacity: 1;
+    }
+
+    .title {
+      color: $white;
+    }
+
+    svg path {
+      stroke: $white;
+    }
+  }
+}
+
+@media (hover: hover) {
+  .navItem:hover a:not(.activeNavLink):after {
+    opacity: 0.1;
   }
 }

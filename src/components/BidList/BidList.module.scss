@@ -1,19 +1,28 @@
 @import "../../styles/variables.scss";
 @import "../../styles/mixins.scss";
 
+.bidList {
+  padding: 2vmax;
+}
+
 .pagination {
-  margin: 50px 0;
+  margin: 2.5vmax 0;
   @include flex(center, flex-end);
 }
 
-.errorMessage {
-  margin-top: 20px;
+.errorMessage,
+.emptyMessage {
+  margin-top: 1vmax;
   text-align: center;
   color: $dangerColor;
-  font-size: 18px;
+  font-size: 1vmax;
+}
+
+.emptyMessage {
+  color: $dark-gray;
 }
 
 .loader {
-  margin-top: 20px;
+  margin-top: 2.5vmax;
   @include flex();
 }
