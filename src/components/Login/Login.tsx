@@ -35,7 +35,6 @@ const Auth: FC = () => {
     axios
       .post("auth/login", values)
       .then((response: AxiosResponse) => {
-        console.log(response);
         const { accessToken, refreshToken } = response.data.tokens;
         const { name, surname } = response.data;
         sessionStorage.setItem(TOKENS.accessToken, accessToken);
