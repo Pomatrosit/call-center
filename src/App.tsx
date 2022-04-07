@@ -10,14 +10,13 @@ import { useDispatch } from "react-redux";
 import { setSocket } from "./store/socket/actions";
 import { setAuth } from "./store/auth/actions";
 import { checkAuth } from "./helpers/auth";
-import InternalServerError from "./components/InternalServerError/InternalServerError";
 import { axiosConfig, axiosInterceptor } from "./helpers/axios";
+import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
 
 const App = () => {
   const { auth } = useAppSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const [intervalServerError, setInternalServerError] =
-    useState<boolean>(false);
+  const [loadingScreen, setLoadingScreen] = useState<boolean>(true);
 
   const login = () => {
     dispatch(setAuth(true));
@@ -51,9 +50,9 @@ const App = () => {
     //eslint-disable-next-line
   }, [auth]);
 
-  if (intervalServerError) {
-    return <InternalServerError />;
-  }
+  // if (loadingScreen) {
+  //   return <LoadingScreen />;
+  // }
 
   return (
     <>

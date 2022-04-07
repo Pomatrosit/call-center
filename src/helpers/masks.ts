@@ -13,114 +13,121 @@ let creditDurationMask: any;
 let creditAmountMask: any;
 
 export const applyMasks = (): void => {
-  const $pnoneInput: HTMLInputElement | null = document.querySelector(
-    'input[name="phone"]'
-  );
-  if ($pnoneInput) {
-    phoneMask = IMask($pnoneInput, {
-      mask: "#@000000000",
-      definitions: {
-        "#": /[7-8]/,
-        "@": /3|4|8|9/,
-      },
-    });
-  }
+  const $root: HTMLInputElement | null = document.querySelector(".new-bid");
 
-  const $lastNameInput: HTMLInputElement | null = document.querySelector(
-    'input[name="lastName"]'
-  );
-  if ($lastNameInput) {
-    lastNameMask = IMask($lastNameInput, {
-      mask: /[А-Яа-я\-\s]+$/,
-    });
-  }
+  if ($root) {
+    const $pnoneInput: HTMLInputElement | null = $root.querySelector(
+      'input[name="phone"]'
+    );
+    if ($pnoneInput) {
+      phoneMask = IMask($pnoneInput, {
+        mask: "#@000000000",
+        definitions: {
+          "#": /[7-8]/,
+          "@": /3|4|8|9/,
+        },
+      });
+    }
 
-  const $firstNameInput: HTMLInputElement | null = document.querySelector(
-    'input[name="firstName"]'
-  );
-  if ($firstNameInput) {
-    firstNameMask = IMask($firstNameInput, {
-      mask: /[А-Яа-я\-\s]+$/,
-    });
-  }
+    const $lastNameInput: HTMLInputElement | null = $root.querySelector(
+      'input[name="lastName"]'
+    );
+    if ($lastNameInput) {
+      lastNameMask = IMask($lastNameInput, {
+        mask: /[А-Яа-я\-\s]+$/,
+      });
+    }
 
-  const $middleNameInput: HTMLInputElement | null = document.querySelector(
-    'input[name="middleName"]'
-  );
-  if ($middleNameInput) {
-    middleNameMask = IMask($middleNameInput, {
-      mask: /[А-Яа-я\-\s]+$/,
-    });
-  }
+    const $firstNameInput: HTMLInputElement | null = $root.querySelector(
+      'input[name="firstName"]'
+    );
+    if ($firstNameInput) {
+      firstNameMask = IMask($firstNameInput, {
+        mask: /[А-Яа-я\-\s]+$/,
+      });
+    }
 
-  const $regionInput: HTMLInputElement | null = document.querySelector(
-    'input[name="region"]'
-  );
-  if ($regionInput) {
-    regionMask = IMask($regionInput, {
-      //eslint-disable-next-line
-      mask: /[А-Яа-я\-\.\,\s]+$/,
-    });
-  }
+    const $middleNameInput: HTMLInputElement | null = $root.querySelector(
+      'input[name="middleName"]'
+    );
+    if ($middleNameInput) {
+      middleNameMask = IMask($middleNameInput, {
+        mask: /[А-Яа-я\-\s]+$/,
+      });
+    }
 
-  const $cityInput: HTMLInputElement | null =
-    document.querySelector('input[name="city"]');
-  if ($cityInput) {
-    cityMask = IMask($cityInput, {
-      //eslint-disable-next-line
-      mask: /[А-Яа-я\-\.\,\s]+$/,
-    });
-  }
+    const $regionInput: HTMLInputElement | null = $root.querySelector(
+      'input[name="region"]'
+    );
+    if ($regionInput) {
+      regionMask = IMask($regionInput, {
+        //eslint-disable-next-line
+        mask: /[А-Яа-я\-\.\,\s]+$/,
+      });
+    }
 
-  const $passportSeriesInput: HTMLInputElement | null = document.querySelector(
-    'input[name="passportSeries"]'
-  );
-  if ($passportSeriesInput) {
-    passportSeriesMask = IMask($passportSeriesInput, {
-      mask: "0000",
-    });
-  }
+    const $cityInput: HTMLInputElement | null =
+      $root.querySelector('input[name="city"]');
+    if ($cityInput) {
+      cityMask = IMask($cityInput, {
+        //eslint-disable-next-line
+        mask: /[А-Яа-я\-\.\,\s]+$/,
+      });
+    }
 
-  const $passportNumberInput: HTMLInputElement | null = document.querySelector(
-    'input[name="passportNumber"]'
-  );
-  if ($passportNumberInput) {
-    passportNumberMask = IMask($passportNumberInput, {
-      mask: "000000",
-    });
-  }
+    const $passportSeriesInput: HTMLInputElement | null = $root.querySelector(
+      'input[name="passportSeries"]'
+    );
+    if ($passportSeriesInput) {
+      passportSeriesMask = IMask($passportSeriesInput, {
+        mask: "0000",
+      });
+    }
 
-  const $passportCodeInput: HTMLInputElement | null = document.querySelector(
-    'input[name="passportCode"]'
-  );
-  if ($passportCodeInput) {
-    passportCodeMask = IMask($passportCodeInput, {
-      mask: "000-000",
-    });
-  }
+    const $passportNumberInput: HTMLInputElement | null = $root.querySelector(
+      'input[name="passportNumber"]'
+    );
+    if ($passportNumberInput) {
+      passportNumberMask = IMask($passportNumberInput, {
+        mask: "000000",
+      });
+    }
 
-  const $creditDurationInput: HTMLInputElement | null = document.querySelector(
-    'input[name="creditDuration"]'
-  );
-  if ($creditDurationInput) {
-    $creditDurationInput.setAttribute("placeholder", "от 1 до 180 дней");
-    creditDurationMask = IMask($creditDurationInput, {
-      mask: Number,
-      min: 1,
-      max: 180,
-    });
-  }
+    const $passportCodeInput: HTMLInputElement | null = $root.querySelector(
+      'input[name="passportCode"]'
+    );
+    if ($passportCodeInput) {
+      passportCodeMask = IMask($passportCodeInput, {
+        mask: "000-000",
+      });
+    }
 
-  const $creditAmountInput: HTMLInputElement | null = document.querySelector(
-    'input[name="creditAmount"]'
-  );
-  if ($creditAmountInput) {
-    $creditAmountInput.setAttribute("placeholder", "от 2000 до 100000 рублей");
-    creditAmountMask = IMask($creditAmountInput, {
-      mask: Number,
-      min: 2000,
-      max: 100000,
-    });
+    const $creditDurationInput: HTMLInputElement | null = $root.querySelector(
+      'input[name="creditDuration"]'
+    );
+    if ($creditDurationInput) {
+      $creditDurationInput.setAttribute("placeholder", "от 1 до 180 дней");
+      creditDurationMask = IMask($creditDurationInput, {
+        mask: Number,
+        min: 1,
+        max: 180,
+      });
+    }
+
+    const $creditAmountInput: HTMLInputElement | null = $root.querySelector(
+      'input[name="creditAmount"]'
+    );
+    if ($creditAmountInput) {
+      $creditAmountInput.setAttribute(
+        "placeholder",
+        "от 2000 до 100000 рублей"
+      );
+      creditAmountMask = IMask($creditAmountInput, {
+        mask: Number,
+        min: 2000,
+        max: 100000,
+      });
+    }
   }
 };
 

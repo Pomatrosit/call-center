@@ -1,43 +1,69 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import classes from "./WebPhone.module.scss";
-import { Form, ButtonGroup, Button } from "react-bootstrap";
-import { WEB_PHONE_FIELDS } from "../../constants/webPhone";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import FormikInput from "../FormikInput/FormikInput";
+import { Button } from "react-bootstrap";
+import PhoneIcons from "../PhoneIcons/PhoneIcons";
+
+interface IValues {
+  phone: string;
+  redirect: string;
+}
+
+const tonesButtons = () => {
+  const tones = [];
+  for (let i = 1; i <= 9; i++) {
+    tones.push(i);
+  }
+  tones.push(0);
+  return tones;
+};
 
 const WebPhone: FC = () => {
-  const [phone, setPhone] = useState<string>("");
+  const initialValues: IValues = {
+    phone: "",
+    redirect: "",
+  };
+
+  const validationSchema = Yup.object({
+    phone: Yup.string(),
+    redirect: Yup.string(),
+  });
+
+  const onSubmit = async (values: IValues) => {
+    console.log(values);
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit,
+  });
 
   return (
-    <div className={classes.webPhone}>
-      <div className={classes.leftSide}>
-        <Form.Label>Телефон</Form.Label>
-        <Form.Control
-          placeholder="+7"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
-        <ButtonGroup aria-label="Basic example" className="mt-3">
-          <Button variant="success">Создать заявку</Button>
-          <Button variant="danger">В черный список</Button>
-        </ButtonGroup>
-
-        <Form.Label className="mt-3">Выберите результат заявки</Form.Label>
-
-        <Form.Select aria-label="bid-result">
-          <option value="1">Пенсионер</option>
-          <option value="2">Должник</option>
-          <option value="3">Данил</option>
-        </Form.Select>
+    <form
+      className={classes.webPhone}
+      // onSubmit={formik.handleSubmit}
+    >
+      <FormikInput label="Телефон" name="login" formik={formik} />
+      <div className={classes.redirectWrapper}>
+        <div className={classes.redirectInput}>
+          <FormikInput label="Переадресация" name="login" formik={formik} />
+        </div>
+        <Button variant="success" className={classes.redirectButton}>
+          <img src="/icons/arrow.svg" alt="redirect-icon" />
+        </Button>
       </div>
-      <div className={classes.rightSide}>
-        <Form.Label>Создать карточку клиента</Form.Label>
-        {WEB_PHONE_FIELDS.map((field) => (
-          <div key={field.id}>
-            <Form.Label>{field.title}</Form.Label>
-            <Form.Control placeholder="+7" />
+      <div className={classes.tone}>
+        {tonesButtons().map((btn) => (
+          <div key={btn} className={classes.btnTone}>
+            <Button variant="warning">{btn}</Button>
           </div>
         ))}
       </div>
-    </div>
+      <PhoneIcons />
+    </form>
   );
 };
 

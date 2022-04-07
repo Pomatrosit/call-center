@@ -41,10 +41,20 @@
 
 @mixin redShadow() {
   box-shadow: 0px 9px 20px rgba(242, 79, 80, 0.22),
-    0px 4px 15px rgba(242, 79, 80, 0.44) !important;
+    0px 4px 15px rgba(242, 79, 80, 0.44);
 }
 
 @mixin redShadowHover() {
   box-shadow: 0px 18px 30px rgba(242, 79, 80, 0.22),
     0px 8px 30px rgba(242, 79, 80, 0.44) !important;
+}
+
+@mixin purpleShadowHoverImportant() {
+  box-shadow: 0px 18px 30px rgba(89, 86, 209, 0.22),
+    0px 8px 30px rgba(89, 86, 209, 0.44) !important;
+}
+
+@mixin purpleShadowImportant() {
+  box-shadow: 0px 9px 20px rgba(89, 86, 209, 0.22),
+    0px 4px 15px rgba(89, 86, 209, 0.44) !important;
 }

@@ -14,6 +14,9 @@ import FormikInput from "../FormikInput/FormikInput";
 import BidProducts, { IProducts } from "../BidProducts/BidProducts";
 import AddBidIcon from "../Icons/AddBidIcon";
 import PageTitle from "../PageTitle/PageTitle";
+import BidStatuses, { IStatuses } from "../BidStatuses/BidStatuses";
+import axios from "axios";
+import { IHalvaDepartment } from "../../common-types/halvaDepartment";
 
 interface IValues {
   phone: string;
@@ -60,6 +63,13 @@ const NewBid: FC = () => {
     active: 0,
   });
 
+  const [statuses, setStatuses] = useState<IStatuses>({
+    list: [],
+    isLoading: false,
+    error: null,
+    active: 0,
+  });
+
   const [isMiddleName, setMiddleName] = useState<boolean>(true);
   const [sex, setSex] = useState<null | string>(null);
   const [sexError, setSexError] = useState<boolean>(false);
@@ -70,6 +80,27 @@ const NewBid: FC = () => {
   const [isPassportFields, setPasspordFields] = useState<boolean>(false);
   const [isCreditFields, setCreditFields] = useState<boolean>(false);
   const [comment, setComment] = useState<string>("");
+  const [regionId, setRegionId] = useState<number | null>(null);
+  const [cityId, setCityId] = useState<number | null>(null);
+  const [isHalvaDepartments, setHalvaDepartments] = useState<boolean>(false);
+  const [halvaOffices, setHalvaOffices] = useState<IHalvaDepartment[]>([]);
+  const [halvaOfficeId, setHalvaOfficeId] = useState<number>(0);
+
+  const changeHalvaOfficeId = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setHalvaOfficeId(Number(e.target.value));
+  };
+
+  const halvaOffice = halvaOffices.find(
+    (office) => office.id === halvaOfficeId
+  );
+
+  const changeRegionId = (id: number) => {
+    setRegionId(id);
+  };
+
+  const changeCityId = (id: number) => {
+    setCityId(id);
+  };
 
   const changeMiddleNameCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMiddleName(!e.target.checked);
@@ -235,8 +266,38 @@ const NewBid: FC = () => {
     //eslint-disable-next-line
   }, [isCreditFields]);
 
+  const getHalvaDepartments = async (id: number | null) => {
+    try {
+      const response = await axios.get<IHalvaDepartment[]>(
+        `api/autocomplete?field=office&cityId=${id}&value=office`
+      );
+      console.log(response.data);
+      setHalvaOffices(response.data);
+      setHalvaDepartments(true);
+      setHalvaOfficeId(0);
+    } catch (error: any) {
+      setHalvaDepartments(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isCityClicked && isRegionClicked) {
+      const prod = products.list.find((prod) => prod.id === products.active);
+      if (prod?.isHalvaDepartments) {
+        getHalvaDepartments(cityId);
+      } else {
+        setHalvaOfficeId(0);
+        setHalvaDepartments(false);
+      }
+    } else {
+      setHalvaOfficeId(0);
+      setHalvaDepartments(false);
+    }
+    //eslint-disable-next-line
+  }, [isCityClicked, products, isRegionClicked]);
+
   return (
-    <div className={classes.root}>
+    <div className={classes.root + " new-bid"}>
       <form className={classes.newBid} onSubmit={formik.handleSubmit}>
         <PageTitle title="Создание заявки" Icon={AddBidIcon} />
         <div className={classes.main}>
@@ -256,19 +317,19 @@ const NewBid: FC = () => {
               label="Фамилия"
               name="lastName"
               formik={formik}
-              autoComplete="https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fio"
+              autoComplete="/api/autocomplete?"
             />
             <FormikInput
               label="Имя"
               name="firstName"
               formik={formik}
-              autoComplete="https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fio"
+              autoComplete="/api/autocomplete?"
             />
             <FormikInput
               label="Отчество"
               name="middleName"
               formik={formik}
-              autoComplete="https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fio"
+              autoComplete="/api/autocomplete?"
               isMiddleName={isMiddleName}
               changeMiddleNameCheckbox={changeMiddleNameCheckbox}
             />
@@ -298,19 +359,56 @@ const NewBid: FC = () => {
               label="Регион"
               name="region"
               formik={formik}
-              autoComplete="https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address"
+              autoComplete="/api/autocomplete?"
               isRegionClicked={isRegionClicked}
               setRegionClicked={setRegionClicked}
+              changeRegionId={changeRegionId}
             />
             <FormikInput
               label="Город"
               name="city"
               formik={formik}
-              autoComplete="https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address"
+              autoComplete={`/api/autocomplete?regionId=${regionId}&`}
               isCityClicked={isCityClicked}
               setCityClicked={setCityClicked}
               isRegionClicked={isRegionClicked}
+              changeCityId={changeCityId}
             />
+
+            {isHalvaDepartments && (
+              <>
+                {halvaOffices.length !== 0 ? (
+                  <>
+                    <div className={classes.halvaDepartments}>
+                      <div className={classes.label}>Отделение банка</div>
+                      <Form.Select
+                        value={halvaOfficeId}
+                        onChange={changeHalvaOfficeId}
+                      >
+                        <option value="0">Выберите отделение</option>
+                        {halvaOffices.map((office) => (
+                          <option key={office.id} value={office.id}>
+                            {office.address}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </div>
+                    {halvaOfficeId !== 0 && (
+                      <div className={classes.halvaTimes}>
+                        {halvaOffice &&
+                          halvaOffice.timeWork
+                            .split(";")
+                            .map((time, idx) => <p key={idx}>{time}</p>)}
+                      </div>
+                    )}{" "}
+                  </>
+                ) : (
+                  <p className={classes.halvaError}>
+                    В этом городе нет отделений Совкомбанка
+                  </p>
+                )}
+              </>
+            )}
             <FormikInput
               label="Дата визита в банк"
               name="visitDate"
@@ -365,8 +463,7 @@ const NewBid: FC = () => {
           </div>
 
           <div className={classes.rightSide}>
-            <h5 className={classes.subtitle}>Статус</h5>
-            <Form.Check type="radio" label="Не указано" />
+            <BidStatuses statuses={statuses} setStatuses={setStatuses} />
           </div>
 
           <div className={classes.comment}>

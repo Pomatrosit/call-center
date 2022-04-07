@@ -3,6 +3,7 @@ import { FC, useEffect } from "react";
 import { INotification } from "../../common-types/notification";
 import { useDispatch } from "react-redux";
 import { removeNotification } from "../../store/notifications/actions";
+import classes from "./style.module.scss";
 
 interface INotificationItemProps {
   notification: INotification;
@@ -31,7 +32,12 @@ const NotificationItem: FC<INotificationItemProps> = ({ notification }) => {
   }, []);
 
   return (
-    <Alert onClose={onClose} variant={variant} dismissible>
+    <Alert
+      className={classes.fade}
+      onClose={onClose}
+      variant={variant}
+      dismissible
+    >
       {text}
     </Alert>
   );

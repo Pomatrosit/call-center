@@ -23,6 +23,8 @@ interface IProps {
   isCityClicked?: boolean;
   setCityClicked?: Dispatch<SetStateAction<boolean>>;
   variant?: string | null | undefined;
+  changeRegionId?: (id: number) => void;
+  changeCityId?: (id: number) => void;
 }
 
 const FormikInput: FC<IProps> = ({
@@ -44,6 +46,8 @@ const FormikInput: FC<IProps> = ({
   isCityClicked,
   setCityClicked,
   variant,
+  changeRegionId,
+  changeCityId,
 }) => {
   // ДЛЯ ГОРОДА
   if (name === INPUT_FIELDS_NAMES.city) {
@@ -57,7 +61,8 @@ const FormikInput: FC<IProps> = ({
             Город
           </label>
           <AutocompleteInput
-            apiUrl="https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address"
+            apiUrl={autoComplete}
+            changeCityId={changeCityId}
             {...formik.getFieldProps("city")}
             formik={formik}
             isInvalid={
@@ -89,6 +94,7 @@ const FormikInput: FC<IProps> = ({
           <label className={classes.label}>Регион</label>
           <AutocompleteInput
             apiUrl={autoComplete}
+            changeRegionId={changeRegionId}
             {...formik.getFieldProps("region")}
             formik={formik}
             isInvalid={
@@ -208,7 +214,7 @@ const FormikInput: FC<IProps> = ({
           </label>
           <AutocompleteInput
             disabled={!isMiddleName}
-            apiUrl="https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fio"
+            apiUrl={autoComplete}
             {...formik.getFieldProps("middleName")}
             formik={formik}
             isInvalid={

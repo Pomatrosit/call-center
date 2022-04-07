@@ -51,6 +51,39 @@
 
     .midSide {
       width: 33%;
+
+      .halvaDepartments {
+        margin-bottom: 0.75vmax;
+        @include flex();
+
+        .label {
+          margin-bottom: 0;
+          margin-right: 0.75vmax;
+          min-width: 6vmax;
+          line-height: 120%;
+          font-size: 0.9vmax;
+          font-weight: 300;
+          color: $light-gray;
+        }
+      }
+
+      .halvaTimes {
+        text-align: right;
+        border: 1px solid $border-color;
+        margin-left: 6.75vmax;
+        padding: 0.5vmax;
+        margin-bottom: 0.5vmax;
+        font-size: 0.8vmax;
+        border-radius: 0.25vmax;
+      }
+
+      .halvaError {
+        color: $dangerColor;
+        font-size: 0.8vmax;
+        padding-left: 7vmax;
+        text-align: right;
+        margin-bottom: 0.5vmax;
+      }
     }
 
     .rightSide {

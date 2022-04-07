@@ -1,0 +1,26 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.phoneIcons {
+  @include flex();
+
+  .phoneIcon {
+    width: 3vmax;
+    height: 3vmax;
+    cursor: pointer;
+    margin: 0 0.5vmax;
+    background-color: $dangerColor;
+    @include redShadow();
+    border-radius: 50%;
+    @include flex();
+
+    &.onCall {
+      background-color: $successColor;
+      @include greenShadow();
+    }
+
+    img {
+      width: 50%;
+    }
+  }
+}
