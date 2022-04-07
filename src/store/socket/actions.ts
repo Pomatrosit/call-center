@@ -10,8 +10,6 @@ export const setSocket = (socket: any) => {
   return (dispatch: Dispatch<any>, getState: any) => {
     if (socket) {
       socket.on("connect", () => {
-        console.log("CONNECTED TO THE SOCKET");
-
         socket.on("message", (e: ISocketEvent) => {
           console.log(e);
           switch (e.event) {
@@ -24,14 +22,6 @@ export const setSocket = (socket: any) => {
             default:
               break;
           }
-        });
-
-        socket.on("connect_error", () => {
-          console.log("SOCKET CONNECTION ERROR");
-        });
-
-        socket.on("disconnect", () => {
-          console.log("DISCONNECTED FROM THE SOCKET");
         });
       });
     }

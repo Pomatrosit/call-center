@@ -24,6 +24,8 @@ interface IProps {
   formik: any;
   disabled?: boolean;
   setClicked?: Dispatch<SetStateAction<boolean>>;
+  changeRegionId?: (id: number) => void;
+  changeCityId?: (id: number) => void;
 }
 
 const AutocompleteInput: FC<IProps> = ({
@@ -36,8 +38,9 @@ const AutocompleteInput: FC<IProps> = ({
   formik,
   disabled,
   setClicked,
+  changeRegionId,
+  changeCityId,
 }) => {
-  const token = "4deffe40706c5ed31b307087627fd4610856abd0";
   const [isOptionsOpen, setOptionsOpen] = useState<boolean>(false);
   const [isReadyForLoading, setReadyForLoading] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -45,13 +48,19 @@ const AutocompleteInput: FC<IProps> = ({
 
   const [options, setOptions] = useState<any>([]);
 
-  const optionClickHandler = (value: string) => {
+  const optionClickHandler = (
+    value: string,
+    regionId: number | undefined = undefined,
+    cityId: number | undefined = undefined
+  ) => {
     if (setClicked) {
       setClicked(true);
       if (name === "region") {
         formik.setFieldValue("city", "", true);
         formik.setFieldTouched("city", false);
+        if (changeRegionId && regionId) changeRegionId(regionId);
       }
+      if (changeCityId && cityId) changeCityId(cityId);
     }
     formik.setFieldValue(name, value, true);
     setOptionsOpen(false);
@@ -76,18 +85,10 @@ const AutocompleteInput: FC<IProps> = ({
       setLoading(true);
       setError(false);
       try {
-        const response = await axios.post(
-          apiUrl,
-          { query: value },
-          {
-            headers: {
-              Authorization: "Token " + token,
-            },
-          }
+        const response = await axios.get(
+          `${apiUrl}field=${name}&value=${value}`
         );
-
-        console.log(response.data);
-        setOptions(response.data.suggestions);
+        setOptions(response.data);
       } catch (e) {
         setError(true);
       } finally {
@@ -133,7 +134,13 @@ const AutocompleteInput: FC<IProps> = ({
                   <div
                     key={idx}
                     className={classes.option}
-                    onClick={() => optionClickHandler(option.value)}
+                    onClick={() =>
+                      optionClickHandler(
+                        option.value,
+                        option.regionId,
+                        option.cityId
+                      )
+                    }
                   >
                     {option.value}
                   </div>

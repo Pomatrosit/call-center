@@ -2,10 +2,34 @@
 @import "../../styles/mixins.scss";
 
 .webPhone {
-  @include flex(flex-start, space-between);
+  width: 100%;
 
-  .leftSide,
-  .rightSide {
-    width: 47%;
+  .redirectWrapper {
+    @include flex(center, flex-start);
+
+    .redirectInput {
+      flex-grow: 1;
+    }
+
+    .redirectButton {
+      margin: 0 0 0.75vmax 0.5vmax;
+    }
+
+    img {
+      width: 1.2vmax;
+      height: 1.2vmax;
+    }
+  }
+
+  .tone {
+    margin: 1vmax auto;
+    width: 60%;
+    @include flex(center, center, row, wrap);
+
+    .btnTone {
+      width: 30%;
+      @include flex();
+      margin-bottom: 0.5vmax;
+    }
   }
 }

@@ -4,7 +4,7 @@ import classes from "./Login.module.scss";
 import * as Yup from "yup";
 import FormikInput from "../FormikInput/FormikInput";
 import { Button } from "react-bootstrap";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../store/auth/actions";
 import { TOKENS } from "../../constants/common";
@@ -30,32 +30,26 @@ const Auth: FC = () => {
   const dispatch = useDispatch();
   const [error, setError] = useState<string>("");
 
-  const onSubmit = (values: IValues) => {
+  const onSubmit = async (values: IValues) => {
     setError("");
-    axios
-      .post("auth/login", values)
-      .then((response: AxiosResponse) => {
-        const { accessToken, refreshToken } = response.data.tokens;
-        const { name, surname } = response.data;
-        sessionStorage.setItem(TOKENS.accessToken, accessToken);
-        sessionStorage.setItem(TOKENS.refreshToken, refreshToken);
-        sessionStorage.setItem("firstName", name);
-        sessionStorage.setItem("lastName", surname);
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${accessToken}`;
-        dispatch(setUser({ firstName: name, lastName: surname }));
-        dispatch(setAuth(true));
-      })
-      .catch((reason: AxiosError) => {
-        if (
-          reason.response?.data?.statusCode === HTTP_STATUS_CODES.BAD_REQUEST
-        ) {
-          setError("Ошибка авторизации, некорректный логин или пароль");
-        } else {
-          setError("Неизвестная ошибка сервера");
-        }
-      });
+    try {
+      const response: AxiosResponse = await axios.post("auth/login", values);
+      const { accessToken, refreshToken } = response.data.tokens;
+      const { name, surname } = response.data;
+      sessionStorage.setItem(TOKENS.accessToken, accessToken);
+      sessionStorage.setItem(TOKENS.refreshToken, refreshToken);
+      sessionStorage.setItem("firstName", name);
+      sessionStorage.setItem("lastName", surname);
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      dispatch(setUser({ firstName: name, lastName: surname }));
+      dispatch(setAuth(true));
+    } catch (e: any) {
+      if (e.statusCode === HTTP_STATUS_CODES.BAD_REQUEST) {
+        setError("Ошибка авторизации, некорректный логин или пароль");
+      } else {
+        setError("Неизвестная ошибка сервера");
+      }
+    }
   };
 
   const formik = useFormik({

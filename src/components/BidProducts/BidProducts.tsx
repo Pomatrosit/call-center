@@ -28,10 +28,14 @@ const BidProducts: FC<IProps> = ({
   products,
   setProducts,
 }) => {
-  const handleProductClick = (id: number): void => {
-    if (id === 10) setPasspordFields(true);
+  const handleProductClick = (
+    id: number,
+    isPassport: boolean,
+    isCredit: boolean
+  ): void => {
+    if (isPassport) setPasspordFields(true);
     else setPasspordFields(false);
-    if (id === 9) setCreditFields(true);
+    if (isCredit) setCreditFields(true);
     else setCreditFields(false);
     setProducts((prev) => ({ ...prev, active: id }));
   };
@@ -47,7 +51,11 @@ const BidProducts: FC<IProps> = ({
       setProducts((prev) => ({
         ...prev,
         list: response.data,
-        active: mainProduct ? mainProduct.id : 0,
+        active: mainProduct
+          ? mainProduct.id
+          : response.data[0]?.id
+          ? response.data[0]?.id
+          : 0,
       }));
     } catch (e) {
       setProducts((prev) => ({ ...prev, error: loadingErrorMessage }));
@@ -81,7 +89,13 @@ const BidProducts: FC<IProps> = ({
               label={product.name}
               id={String(product.id)}
               checked={product.id === products.active}
-              onChange={() => handleProductClick(product.id)}
+              onChange={() =>
+                handleProductClick(
+                  product.id,
+                  product.isPassportFields,
+                  product.isCreditFields
+                )
+              }
             />
           </div>
         ))
