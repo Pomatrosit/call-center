@@ -190,6 +190,12 @@ table {
   border-radius: 0.25vmax;
   font-size: 0.9vmax;
 
+  &.alert-success {
+    background-color: $successColor;
+    color: $white;
+    @include greenShadow();
+  }
+
   .btn-close {
     padding: 1vmax;
   }

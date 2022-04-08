@@ -2,10 +2,13 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import classes from "./PhoneIcons.module.scss";
 import { addNotification } from "../../store/notifications/actions";
+import ReactTooltip from "react-tooltip";
+import { Button } from "react-bootstrap";
 
 const PhoneIcons = () => {
   const dispatch = useDispatch();
   const [isOnCall, setOnCall] = useState<boolean>(false);
+  const [isMicrophone, setMicrophone] = useState<boolean>(true);
 
   const phoneClickHandler = () => {
     if (isOnCall)
@@ -31,18 +34,23 @@ const PhoneIcons = () => {
 
   return (
     <div className={classes.phoneIcons}>
-      {!isOnCall ? (
-        <div
-          className={classes.phoneIcon + ` ${!isOnCall ? classes.onCall : ""}`}
-          onClick={phoneClickHandler}
-        >
-          <img src="/icons/greenPhone.svg" alt="success" />
-        </div>
-      ) : (
-        <div className={classes.phoneIcon} onClick={phoneClickHandler}>
-          <img src="/icons/redPhone.svg" alt="danger" />
-        </div>
-      )}
+      <div
+        data-tip={!isOnCall ? "Начать звонок" : "Завершить звонок"}
+        className={classes.phoneIcon + ` ${!isOnCall ? classes.onCall : ""}`}
+        onClick={phoneClickHandler}
+      >
+        <img
+          src={!isOnCall ? "/icons/greenPhone.svg" : "/icons/redPhone.svg"}
+          alt="phone"
+        />
+      </div>
+      <Button variant="success">
+        <img
+          src={!isOnCall ? "/icons/greenPhone.svg" : "/icons/redPhone.svg"}
+          alt="phone"
+        />
+      </Button>
+      <ReactTooltip delayShow={500} globalEventOff={"click"} />
     </div>
   );
 };
