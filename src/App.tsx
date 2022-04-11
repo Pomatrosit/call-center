@@ -12,6 +12,7 @@ import { setAuth } from "./store/auth/actions";
 import { checkAuth } from "./helpers/auth";
 import { axiosConfig, axiosInterceptor } from "./helpers/axios";
 import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
+import { webPhone } from "./helpers/webPhone";
 
 const App = () => {
   const { auth } = useAppSelector((state) => state.auth);
@@ -42,6 +43,7 @@ const App = () => {
       };
       const socketClient = io(`${SOCKET_URL}`, ioOptions);
       dispatch(setSocket(socketClient));
+      webPhone();
     } else if (auth === false) {
       sessionStorage.removeItem(TOKENS.accessToken);
       sessionStorage.removeItem(TOKENS.refreshToken);

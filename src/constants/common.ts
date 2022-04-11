@@ -1,5 +1,6 @@
-export const API_URL = "http://192.168.1.250:3050";
-export const SOCKET_URL = "http://192.168.1.250:4001";
+export const API_URL = "https://lk.sipli.ru/cc";
+// export const SOCKET_URL = "https://lk.sipli.ru/ccws/";
+export const SOCKET_URL = "wss://lk.sipli.ru:4001";
 
 export enum TOKENS {
   accessToken = "accessToken",
