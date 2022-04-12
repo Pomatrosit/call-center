@@ -40,6 +40,7 @@ const App = () => {
         extraHeaders: {
           Authorization: `Bearer ${sessionStorage.getItem(TOKENS.accessToken)}`,
         },
+        secure: true,
       };
       const socketClient = io(`${SOCKET_URL}`, ioOptions);
       dispatch(setSocket(socketClient));
