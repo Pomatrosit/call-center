@@ -1,0 +1,93 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.root {
+  padding-bottom: 1vmax;
+  @include flex();
+  position: relative;
+  z-index: 1;
+
+  .layout {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: transparent;
+  }
+
+  .title {
+    font-size: 0.83vmax;
+    color: $black;
+  }
+
+  .dropdown {
+    height: 2.5vmax;
+    @include flex();
+    padding: 0 2vmax;
+    border: 1px solid $border-color;
+    background-color: $white;
+    border-radius: 0.5vmax;
+    cursor: pointer;
+    position: relative;
+
+    .rootOptions {
+      position: absolute;
+      top: 2.5vmax;
+      left: 0;
+      right: 0;
+      border: 1px solid $border-color;
+      background-color: $white;
+      border-radius: 0.2vmax;
+      padding: 0.5vmax 1vmax;
+
+      .rootOption {
+        font-size: 0.83vmax;
+        margin-right: -0.5vmax;
+        margin-left: -0.5vmax;
+        color: $light-gray;
+        padding: 0.3vmax;
+        transition: 0.3s;
+        @include flex(center, flex-start);
+        border-radius: 0.2vmax;
+        position: relative;
+
+        .innerOption {
+          padding: 0.3vmax;
+        }
+      }
+
+      .innerOptions {
+        position: absolute;
+        right: -10vmax;
+        top: 0;
+        width: 10vmax;
+        background-color: $white;
+        border-radius: 0.2vmax;
+        border: 1px solid $border-color;
+        padding: 0.3vmax;
+
+        .innerOption {
+          font-size: 0.83vmax;
+          color: $light-gray;
+          padding: 0.3vmax;
+          transition: 0.3s;
+          @include flex(center, flex-start);
+          border-radius: 0.2vmax;
+          position: relative;
+        }
+      }
+
+      .rootOption:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+@media (hover: hover) {
+  .rootOption:hover,
+  .innerOption:hover {
+    background-color: $border-color;
+  }
+}

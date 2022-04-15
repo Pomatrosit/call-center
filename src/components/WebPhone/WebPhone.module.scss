@@ -3,6 +3,12 @@
 
 .webPhone {
   width: 100%;
+  position: relative;
+
+  .webPhoneContent {
+    position: relative;
+    z-index: 1;
+  }
 
   .redirectWrapper {
     @include flex(center, flex-start);

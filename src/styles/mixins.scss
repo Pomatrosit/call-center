@@ -55,6 +55,11 @@
 }
 
 @mixin purpleShadowImportant() {
-  box-shadow: 0px 9px 20px rgba(89, 86, 209, 0.22),
+  box-shadow: 0px 9px 20px rgba(250, 212, 2, 0.22),
     0px 4px 15px rgba(89, 86, 209, 0.44) !important;
+}
+
+@mixin yellowShadow() {
+  box-shadow: 0px 9px 20px rgba(250, 212, 2, 0.22),
+    0px 4px 15px rgba(242, 79, 80, 0.44);
 }

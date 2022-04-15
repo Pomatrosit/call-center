@@ -1,20 +1,24 @@
 @import "../../styles/variables.scss";
 @import "../../styles/mixins.scss";
 
+@mixin icon() {
+  width: 3vmax;
+  height: 3vmax;
+  cursor: pointer;
+  margin: 0 0.3vmax;
+  @include flex();
+}
+
 .phoneIcons {
   @include flex();
 
   .phoneIcon {
-    width: 3vmax;
-    height: 3vmax;
-    cursor: pointer;
-    margin: 0 0.5vmax;
+    @include icon();
     background-color: $dangerColor;
     @include redShadow();
     border-radius: 50%;
-    @include flex();
 
-    &.onCall {
+    &.isNotOnCall {
       background-color: $successColor;
       @include greenShadow();
     }
@@ -22,6 +26,38 @@
     img {
       width: 50%;
     }
+  }
+
+  .microphoneIcon,
+  .holdIcon {
+    @include icon();
+
+    &.onNotOnCall {
+      pointer-events: none;
+      opacity: 0.2;
+    }
+
+    &.pressed {
+      background-color: $yellow;
+      border-radius: 50%;
+      @include yellowShadow();
+
+      svg {
+        width: 60%;
+      }
+
+      path {
+        fill: $white;
+      }
+    }
+
+    svg {
+      height: 3vmax;
+    }
+  }
+
+  .holdIcon svg {
+    width: 2.5vmax;
   }
 
   button {

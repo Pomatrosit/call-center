@@ -18,15 +18,24 @@ const ModalWindow = () => {
       <div>
         <Modal size="lg" show={show} onHide={close}>
           <Modal.Header closeButton>
-            <Modal.Title>{title}</Modal.Title>
-            <div className={classes.icons}>
-              <div className={classes.rollDown}></div>
+            <div className={classes.bg}>
               <img
-                onClick={close}
-                className={classes.closeIcon}
-                src="/icons/closeIcon.svg"
-                alt="close-modal"
+                src="/logotype.svg"
+                alt="background"
+                className={classes.backgroundImg}
               />
+            </div>
+            <div className={classes.modalHeaderContent}>
+              <Modal.Title>{title}</Modal.Title>
+              <div className={classes.icons}>
+                <div className={classes.rollDown}></div>
+                <img
+                  onClick={close}
+                  className={classes.closeIcon}
+                  src="/icons/closeIcon.svg"
+                  alt="close-modal"
+                />
+              </div>
             </div>
           </Modal.Header>
           <Modal.Body>{Component && <Component />}</Modal.Body>
