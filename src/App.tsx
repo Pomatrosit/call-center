@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { PRIVATE_ROUTES, PUBLIC_ROUTES } from "./constants/router";
 import { useAppSelector } from "./hooks/useAppSelector";
 import Layout from "./components/Layout/Layout";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { TOKENS } from "./constants/common";
 import { io } from "socket.io-client";
 import { SOCKET_URL } from "./constants/common";
@@ -11,13 +11,15 @@ import { setSocket } from "./store/socket/actions";
 import { setAuth } from "./store/auth/actions";
 import { checkAuth } from "./helpers/auth";
 import { axiosConfig, axiosInterceptor } from "./helpers/axios";
-import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
-import { webPhone } from "./helpers/webPhone";
+// import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
+import { initWebPhone } from "./store/webphone/actions";
 
 const App = () => {
   const { auth } = useAppSelector((state) => state.auth);
+  const { socket: webPhoneSocket, coolPhone } = useAppSelector(
+    (state) => state.webPhone
+  );
   const dispatch = useDispatch();
-  const [loadingScreen, setLoadingScreen] = useState<boolean>(true);
 
   const login = () => {
     dispatch(setAuth(true));
@@ -44,16 +46,21 @@ const App = () => {
       };
       const socketClient = io(`${SOCKET_URL}`, ioOptions);
       dispatch(setSocket(socketClient));
-      webPhone();
+      dispatch(initWebPhone());
     } else if (auth === false) {
       sessionStorage.removeItem(TOKENS.accessToken);
       sessionStorage.removeItem(TOKENS.refreshToken);
       dispatch(setSocket(null));
+      if (coolPhone) {
+        coolPhone.unregister();
+        coolPhone.stop();
+      }
+      if (webPhoneSocket) webPhoneSocket.disconnect();
     }
     //eslint-disable-next-line
   }, [auth]);
 
-  // if (loadingScreen) {
+  // if (auth === null) {
   //   return <LoadingScreen />;
   // }
 

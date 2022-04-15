@@ -5,7 +5,7 @@ export enum types {
   REMOVE_NOTIFICATION = "REMOVE_NOTIFICATION",
 }
 
-interface addNotificationAction {
+export interface addNotificationAction {
   type: types.ADD_NOTIFICATION;
   payload: INotification;
 }

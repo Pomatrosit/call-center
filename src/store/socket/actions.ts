@@ -10,6 +10,8 @@ export const setSocket = (socket: any) => {
   return (dispatch: Dispatch<any>, getState: any) => {
     if (socket) {
       socket.on("connect", () => {
+        socket.send({ action: "test" });
+
         socket.on("message", (e: ISocketEvent) => {
           console.log(e);
           switch (e.event) {

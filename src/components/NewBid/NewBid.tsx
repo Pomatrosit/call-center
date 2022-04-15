@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from "react";
+import React, { FC, useEffect, useMemo, useRef, useState } from "react";
 import classes from "./NewBid.module.scss";
 import { Button, Form } from "react-bootstrap";
 import { useFormik } from "formik";
@@ -219,9 +219,11 @@ const NewBid: FC = () => {
     setIndividualError(false);
   };
 
+  const $root = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     applyMasks();
-    disableBrowserAutocomplete();
+    disableBrowserAutocomplete($root.current);
 
     return () => {
       destroyMasks();
@@ -250,7 +252,7 @@ const NewBid: FC = () => {
       formik.setFieldValue("passportNumber", "");
       formik.setFieldValue("passportCode", "");
       formik.setFieldValue("passportDate", "");
-      disableBrowserAutocomplete();
+      disableBrowserAutocomplete($root.current);
     }
     //eslint-disable-next-line
   }, [isPassportFields]);
@@ -261,7 +263,7 @@ const NewBid: FC = () => {
       formik.setFieldTouched("creditAmount", false);
       formik.setFieldValue("creditDuration", "");
       formik.setFieldValue("creditAmount", "");
-      disableBrowserAutocomplete();
+      disableBrowserAutocomplete($root.current);
     }
     //eslint-disable-next-line
   }, [isCreditFields]);
@@ -297,7 +299,7 @@ const NewBid: FC = () => {
   }, [isCityClicked, products, isRegionClicked]);
 
   return (
-    <div className={classes.root + " new-bid"}>
+    <div className={classes.root + " new-bid"} ref={$root}>
       <form className={classes.newBid} onSubmit={formik.handleSubmit}>
         <PageTitle title="Создание заявки" Icon={AddBidIcon} />
         <div className={classes.main}>
