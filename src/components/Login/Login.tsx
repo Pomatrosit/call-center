@@ -7,7 +7,7 @@ import { Button } from "react-bootstrap";
 import axios, { AxiosResponse } from "axios";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../store/auth/actions";
-import { TOKENS } from "../../constants/common";
+import { SESSION_STORAGE, TOKENS } from "../../constants/common";
 import { HTTP_STATUS_CODES } from "../../constants/statusCodes";
 import { setUser } from "../../store/user/actions";
 
@@ -40,6 +40,11 @@ const Auth: FC = () => {
       sessionStorage.setItem(TOKENS.refreshToken, refreshToken);
       sessionStorage.setItem("firstName", name);
       sessionStorage.setItem("lastName", surname);
+      sessionStorage.setItem(
+        SESSION_STORAGE.journalId,
+        response.data.journalId
+      );
+      sessionStorage.setItem(SESSION_STORAGE.hashphone, response.data.hash);
       axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
       dispatch(setUser({ firstName: name, lastName: surname }));
       dispatch(setAuth(true));

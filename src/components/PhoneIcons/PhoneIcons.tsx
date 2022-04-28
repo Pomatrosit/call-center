@@ -4,6 +4,7 @@ import classes from "./PhoneIcons.module.scss";
 import ReactTooltip from "react-tooltip";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import {
+  setCurrentPhone,
   setHold,
   setMuted,
   setOnCall,
@@ -14,21 +15,33 @@ import MicrophoneIcon from "../Icons/MicrophoneIcon";
 import DisabledMicrophoneIcon from "../Icons/DisabledMicrophoneIcon";
 import PauseIcon from "../Icons/PauseIcon";
 import UnpauseIcon from "../Icons/UnpauseIcon";
+import { FormikProps } from "formik";
+import { IWebPhoneValues } from "../WebPhone/WebPhone";
 
 interface IProps {
-  formik: any;
+  formik: FormikProps<IWebPhoneValues>;
+  minified?: boolean;
 }
 
-const PhoneIcons: FC<IProps> = ({ formik }) => {
+const PhoneIcons: FC<IProps> = ({ formik, minified = false }) => {
   const dispatch = useDispatch();
-  const { coolPhone, isOnCall, session, isMute, isHold, isConfirmed } =
-    useAppSelector((state) => state.webPhone);
+  const {
+    coolPhone,
+    isOnCall,
+    session,
+    isMute,
+    isHold,
+    isConfirmed,
+    isIncomingRing,
+  } = useAppSelector((state) => state.webPhone);
 
   const phoneClickHandler = () => {
     if (!isOnCall) {
       if (!formik.errors.phone && formik.touched.phone) {
-        const session = coolPhone.call(formik.values.phone, getCallOptions());
+        const phone = formik.values.phone;
+        const session = coolPhone.call(phone, getCallOptions());
         dispatch(setSession(session));
+        if (phone) dispatch(setCurrentPhone(phone));
       } else {
         formik.setFieldTouched("phone", true);
       }
@@ -36,6 +49,19 @@ const PhoneIcons: FC<IProps> = ({ formik }) => {
       if (session) session.terminate();
       dispatch(setOnCall(false));
     }
+  };
+
+  const answerOnIncomingCall = () => {
+    session.answer(getCallOptions());
+    session.connection.addEventListener("addstream", function (e: any) {
+      console.log(e);
+      const remoteAudio: HTMLAudioElement | null =
+        document.querySelector(".audio");
+      if (remoteAudio) {
+        remoteAudio.srcObject = e.stream;
+        remoteAudio.play();
+      }
+    });
   };
 
   const toggleMute = () => {
@@ -76,19 +102,34 @@ const PhoneIcons: FC<IProps> = ({ formik }) => {
   }
 
   return (
-    <div className={classes.phoneIcons}>
-      <div
-        data-tip={!isOnCall ? "Начать звонок" : "Завершить звонок"}
-        className={
-          classes.phoneIcon + ` ${!isOnCall ? classes.isNotOnCall : ""}`
-        }
-        onClick={phoneClickHandler}
-      >
-        <img
-          src={!isOnCall ? "/icons/greenPhone.svg" : "/icons/redPhone.svg"}
-          alt="phone"
-        />
-      </div>
+    <div
+      className={
+        classes.phoneIcons + ` ${minified ? classes.minifiedIcons : ""}`
+      }
+    >
+      {isIncomingRing ? (
+        <div
+          data-tip={"Поднять трубку"}
+          className={classes.phoneIcon + " " + classes.ringingIcon}
+          onClick={answerOnIncomingCall}
+        >
+          <div className={classes.ring}></div>
+          <img src="/icons/greenPhone.svg" alt="phone" />
+        </div>
+      ) : (
+        <div
+          data-tip={!isOnCall ? "Начать звонок" : "Завершить звонок"}
+          className={
+            classes.phoneIcon + ` ${!isOnCall ? classes.isNotOnCall : ""}`
+          }
+          onClick={phoneClickHandler}
+        >
+          <img
+            src={!isOnCall ? "/icons/greenPhone.svg" : "/icons/redPhone.svg"}
+            alt="phone"
+          />
+        </div>
+      )}
 
       <div
         data-tip={!isMute ? "Выключить микрофон" : "Включить микрофон"}

@@ -2,17 +2,35 @@ import { Dispatch } from "redux";
 import { types } from "./types";
 import * as JsSIP from "jssip";
 import { addNotification } from "../notifications/actions";
-import { WEB_PHONE_SOCKET } from "../../constants/common";
+import { SESSION_STORAGE, WEB_PHONE_SOCKET } from "../../constants/common";
+import CryptoJS from "crypto-js";
+import { IWebPhoneTransferValues } from "../../components/WebPhone/WebPhone";
+
+const getAudio = function (e: any) {
+  const remoteAudio: HTMLAudioElement | null = document.querySelector(".audio");
+  if (remoteAudio) {
+    remoteAudio.srcObject = e.stream;
+    remoteAudio.play();
+  }
+};
 
 export const initWebPhone = () => {
   return (dispatch: Dispatch<any>) => {
     const socket = new JsSIP.WebSocketInterface(WEB_PHONE_SOCKET);
-    dispatch(setSocket(socket));
+    dispatch(setWebPhoneSocket(socket));
+
+    const secretKey = "YXNkaGoxajMycmJqc2RjODIzYmNkbjI4NzNoZDI3MjEyamQx";
+    const journalId = sessionStorage.getItem(SESSION_STORAGE.journalId);
+    const bytes = CryptoJS.AES.decrypt(
+      String(sessionStorage.getItem(SESSION_STORAGE.hashphone)),
+      secretKey
+    );
+    const hashPhone = bytes.toString(CryptoJS.enc.Utf8).trim();
 
     const configuration = {
       sockets: [socket],
-      uri: "sip:u402@fp.sipli.ru",
-      password: "2505",
+      uri: `sip:${journalId}@fp.sipli.ru`,
+      password: hashPhone,
       register: true,
     };
 
@@ -23,22 +41,19 @@ export const initWebPhone = () => {
     coolPhone.on("newRTCSession", (e: any) => {
       const session = e.session;
       dispatch(setSession(session));
+      const incomingAudio: HTMLAudioElement | null =
+        document.querySelector(".incoming");
 
-      // Слушаем каждую новую сессию и выводим звук в тэг audio
+      console.log(session);
 
-      session.connection.addEventListener("addstream", function (e: any) {
-        const remoteAudio: HTMLAudioElement | null =
-          document.querySelector(".audio");
-        if (remoteAudio) {
-          remoteAudio.srcObject = e.stream;
-          remoteAudio.play();
-        }
-      });
+      /// Стрим звука при исходящем
+      if (session.connection)
+        session.connection.addEventListener("addstream", getAudio);
 
-      //// Слушатели для всех звонков (входящие/исходящие)
+      session.on("connecting", function (e: any) {
+        console.log(e);
+        console.log("call connecting");
 
-      session.on("connecting", function () {
-        console.log("call started");
         if (session.direction === "outgoing") {
           dispatch(setOnCall(true));
           dispatch(
@@ -50,18 +65,36 @@ export const initWebPhone = () => {
             })
           );
         } else {
-          //// задиспатчить что звонок входящий
         }
       });
 
-      session.on("progress", function () {
+      session.on("progress", function (e: any) {
+        //// Стрим звука при входящем
+        if (session.direction === "incoming") {
+          incomingAudio?.play();
+          dispatch(setIncomingRing(true));
+          dispatch(
+            addNotification({
+              id: Math.random(),
+              variant: "success",
+              text: "Вам поступает входящий звонок!",
+              autoHideDuration: 3000,
+            })
+          );
+        }
         console.log("call is in progress");
+      });
+
+      session.on("peerconnection", function (e: any) {
+        console.log("peerconnection");
       });
 
       session.on("confirmed", function () {
         console.log("call confirmed");
+        dispatch(setIncomingRing(false));
         dispatch(setOnCall(true));
         dispatch(setConfirmed(true));
+        incomingAudio?.pause();
       });
 
       session.on("ended", function () {
@@ -70,6 +103,8 @@ export const initWebPhone = () => {
         dispatch(setMuted(false));
         dispatch(setHold(false));
         dispatch(setConfirmed(false));
+        incomingAudio?.pause();
+        dispatch(setIncomingRing(false));
         dispatch(
           addNotification({
             id: Math.random(),
@@ -80,17 +115,19 @@ export const initWebPhone = () => {
         );
       });
 
-      session.on("failed", function (e: any) {
+      session.on("failed", function () {
         console.log("call failed");
         dispatch(setOnCall(false));
         dispatch(setMuted(false));
         dispatch(setHold(false));
         dispatch(setConfirmed(false));
+        incomingAudio?.pause();
+        dispatch(setIncomingRing(false));
         dispatch(
           addNotification({
             id: Math.random(),
             variant: "success",
-            text: "Звонок завершен! Проставьте результат звонка",
+            text: "Звонок завершен!",
             autoHideDuration: 4000,
           })
         );
@@ -126,9 +163,9 @@ export const setSession = (session: any) => {
   };
 };
 
-export const setSocket = (socket: any) => {
+export const setWebPhoneSocket = (socket: any) => {
   return {
-    type: types.SET_SOCKET,
+    type: types.SET_WEB_PHONE_SOCKET,
     payload: socket,
   };
 };
@@ -150,6 +187,36 @@ export const setHold = (bool: boolean) => {
 export const setConfirmed = (bool: boolean) => {
   return {
     type: types.SET_CONFIRMED,
+    payload: bool,
+  };
+};
+
+export const setIncomingRing = (bool: boolean) => {
+  return {
+    type: types.SET_INCOMING_RING,
+    payload: bool,
+  };
+};
+
+export const setWebPhoneTransferValues = (
+  payload: IWebPhoneTransferValues | null
+) => {
+  return {
+    type: types.SET_WEB_PHONE_TRANSFER_VALUES,
+    payload,
+  };
+};
+
+export const setCurrentPhone = (phone: string) => {
+  return {
+    type: types.SET_CURRENT_PHONE,
+    payload: phone,
+  };
+};
+
+export const setMinifiedWebPhone = (bool: boolean) => {
+  return {
+    type: types.SET_MINIFIED_WEB_PHONE,
     payload: bool,
   };
 };

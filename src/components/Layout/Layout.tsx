@@ -2,8 +2,9 @@ import { FC } from "react";
 import classes from "./Layout.module.scss";
 import Header from "../Header/Header";
 import MainNavigation from "../MainNavigation/MainNavigation";
-import ModalWindow from "../ModalWindow/ModalWindow";
 import NotificationList from "../NotificationList/NotificationList";
+import MinifiedWebPhone from "../MinifiedWebPhone/MinifiedWebPhone";
+import WebPhone from "../WebPhone/WebPhone";
 
 const Layout: FC = ({ children }) => {
   return (
@@ -13,8 +14,9 @@ const Layout: FC = ({ children }) => {
       </nav>
       <div className={classes.appWrapper}>
         <Header />
-        <ModalWindow />
         <NotificationList />
+        <WebPhone />
+        <MinifiedWebPhone />
         <div className={classes.page}>{children}</div>
       </div>
     </div>

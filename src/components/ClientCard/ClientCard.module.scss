@@ -1,0 +1,17 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.formCheck {
+  @include flex(center, flex-start);
+  margin-bottom: 0.5vmax;
+
+  .label {
+    margin-bottom: 0;
+    margin-right: 0.75vmax;
+    min-width: 6vmax;
+    line-height: 120%;
+    font-size: 0.9vmax;
+    font-weight: 300;
+    color: $light-gray;
+  }
+}

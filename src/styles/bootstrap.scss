@@ -200,3 +200,29 @@ table {
     padding: 1vmax;
   }
 }
+
+.accordion-header {
+  .accordion-button:not(.collapsed) {
+    background-color: $blue-6;
+    color: $blue-1;
+  }
+
+  .accordion-button {
+    padding: 0.8vmax;
+    font-size: 0.83vmax;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}
+
+.accordion-body {
+  padding: 0.8vmax;
+  font-size: 0.83vmax;
+}
+
+.page-link {
+  padding: 0.25vmax 0.5vmax;
+  font-size: 0.8vmax;
+}

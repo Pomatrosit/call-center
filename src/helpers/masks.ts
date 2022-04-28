@@ -12,6 +12,7 @@ let passportCodeMask: any;
 let creditDurationMask: any;
 let creditAmountMask: any;
 let webPhone_phoneMask: any;
+let minifiedWebPhone_phoneMask: any;
 
 export const applyMasks = (): void => {
   const $root: HTMLDivElement | null = document.querySelector(".new-bid");
@@ -168,4 +169,29 @@ export const applyWebPhoneMasks = () => {
 
 export const destroyWebPhoneMasks = () => {
   webPhone_phoneMask.destroy();
+};
+
+export const applyMinifiedWebPhoneMasks = () => {
+  const $root: HTMLDivElement | null = document.querySelector(
+    ".minified-web-phone-root"
+  );
+
+  if ($root) {
+    const $pnoneInput: HTMLInputElement | null = $root.querySelector(
+      'input[name="phone"]'
+    );
+    if ($pnoneInput) {
+      minifiedWebPhone_phoneMask = IMask($pnoneInput, {
+        mask: "#@000000000",
+        definitions: {
+          "#": /[7-8]/,
+          "@": /3|4|8|9/,
+        },
+      });
+    }
+  }
+};
+
+export const destroyMinifiedWebPhoneMasks = () => {
+  minifiedWebPhone_phoneMask.destroy();
 };

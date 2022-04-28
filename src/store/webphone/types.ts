@@ -1,11 +1,17 @@
+import { IWebPhoneTransferValues } from "../../components/WebPhone/WebPhone";
+
 export enum types {
-  SET_SOCKET = "SET_SOCKET",
+  SET_WEB_PHONE_SOCKET = "SET_WEB_PHONE_SOCKET",
   INIT_WEB_PHONE = "INIT_WEB_PHONE",
   SET_SESSION = "SET_SESSION",
   SET_ONCALL = "SET_ONCALL",
   SET_MUTED = "SET_MUTED",
   SET_HOLD = "SET_HOLD",
   SET_CONFIRMED = "SET_CONFIRMED",
+  SET_INCOMING_RING = "SET_INCOMING_RING",
+  SET_WEB_PHONE_TRANSFER_VALUES = "SET_WEB_PHONE_TRANSFER_VALUES",
+  SET_CURRENT_PHONE = "SET_CURRENT_PHONE",
+  SET_MINIFIED_WEB_PHONE = "SET_MINIFIED_WEB_PHONE",
 }
 
 interface initWebPhone {
@@ -23,8 +29,8 @@ interface setSession {
   payload: any;
 }
 
-interface setSocket {
-  type: types.SET_SOCKET;
+interface setWebPhoneSocket {
+  type: types.SET_WEB_PHONE_SOCKET;
   payload: any;
 }
 
@@ -43,11 +49,35 @@ interface setConfirmed {
   payload: boolean;
 }
 
+interface setIncomingRing {
+  type: types.SET_INCOMING_RING;
+  payload: boolean;
+}
+
+interface setWebPhoneTransferValues {
+  type: types.SET_WEB_PHONE_TRANSFER_VALUES;
+  payload: IWebPhoneTransferValues | null;
+}
+
+interface setCurrentPhone {
+  type: types.SET_CURRENT_PHONE;
+  payload: string;
+}
+
+interface setMinifiedWebPhone {
+  type: types.SET_MINIFIED_WEB_PHONE;
+  payload: boolean;
+}
+
 export type WebPhoneActions =
   | initWebPhone
   | setOnCall
   | setSession
-  | setSocket
+  | setWebPhoneSocket
   | setMuted
   | setHold
-  | setConfirmed;
+  | setConfirmed
+  | setIncomingRing
+  | setWebPhoneTransferValues
+  | setCurrentPhone
+  | setMinifiedWebPhone;
