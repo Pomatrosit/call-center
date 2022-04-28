@@ -1,3 +1,4 @@
+import { IWebPhoneTransferValues } from "../../components/WebPhone/WebPhone";
 import { types, WebPhoneActions } from "./types";
 
 interface IWebPhone {
@@ -8,6 +9,10 @@ interface IWebPhone {
   isMute: boolean;
   isHold: boolean;
   isConfirmed: boolean;
+  isIncomingRing: boolean;
+  transferValues: IWebPhoneTransferValues | null;
+  currentPhone: string;
+  isMinified: boolean;
 }
 
 const initialState: IWebPhone = {
@@ -18,6 +23,10 @@ const initialState: IWebPhone = {
   isMute: false,
   isHold: false,
   isConfirmed: false,
+  isIncomingRing: false,
+  transferValues: null,
+  currentPhone: "",
+  isMinified: true,
 };
 
 const reducer = (
@@ -37,7 +46,7 @@ const reducer = (
       return { ...state, session: action.payload };
     }
 
-    case types.SET_SOCKET: {
+    case types.SET_WEB_PHONE_SOCKET: {
       return { ...state, socket: action.payload };
     }
 
@@ -51,6 +60,25 @@ const reducer = (
 
     case types.SET_CONFIRMED: {
       return { ...state, isConfirmed: action.payload };
+    }
+
+    case types.SET_INCOMING_RING: {
+      return { ...state, isIncomingRing: action.payload };
+    }
+
+    case types.SET_WEB_PHONE_TRANSFER_VALUES: {
+      return {
+        ...state,
+        transferValues: action.payload,
+      };
+    }
+
+    case types.SET_CURRENT_PHONE: {
+      return { ...state, currentPhone: action.payload };
+    }
+
+    case types.SET_MINIFIED_WEB_PHONE: {
+      return { ...state, isMinified: action.payload };
     }
 
     default: {

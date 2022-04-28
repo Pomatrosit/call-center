@@ -17,6 +17,10 @@ import PageTitle from "../PageTitle/PageTitle";
 import BidStatuses, { IStatuses } from "../BidStatuses/BidStatuses";
 import axios from "axios";
 import { IHalvaDepartment } from "../../common-types/halvaDepartment";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { IWebPhoneTransferValues } from "../WebPhone/WebPhone";
+import { useDispatch } from "react-redux";
+import { setWebPhoneTransferValues } from "../../store/webphone/actions";
 
 interface IValues {
   phone: string;
@@ -56,6 +60,7 @@ const initialValues: IValues = {
 };
 
 const NewBid: FC = () => {
+  const dispatch = useDispatch();
   const [products, setProducts] = useState<IProducts>({
     list: [],
     isLoading: false,
@@ -298,6 +303,51 @@ const NewBid: FC = () => {
     //eslint-disable-next-line
   }, [isCityClicked, products, isRegionClicked]);
 
+  const { transferValues } = useAppSelector((state) => state.webPhone);
+
+  useEffect(() => {
+    if (transferValues) {
+      formik.resetForm();
+      setSex("");
+      setIndividual("");
+      setSexError(false);
+      setIndividualError(false);
+      Object.keys(transferValues).forEach((key) => {
+        if (
+          transferValues[key as keyof IWebPhoneTransferValues] &&
+          key !== "sex" &&
+          key !== "individual"
+        ) {
+          formik.setFieldValue(
+            key,
+            transferValues[key as keyof IWebPhoneTransferValues]
+          );
+        }
+
+        if (key === "region" && transferValues.regionId) {
+          setRegionId(transferValues.regionId);
+          setRegionClicked(true);
+        }
+        if (key === "city" && transferValues.cityId) {
+          setCityId(transferValues.cityId);
+          setCityClicked(true);
+        }
+        if (key === "phone") {
+          // const $phoneInput: HTMLInputElement | null = document.querySelector('input[name="phone"]')
+          // if ($phoneInput) $phoneInput.style.hidden
+        }
+        if (key === "sex" && transferValues.sex) setSex(transferValues.sex);
+        if (key === "individual" && transferValues.individual)
+          setIndividual(transferValues.individual);
+      });
+    }
+
+    return () => {
+      dispatch(setWebPhoneTransferValues(null));
+    };
+    //eslint-disable-next-line
+  }, [transferValues]);
+
   return (
     <div className={classes.root + " new-bid"} ref={$root}>
       <form className={classes.newBid} onSubmit={formik.handleSubmit}>
@@ -334,6 +384,7 @@ const NewBid: FC = () => {
               autoComplete="/api/autocomplete?"
               isMiddleName={isMiddleName}
               changeMiddleNameCheckbox={changeMiddleNameCheckbox}
+              isCreateBidPage={true}
             />
             <FormikInput
               label="Пол"

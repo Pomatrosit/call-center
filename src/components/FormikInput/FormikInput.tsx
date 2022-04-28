@@ -5,7 +5,7 @@ import AutocompleteInput from "../AutocompleteInput/AutocompleteInput";
 import { INPUT_FIELDS_NAMES } from "../../constants/inputFieldsNames";
 
 interface IProps {
-  label: string;
+  label?: string;
   name: string;
   type?: string;
   formik: any;
@@ -25,6 +25,9 @@ interface IProps {
   variant?: string | null | undefined;
   changeRegionId?: (id: number) => void;
   changeCityId?: (id: number) => void;
+  isCreateBidPage?: boolean;
+  needValidate?: boolean;
+  placeholder?: string;
 }
 
 const FormikInput: FC<IProps> = ({
@@ -48,6 +51,9 @@ const FormikInput: FC<IProps> = ({
   variant,
   changeRegionId,
   changeCityId,
+  isCreateBidPage,
+  needValidate = true,
+  placeholder = "",
 }) => {
   // ДЛЯ ГОРОДА
   if (name === INPUT_FIELDS_NAMES.city) {
@@ -66,20 +72,32 @@ const FormikInput: FC<IProps> = ({
             {...formik.getFieldProps("city")}
             formik={formik}
             isInvalid={
-              !!(formik.touched.city && formik.errors.city) ||
-              (!isCityClicked && !!formik.touched.city)
+              (!!(formik.touched.city && formik.errors.city) ||
+                (!isCityClicked && !!formik.touched.city)) &&
+              needValidate
             }
-            isValid={!!(formik.touched.city && !formik.errors.city)}
+            isValid={
+              !!(formik.touched.city && !formik.errors.city) && needValidate
+            }
             setClicked={setCityClicked}
           />
           {!isRegionClicked && <div className={classes.disableLayout}></div>}
         </div>
 
-        {isRegionClicked &&
+        {needValidate &&
+          isRegionClicked &&
           (formik.touched.city && formik.errors.city ? (
-            <p className={classes.validationError}>{formik.errors.city}</p>
+            <p
+              className={classes.validationError}
+              style={{ paddingLeft: label ? "6.75vmax" : "0" }}
+            >
+              {formik.errors.city}
+            </p>
           ) : !isCityClicked && !!formik.touched.city ? (
-            <p className={classes.validationError}>
+            <p
+              className={classes.validationError}
+              style={{ paddingLeft: label ? "6.75vmax" : "0" }}
+            >
               Нужно выбрать НАСЕЛЕННЫЙ ПУНКТ из выпадающего списка
             </p>
           ) : null)}
@@ -98,26 +116,36 @@ const FormikInput: FC<IProps> = ({
             {...formik.getFieldProps("region")}
             formik={formik}
             isInvalid={
-              !!(formik.touched.region && formik.errors.region) ||
-              (!isRegionClicked && !!formik.touched.region)
+              (!!(formik.touched.region && formik.errors.region) ||
+                (!isRegionClicked && !!formik.touched.region)) &&
+              needValidate
             }
             isValid={
               !!(
                 formik.touched.region &&
                 !formik.errors.region &&
                 isRegionClicked
-              )
+              ) && needValidate
             }
             setClicked={setRegionClicked}
           />
         </div>
-        {formik.touched.region && formik.errors.region ? (
-          <p className={classes.validationError}>{formik.errors.region}</p>
-        ) : !isRegionClicked && !!formik.touched.region ? (
-          <p className={classes.validationError}>
-            Нужно выбрать РЕГИОН из выпадающего списка
-          </p>
-        ) : null}
+        {needValidate &&
+          (formik.touched.region && formik.errors.region ? (
+            <p
+              className={classes.validationError}
+              style={{ paddingLeft: label ? "6.75vmax" : "0" }}
+            >
+              {formik.errors.region}
+            </p>
+          ) : !isRegionClicked && !!formik.touched.region ? (
+            <p
+              className={classes.validationError}
+              style={{ paddingLeft: label ? "6.75vmax" : "0" }}
+            >
+              Нужно выбрать РЕГИОН из выпадающего списка
+            </p>
+          ) : null)}
       </div>
     );
   }
@@ -156,7 +184,12 @@ const FormikInput: FC<IProps> = ({
           </div>
         </div>
         {individualError && (
-          <p className={classes.validationError}>Проставьте СТАТУС клиента</p>
+          <p
+            className={classes.validationError}
+            style={{ paddingLeft: label ? "6.75vmax" : "0" }}
+          >
+            Проставьте СТАТУС клиента
+          </p>
         )}
       </div>
     );
@@ -195,14 +228,19 @@ const FormikInput: FC<IProps> = ({
           </div>
         </div>
         {sexError && (
-          <p className={classes.validationError}>Проставьте ПОЛ клиента</p>
+          <p
+            className={classes.validationError}
+            style={{ paddingLeft: label ? "6.75vmax" : "0" }}
+          >
+            Проставьте ПОЛ клиента
+          </p>
         )}
       </div>
     );
   }
 
   // ДЛЯ ОТЧЕСТВА
-  if (name === INPUT_FIELDS_NAMES.middleName) {
+  if (name === INPUT_FIELDS_NAMES.middleName && isCreateBidPage) {
     return (
       <div className={classes.formControl + " " + classes.smallMargin}>
         <div className={classes.formControlInner}>
@@ -224,13 +262,14 @@ const FormikInput: FC<IProps> = ({
           />
           {!isMiddleName && <div className={classes.disableLayout}></div>}
         </div>
-        {formik.touched.middleName &&
-          formik.errors.middleName &&
-          isMiddleName && (
-            <p className={classes.validationError}>
-              {formik.errors.middleName}
-            </p>
-          )}
+        {formik.touched.middleName && formik.errors.middleName && isMiddleName && (
+          <p
+            className={classes.validationError}
+            style={{ paddingLeft: label ? "6.75vmax" : "0" }}
+          >
+            {formik.errors.middleName}
+          </p>
+        )}
         <Form.Group className={classes.cancelMiddleName}>
           <Form.Check
             type="checkbox"
@@ -251,14 +290,23 @@ const FormikInput: FC<IProps> = ({
           <label className={classes.label}>{label}</label>
           <AutocompleteInput
             apiUrl={autoComplete}
-            isInvalid={!!(formik.touched[name] && formik.errors[name])}
-            isValid={!!(formik.touched[name] && !formik.errors[name])}
+            isInvalid={
+              !!(formik.touched[name] && formik.errors[name]) && needValidate
+            }
+            isValid={
+              !!(formik.touched[name] && !formik.errors[name]) && needValidate
+            }
             {...formik.getFieldProps(name)}
             formik={formik}
           />
         </div>
         {formik.touched[name] && formik.errors[name] && (
-          <p className={classes.validationError}>{formik.errors[name]}</p>
+          <p
+            className={classes.validationError}
+            style={{ paddingLeft: label ? "6.75vmax" : "0" }}
+          >
+            {formik.errors[name]}
+          </p>
         )}
       </div>
     );
@@ -277,22 +325,30 @@ const FormikInput: FC<IProps> = ({
       }
     >
       <div className={classes.formControlInner}>
-        <label className={classes.label}>{label}</label>
+        {label && <label className={classes.label}>{label}</label>}
         <Form.Control
+          placeholder={placeholder}
           isInvalid={!!(formik.touched[name] && formik.errors[name])}
           isValid={
             !!(
               formik.touched[name] &&
               !formik.errors[name] &&
               name !== "password"
-            ) && name !== "login"
+            ) &&
+            name !== "login" &&
+            needValidate
           }
           type={type || "text"}
           {...formik.getFieldProps(name)}
         />
       </div>
       {formik.touched[name] && formik.errors[name] && (
-        <p className={classes.validationError}>{formik.errors[name]}</p>
+        <p
+          className={classes.validationError}
+          style={{ paddingLeft: label ? "6.75vmax" : "0" }}
+        >
+          {formik.errors[name]}
+        </p>
       )}
     </div>
   );

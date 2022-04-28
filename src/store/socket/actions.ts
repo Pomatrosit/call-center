@@ -25,11 +25,17 @@ export const setSocket = (socket: any) => {
               break;
           }
         });
+
+        socket.on("disconnect", () => {
+          console.log("DISCONNECTED FROM SOCKET");
+        });
       });
     }
     if (!socket) {
       const socketClient = getState().socket.socket;
-      if (socketClient) socketClient.disconnect();
+      if (socketClient) {
+        socketClient.disconnect();
+      }
     }
     dispatch({
       type: types.SET_SOCKET,

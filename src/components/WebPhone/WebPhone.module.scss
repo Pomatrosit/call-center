@@ -1,6 +1,73 @@
 @import "../../styles/variables.scss";
 @import "../../styles/mixins.scss";
 
+.webPhoneLayout {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 4;
+  @include flex(flex-start, center);
+  overflow-y: scroll;
+  padding: 2vmax 0;
+
+  .webPhoneLayout2 {
+    width: 26vmax;
+    background-color: $white;
+    padding: 1.5vmax 1.3vmax 2vmax 1.3vmax;
+    border-radius: 0.5vmax;
+    position: relative;
+
+    .bgImgWrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 0;
+      overflow: hidden;
+
+      .backgroundImg {
+        width: 40vmax;
+        opacity: 0.05;
+      }
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+  }
+}
+
+.head {
+  @include flex(center, space-between);
+  border-bottom: 1px solid $border-color;
+  padding-bottom: 1vmax;
+  margin-bottom: 1vmax;
+
+  .closeIcon {
+    width: 1vmax;
+    height: 1vmax;
+    transition: 0.3s;
+    cursor: pointer;
+  }
+
+  @media (hover: hover) {
+    .closeIcon:hover {
+      opacity: 0.7;
+    }
+  }
+
+  .title {
+    font-size: 1.5vmax;
+    color: $black;
+    margin-bottom: 0;
+  }
+}
+
 .webPhone {
   width: 100%;
   position: relative;
@@ -37,5 +104,10 @@
       @include flex();
       margin-bottom: 0.5vmax;
     }
+  }
+
+  .saveBtnWrapper {
+    padding: 1.5vmax 0;
+    @include flex();
   }
 }
