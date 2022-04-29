@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import classes from "./PhoneResult.module.scss";
 
-const PhoneResult = () => {
+interface IProps {
+  direction?: string;
+}
+
+const PhoneResult: FC<IProps> = ({ direction }) => {
   const [isRootOpen, setRootOpen] = useState<boolean>(false);
   const [options, setOptions] = useState([
     {
@@ -18,6 +22,13 @@ const PhoneResult = () => {
         { id: 1, title: "Автоответчик" },
         { id: 2, title: "Тишина" },
         { id: 3, title: "Разрыв связи" },
+      ],
+    },
+    {
+      category: "Конфликт",
+      options: [
+        { id: 1, title: "Неадекват" },
+        { id: 2, title: "Троллинг" },
       ],
     },
   ]);
@@ -40,6 +51,10 @@ const PhoneResult = () => {
     setActiveOption(-1);
   };
 
+  const rootOptionsClasses = [classes.rootOptions];
+  if (direction === "top") rootOptionsClasses.push(classes.rootOptionsTop);
+  else rootOptionsClasses.push(classes.rootOptionsBottom);
+
   return (
     <div className={classes.root}>
       {isRootOpen && (
@@ -55,7 +70,7 @@ const PhoneResult = () => {
         <span className={classes.title}>Результат звонка</span>
         {isRootOpen && (
           <div
-            className={classes.rootOptions}
+            className={rootOptionsClasses.join(" ")}
             onMouseLeave={rootOptionsMouseLeave}
           >
             {options.map((option) => (

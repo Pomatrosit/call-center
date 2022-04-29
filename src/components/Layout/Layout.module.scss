@@ -4,6 +4,7 @@
 .layout {
   position: relative;
   @include flex(flex-start);
+  z-index: 1;
 
   .nav {
     width: 15vw;

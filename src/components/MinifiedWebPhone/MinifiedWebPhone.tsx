@@ -1,9 +1,6 @@
 import { useEffect, useRef } from "react";
 import { disableBrowserAutocomplete } from "../../helpers/inputs";
-import {
-  applyMinifiedWebPhoneMasks,
-  destroyMinifiedWebPhoneMasks,
-} from "../../helpers/masks";
+import { applyMinifiedWebPhoneMasks } from "../../helpers/masks";
 import classes from "./MinifiedWebPhone.module.scss";
 import * as Yup from "yup";
 import FormikInput from "../FormikInput/FormikInput";
@@ -50,10 +47,6 @@ const MinifiedWebPhone = () => {
   useEffect(() => {
     disableBrowserAutocomplete($root.current);
     applyMinifiedWebPhoneMasks();
-
-    return () => {
-      destroyMinifiedWebPhoneMasks();
-    };
   }, []);
 
   const currentPhone = useAppSelector((state) => state.webPhone.currentPhone);
@@ -109,11 +102,13 @@ const MinifiedWebPhone = () => {
           <FormikInput placeholder="Телефон" name="phone" formik={formik} />
           <PhoneIcons formik={formik} minified={true} />
           <div className={classes.createBidWrapper}>
+            <PhoneResult direction="top" />
+          </div>
+          <div className={classes.createBidWrapper}>
             <Button variant="success" onClick={createBidFromPhone}>
               Создать заявку
             </Button>
           </div>
-          <PhoneResult />
         </form>
       </div>
       <ReactTooltip delayShow={500} globalEventOff={"click"} />

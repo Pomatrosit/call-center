@@ -11,8 +11,6 @@ let passportNumberMask: any;
 let passportCodeMask: any;
 let creditDurationMask: any;
 let creditAmountMask: any;
-let webPhone_phoneMask: any;
-let minifiedWebPhone_phoneMask: any;
 
 export const applyMasks = (): void => {
   const $root: HTMLDivElement | null = document.querySelector(".new-bid");
@@ -156,7 +154,7 @@ export const applyWebPhoneMasks = () => {
       'input[name="phone"]'
     );
     if ($pnoneInput) {
-      webPhone_phoneMask = IMask($pnoneInput, {
+      IMask($pnoneInput, {
         mask: "#@000000000",
         definitions: {
           "#": /[7-8]/,
@@ -164,11 +162,53 @@ export const applyWebPhoneMasks = () => {
         },
       });
     }
-  }
-};
 
-export const destroyWebPhoneMasks = () => {
-  webPhone_phoneMask.destroy();
+    const $lastNameInput: HTMLInputElement | null = $root.querySelector(
+      'input[name="lastName"]'
+    );
+    if ($lastNameInput) {
+      IMask($lastNameInput, {
+        mask: /[А-Яа-я\-\s]+$/,
+      });
+    }
+
+    const $firstNameInput: HTMLInputElement | null = $root.querySelector(
+      'input[name="firstName"]'
+    );
+    if ($firstNameInput) {
+      IMask($firstNameInput, {
+        mask: /[А-Яа-я\-\s]+$/,
+      });
+    }
+
+    const $middleNameInput: HTMLInputElement | null = $root.querySelector(
+      'input[name="middleName"]'
+    );
+    if ($middleNameInput) {
+      IMask($middleNameInput, {
+        mask: /[А-Яа-я\-\s]+$/,
+      });
+    }
+
+    const $regionInput: HTMLInputElement | null = $root.querySelector(
+      'input[name="region"]'
+    );
+    if ($regionInput) {
+      IMask($regionInput, {
+        //eslint-disable-next-line
+        mask: /[А-Яа-я\-\.\,\s]+$/,
+      });
+    }
+
+    const $cityInput: HTMLInputElement | null =
+      $root.querySelector('input[name="city"]');
+    if ($cityInput) {
+      IMask($cityInput, {
+        //eslint-disable-next-line
+        mask: /[А-Яа-я\-\.\,\s]+$/,
+      });
+    }
+  }
 };
 
 export const applyMinifiedWebPhoneMasks = () => {
@@ -181,7 +221,7 @@ export const applyMinifiedWebPhoneMasks = () => {
       'input[name="phone"]'
     );
     if ($pnoneInput) {
-      minifiedWebPhone_phoneMask = IMask($pnoneInput, {
+      IMask($pnoneInput, {
         mask: "#@000000000",
         definitions: {
           "#": /[7-8]/,
@@ -190,8 +230,4 @@ export const applyMinifiedWebPhoneMasks = () => {
       });
     }
   }
-};
-
-export const destroyMinifiedWebPhoneMasks = () => {
-  minifiedWebPhone_phoneMask.destroy();
 };

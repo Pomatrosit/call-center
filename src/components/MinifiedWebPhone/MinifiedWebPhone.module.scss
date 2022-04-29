@@ -11,6 +11,7 @@
   background-color: $white;
   border-radius: 0.5vmax;
   box-shadow: 0px 10px 30px 4px rgb(231 231 231 / 54%);
+  z-index: 2;
 
   .bgImgWrapper {
     position: absolute;
