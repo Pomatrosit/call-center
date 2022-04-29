@@ -3,4 +3,31 @@
 
 .root {
   padding: 2vmax;
+
+  .spinner {
+    @include flex();
+    padding-top: 2vmax;
+  }
+
+  .errorMessage {
+    font-size: 0.9vmax;
+    text-align: center;
+    color: $dangerColor;
+  }
+
+  .emptyMessage {
+    font-size: 0.9vmax;
+    text-align: center;
+    color: $primaryColor;
+  }
+
+  .pagination {
+    @include flex(center, flex-end);
+    margin: 2.5vmax 0;
+  }
+
+  .callRow {
+    @include flex(center, space-between);
+    margin-bottom: 1vmax;
+  }
 }

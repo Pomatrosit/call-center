@@ -6,7 +6,7 @@ import FormikInput from "../FormikInput/FormikInput";
 import { Button } from "react-bootstrap";
 import PhoneIcons from "../PhoneIcons/PhoneIcons";
 import { disableBrowserAutocomplete } from "../../helpers/inputs";
-import { applyWebPhoneMasks, destroyWebPhoneMasks } from "../../helpers/masks";
+import { applyWebPhoneMasks } from "../../helpers/masks";
 import PhoneResult from "../PhoneResult/PhoneResult";
 import ClientCard from "../ClientCard/ClientCard";
 import { useDispatch } from "react-redux";
@@ -133,12 +133,6 @@ const WebPhone: FC = () => {
   useEffect(() => {
     disableBrowserAutocomplete($root.current);
     applyWebPhoneMasks();
-
-    return () => {
-      destroyWebPhoneMasks();
-    };
-
-    //eslint-disable-next-line
   }, []);
 
   const isMinified = useAppSelector((state) => state.webPhone.isMinified);

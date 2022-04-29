@@ -5,8 +5,8 @@ interface IAuthState {
 }
 
 const initialState: IAuthState = {
-  auth: null,
-  // auth: true,
+  // auth: null,
+  auth: true,
 };
 
 const reducer = (
