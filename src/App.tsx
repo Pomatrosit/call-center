@@ -13,13 +13,16 @@ import { checkAuth } from "./helpers/auth";
 import { axiosConfig, axiosInterceptor } from "./helpers/axios";
 import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
 import { initWebPhone } from "./store/webphone/actions";
-import { changeWebPhoneStatus, registerWebPhone } from "./helpers/webPhone";
+import { registerWebPhone } from "./helpers/webPhone";
+import axios from "axios";
 
 const App = () => {
   const { auth } = useAppSelector((state) => state.auth);
-  const { socket: webPhoneSocket, coolPhone } = useAppSelector(
-    (state) => state.webPhone
-  );
+  const {
+    socket: webPhoneSocket,
+    coolPhone,
+    session,
+  } = useAppSelector((state) => state.webPhone);
 
   const [loadingScreen, setLoadingScreen] = useState<boolean>(true);
 
@@ -42,10 +45,19 @@ const App = () => {
     dispatch(setAuth(false));
   };
 
+  const changeServer = async () => {
+    try {
+      const response = await axios.post("calls/change_server");
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     axiosConfig();
     axiosInterceptor(login, logout);
-    // checkAuth(login, logout);
+    checkAuth(login, logout);
     //eslint-disable-next-line
   }, []);
 
@@ -62,14 +74,20 @@ const App = () => {
       dispatch(initWebPhone());
       hideLoadingScreen();
       registerWebPhone();
+      changeServer();
     } else if (auth === false) {
       sessionStorage.removeItem(TOKENS.accessToken);
       sessionStorage.removeItem(TOKENS.refreshToken);
       sessionStorage.removeItem(SESSION_STORAGE.journalId);
       sessionStorage.removeItem(SESSION_STORAGE.hashphone);
       dispatch(setSocket(null));
+      try {
+        if (session) session.terminate();
+      } catch (error) {}
       if (coolPhone) {
-        coolPhone.unregister();
+        coolPhone.unregister({
+          all: true,
+        });
         coolPhone.stop();
       }
       if (webPhoneSocket) webPhoneSocket.disconnect();

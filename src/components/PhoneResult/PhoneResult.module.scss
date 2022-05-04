@@ -77,9 +77,9 @@
         padding: 0.3vmax;
 
         .innerOption {
-          font-size: 0.83vmax;
+          font-size: 0.7vmax;
           color: $light-gray;
-          padding: 0.3vmax;
+          padding: 0.2vmax;
           transition: 0.3s;
           @include flex(center, flex-start);
           border-radius: 0.2vmax;

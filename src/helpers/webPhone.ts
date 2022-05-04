@@ -31,11 +31,15 @@ export const registerWebPhone = async () => {
   try {
     const response = await axios.post("/calls/registration");
     console.log(response);
-    const response3 = await axios.post(`/calls/status/unpause`);
-    console.log(response3);
-    const response2 = await axios.post(`/calls/status/wait`);
+    const response2 = await axios.post(`/calls/status/pause`);
     console.log(response2);
   } catch (error) {
     console.log(error);
   }
+};
+
+export const sanitizePhone = (phone: string) => {
+  const phoneArr = phone.split("");
+  phoneArr[0] = "7";
+  return phoneArr.join("");
 };

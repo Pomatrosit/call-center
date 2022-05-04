@@ -5,6 +5,8 @@ import { addNotification } from "../notifications/actions";
 import { SESSION_STORAGE, WEB_PHONE_SOCKET } from "../../constants/common";
 import CryptoJS from "crypto-js";
 import { IWebPhoneTransferValues } from "../../components/WebPhone/WebPhone";
+import axios from "axios";
+import { changeWebPhoneStatus } from "../../helpers/webPhone";
 
 const getAudio = function (e: any) {
   const remoteAudio: HTMLAudioElement | null = document.querySelector(".audio");
@@ -53,9 +55,9 @@ export const initWebPhone = () => {
       session.on("connecting", function (e: any) {
         console.log(e);
         console.log("call connecting");
-
         if (session.direction === "outgoing") {
           dispatch(setOnCall(true));
+          changeWebPhoneStatus("call");
           dispatch(
             addNotification({
               id: Math.random(),
@@ -64,7 +66,6 @@ export const initWebPhone = () => {
               autoHideDuration: 4000,
             })
           );
-        } else {
         }
       });
 
@@ -72,6 +73,11 @@ export const initWebPhone = () => {
         //// Стрим звука при входящем
         if (session.direction === "incoming") {
           incomingAudio?.play();
+          dispatch(setCurrentPhone(session.remote_identity.display_name));
+          localStorage.setItem(
+            "currentPhone",
+            session.remote_identity.display_name
+          );
           dispatch(setIncomingRing(true));
           dispatch(
             addNotification({
@@ -95,10 +101,12 @@ export const initWebPhone = () => {
         dispatch(setOnCall(true));
         dispatch(setConfirmed(true));
         incomingAudio?.pause();
+        changeWebPhoneStatus("call");
       });
 
       session.on("ended", function () {
         console.log("call ended");
+        changeWebPhoneStatus("state");
         dispatch(setOnCall(false));
         dispatch(setMuted(false));
         dispatch(setHold(false));
@@ -117,6 +125,7 @@ export const initWebPhone = () => {
 
       session.on("failed", function () {
         console.log("call failed");
+        changeWebPhoneStatus("wait");
         dispatch(setOnCall(false));
         dispatch(setMuted(false));
         dispatch(setHold(false));
@@ -218,5 +227,23 @@ export const setMinifiedWebPhone = (bool: boolean) => {
   return {
     type: types.SET_MINIFIED_WEB_PHONE,
     payload: bool,
+  };
+};
+
+export const loadPhoneResults = () => {
+  return async (dispatch: Dispatch<any>) => {
+    try {
+      const { data } = await axios.get("/phone/statuses");
+      dispatch(setPhoneResults(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const setPhoneResults = (res: any) => {
+  return {
+    type: types.SET_PHONE_RESULTS,
+    payload: res,
   };
 };

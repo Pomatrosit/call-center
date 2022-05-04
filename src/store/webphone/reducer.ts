@@ -13,6 +13,7 @@ interface IWebPhone {
   transferValues: IWebPhoneTransferValues | null;
   currentPhone: string;
   isMinified: boolean;
+  phoneResults: any;
 }
 
 const initialState: IWebPhone = {
@@ -25,8 +26,9 @@ const initialState: IWebPhone = {
   isConfirmed: false,
   isIncomingRing: false,
   transferValues: null,
-  currentPhone: "",
+  currentPhone: localStorage.getItem("currentPhone") || "",
   isMinified: true,
+  phoneResults: [],
 };
 
 const reducer = (
@@ -79,6 +81,10 @@ const reducer = (
 
     case types.SET_MINIFIED_WEB_PHONE: {
       return { ...state, isMinified: action.payload };
+    }
+
+    case types.SET_PHONE_RESULTS: {
+      return { ...state, phoneResults: action.payload };
     }
 
     default: {

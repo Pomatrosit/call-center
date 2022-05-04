@@ -53,6 +53,7 @@ const MinifiedWebPhone = () => {
 
   useEffect(() => {
     if (currentPhone) formik.setFieldValue("phone", currentPhone);
+    localStorage.setItem("currentPhone", currentPhone);
     //eslint-disable-next-line
   }, [currentPhone]);
 
@@ -75,6 +76,16 @@ const MinifiedWebPhone = () => {
   };
 
   const isMinified = useAppSelector((state) => state.webPhone.isMinified);
+
+  useEffect(() => {
+    if (isMinified) {
+      $root.current?.classList?.remove(classes.webPhoneClose);
+      $root.current?.classList?.add(classes.webPhoneOpen);
+    } else {
+      $root.current?.classList?.remove(classes.webPhoneOpen);
+      $root.current?.classList?.add(classes.webPhoneClose);
+    }
+  }, [isMinified]);
 
   return (
     <div

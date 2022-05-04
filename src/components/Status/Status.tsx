@@ -4,7 +4,7 @@ import Switcher from "../Switcher/Switcher";
 import classes from "./Status.module.scss";
 
 const Status: FC = () => {
-  const [status, setStatus] = useState<boolean>(true);
+  const [status, setStatus] = useState<boolean>(false);
 
   const toggle = async () => {
     let request = "pause";
