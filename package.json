@@ -2,6 +2,7 @@
   "name": "opermesto_v2.0",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://github.com/Pomatrosit/call-center",
   "dependencies": {
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^11.2.7",
@@ -19,6 +20,7 @@
     "classnames": "^2.3.1",
     "crypto-js": "^4.1.1",
     "formik": "^2.2.9",
+    "gh-pages": "^3.2.3",
     "imask": "^6.3.0",
     "jssip": "^3.9.0",
     "node-sass": "^6.0.1",
@@ -43,7 +45,9 @@
     "startssl": "export HTTPS=true&&SSL_CRT_FILE=cert.pem&&SSL_KEY_FILE=key.pem react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
