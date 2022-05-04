@@ -19,6 +19,15 @@
     padding: 1.5vmax 1.3vmax 2vmax 1.3vmax;
     border-radius: 0.5vmax;
     position: relative;
+    transition: 0.5s;
+
+    &.webPhoneClose {
+      opacity: 0;
+    }
+
+    &.webPhoneOpen {
+      opacity: 1;
+    }
 
     .bgImgWrapper {
       position: absolute;

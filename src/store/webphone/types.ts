@@ -12,6 +12,7 @@ export enum types {
   SET_WEB_PHONE_TRANSFER_VALUES = "SET_WEB_PHONE_TRANSFER_VALUES",
   SET_CURRENT_PHONE = "SET_CURRENT_PHONE",
   SET_MINIFIED_WEB_PHONE = "SET_MINIFIED_WEB_PHONE",
+  SET_PHONE_RESULTS = "SET_PHONE_RESULTS",
 }
 
 interface initWebPhone {
@@ -69,6 +70,11 @@ interface setMinifiedWebPhone {
   payload: boolean;
 }
 
+interface setPhoneResults {
+  type: types.SET_PHONE_RESULTS;
+  payload: any;
+}
+
 export type WebPhoneActions =
   | initWebPhone
   | setOnCall
@@ -80,4 +86,5 @@ export type WebPhoneActions =
   | setIncomingRing
   | setWebPhoneTransferValues
   | setCurrentPhone
-  | setMinifiedWebPhone;
+  | setMinifiedWebPhone
+  | setPhoneResults;

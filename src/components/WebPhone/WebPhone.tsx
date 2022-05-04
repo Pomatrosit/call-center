@@ -11,11 +11,14 @@ import PhoneResult from "../PhoneResult/PhoneResult";
 import ClientCard from "../ClientCard/ClientCard";
 import { useDispatch } from "react-redux";
 import {
+  loadPhoneResults,
   setMinifiedWebPhone,
   setWebPhoneTransferValues,
 } from "../../store/webphone/actions";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../hooks/useAppSelector";
+import axios from "axios";
+import { sanitizePhone } from "../../helpers/webPhone";
 
 export interface IWebPhoneValues {
   phone?: string;
@@ -50,8 +53,30 @@ const WebPhone: FC = () => {
   const $root = useRef<HTMLDivElement>(null);
   const currentPhone = useAppSelector((state) => state.webPhone.currentPhone);
 
+  const loadClientCard = async (currentPhone: string) => {
+    try {
+      const { data } = await axios.get(
+        `/phone/check_bid?phone=${sanitizePhone(currentPhone)}`
+      );
+      if (data.length) {
+        const bid = data[0];
+        if (bid.surname) formik.setFieldValue("lastName", bid.surname);
+        if (bid.name) formik.setFieldValue("firstName", bid.name);
+        if (bid.patronymic) formik.setFieldValue("middleName", bid.patronymic);
+        if (bid.birthday) formik.setFieldValue("birthDate", bid.birthday);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    if (currentPhone) formik.setFieldValue("phone", currentPhone);
+    if (currentPhone) {
+      formik.resetForm();
+      formik.setFieldValue("phone", currentPhone);
+      loadClientCard(currentPhone);
+      localStorage.setItem("currentPhone", currentPhone);
+    }
     //eslint-disable-next-line
   }, [currentPhone]);
 
@@ -133,13 +158,27 @@ const WebPhone: FC = () => {
   useEffect(() => {
     disableBrowserAutocomplete($root.current);
     applyWebPhoneMasks();
+    dispatch(loadPhoneResults());
+
+    //eslint-disable-next-line
   }, []);
 
   const isMinified = useAppSelector((state) => state.webPhone.isMinified);
+  const layoutRef = useRef<HTMLDivElement>(null);
 
   const onClose = () => {
     dispatch(setMinifiedWebPhone(true));
   };
+
+  useEffect(() => {
+    if (!isMinified) {
+      layoutRef.current?.classList?.remove(classes.webPhoneClose);
+      layoutRef.current?.classList?.add(classes.webPhoneOpen);
+    } else {
+      layoutRef.current?.classList?.remove(classes.webPhoneOpen);
+      layoutRef.current?.classList?.add(classes.webPhoneClose);
+    }
+  }, [isMinified]);
 
   return (
     <div
@@ -150,6 +189,7 @@ const WebPhone: FC = () => {
       <div
         className={classes.webPhoneLayout2}
         onClick={(e) => e.stopPropagation()}
+        ref={layoutRef}
       >
         <div className={classes.bgImgWrapper}>
           <img

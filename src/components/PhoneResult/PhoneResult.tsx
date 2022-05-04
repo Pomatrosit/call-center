@@ -1,4 +1,6 @@
 import { FC, useState } from "react";
+import { changeWebPhoneStatus } from "../../helpers/webPhone";
+import { useAppSelector } from "../../hooks/useAppSelector";
 import classes from "./PhoneResult.module.scss";
 
 interface IProps {
@@ -7,31 +9,7 @@ interface IProps {
 
 const PhoneResult: FC<IProps> = ({ direction }) => {
   const [isRootOpen, setRootOpen] = useState<boolean>(false);
-  const [options, setOptions] = useState([
-    {
-      category: "Нецелевой",
-      options: [
-        { id: 1, title: "Ребенок" },
-        { id: 2, title: "Пенсионер" },
-        { id: 3, title: "Студент" },
-      ],
-    },
-    {
-      category: "Сброс",
-      options: [
-        { id: 1, title: "Автоответчик" },
-        { id: 2, title: "Тишина" },
-        { id: 3, title: "Разрыв связи" },
-      ],
-    },
-    {
-      category: "Конфликт",
-      options: [
-        { id: 1, title: "Неадекват" },
-        { id: 2, title: "Троллинг" },
-      ],
-    },
-  ]);
+  const options = useAppSelector((state) => state.webPhone.phoneResults);
   const [activeOption, setActiveOption] = useState<number>(-1);
 
   const dropdownClickHandler = (e: any) => {
@@ -42,7 +20,7 @@ const PhoneResult: FC<IProps> = ({ direction }) => {
 
   const rootOptionMouseEnter = (category: string) => {
     const activeOption = options.findIndex(
-      (option) => option.category === category
+      (option: any) => option.nameCategory === category
     );
     setActiveOption(activeOption);
   };
@@ -54,6 +32,11 @@ const PhoneResult: FC<IProps> = ({ direction }) => {
   const rootOptionsClasses = [classes.rootOptions];
   if (direction === "top") rootOptionsClasses.push(classes.rootOptionsTop);
   else rootOptionsClasses.push(classes.rootOptionsBottom);
+
+  const callResultClickHandler = (id: number) => {
+    console.log(id);
+    changeWebPhoneStatus("wait");
+  };
 
   return (
     <div className={classes.root}>
@@ -73,23 +56,27 @@ const PhoneResult: FC<IProps> = ({ direction }) => {
             className={rootOptionsClasses.join(" ")}
             onMouseLeave={rootOptionsMouseLeave}
           >
-            {options.map((option) => (
+            {options.map((option: any) => (
               <div
-                key={option.category}
+                key={option.nameCategory}
                 className={classes.rootOption}
-                onMouseEnter={() => rootOptionMouseEnter(option.category)}
+                onMouseEnter={() => rootOptionMouseEnter(option.nameCategory)}
               >
-                <span>{option.category}</span>
+                <span>{option.nameCategory}</span>
               </div>
             ))}
             {activeOption !== -1 && (
               <div
                 className={classes.innerOptions}
-                style={{ top: activeOption * 3.5 + "vh" }}
+                style={{ top: activeOption * 2 + "vmax" }}
               >
-                {options[activeOption].options.map((innerOption) => (
-                  <div key={innerOption.id} className={classes.innerOption}>
-                    {innerOption.title}
+                {options[activeOption].statuses.map((innerOption: any) => (
+                  <div
+                    key={innerOption.id}
+                    className={classes.innerOption}
+                    onClick={() => callResultClickHandler(innerOption.id)}
+                  >
+                    {innerOption.name}
                   </div>
                 ))}
               </div>
