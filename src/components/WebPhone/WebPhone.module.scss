@@ -38,8 +38,9 @@
       z-index: 0;
       overflow: hidden;
 
-      .backgroundImg {
+      .backgroundImg svg {
         width: 40vmax;
+        height: 40vmax;
         opacity: 0.05;
       }
     }
@@ -57,7 +58,7 @@
   padding-bottom: 1vmax;
   margin-bottom: 1vmax;
 
-  .closeIcon {
+  .closeIcon svg {
     width: 1vmax;
     height: 1vmax;
     transition: 0.3s;
@@ -65,7 +66,7 @@
   }
 
   @media (hover: hover) {
-    .closeIcon:hover {
+    .closeIcon:hover svg {
       opacity: 0.7;
     }
   }
@@ -97,7 +98,7 @@
       margin: 0 0 0.75vmax 0.5vmax;
     }
 
-    img {
+    svg {
       width: 1.2vmax;
       height: 1.2vmax;
     }

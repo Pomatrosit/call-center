@@ -34,8 +34,9 @@
     z-index: 0;
     opacity: 0.04;
 
-    .backgroundImg {
+    .backgroundImg svg {
       width: 20vmax;
+      height: 20vmax;
       transform: rotate(250deg);
     }
   }

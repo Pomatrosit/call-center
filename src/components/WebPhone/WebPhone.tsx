@@ -19,6 +19,9 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import axios from "axios";
 import { sanitizePhone } from "../../helpers/webPhone";
+import Logotype from "../Icons/Logotype";
+import CloseIcon from "../Icons/CloseIcon";
+import RedirectIcon from "../Icons/RedirectIcon";
 
 export interface IWebPhoneValues {
   phone?: string;
@@ -192,21 +195,16 @@ const WebPhone: FC = () => {
         ref={layoutRef}
       >
         <div className={classes.bgImgWrapper}>
-          <img
-            src="/logotype.svg"
-            alt="background"
-            className={classes.backgroundImg}
-          />
+          <div className={classes.backgroundImg}>
+            <Logotype />
+          </div>
         </div>
         <div ref={$root} className={classes.content + " web-phone-root"}>
           <div className={classes.head}>
             <h2 className={classes.title}>Веб-телефон</h2>
-            <img
-              onClick={onClose}
-              className={classes.closeIcon}
-              src="/icons/closeIcon.svg"
-              alt="close-modal"
-            />
+            <div onClick={onClose} className={classes.closeIcon}>
+              <CloseIcon />
+            </div>
           </div>
           <form className={classes.webPhone}>
             <FormikInput label="Телефон" name="phone" formik={formik} />
@@ -219,7 +217,7 @@ const WebPhone: FC = () => {
                 />
               </div>
               <Button variant="success" className={classes.redirectButton}>
-                <img src="/icons/arrow.svg" alt="redirect-icon" />
+                <RedirectIcon />
               </Button>
             </div>
             <div className={classes.tone}>

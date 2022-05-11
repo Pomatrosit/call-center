@@ -17,6 +17,7 @@ import {
 } from "../../store/webphone/actions";
 import PhoneResult from "../PhoneResult/PhoneResult";
 import { useAppSelector } from "../../hooks/useAppSelector";
+import Logotype from "../Icons/Logotype";
 
 const initialValues: IWebPhoneValues = {
   phone: "",
@@ -94,11 +95,9 @@ const MinifiedWebPhone = () => {
       style={{ display: isMinified ? "block" : "none" }}
     >
       <div className={classes.bgImgWrapper}>
-        <img
-          src="/logotype.svg"
-          alt="background"
-          className={classes.backgroundImg}
-        />
+        <div className={classes.backgroundImg}>
+          <Logotype />
+        </div>
       </div>
       <div className={classes.content}>
         <div className={classes.head}>

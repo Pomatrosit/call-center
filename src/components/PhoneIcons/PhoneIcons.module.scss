@@ -46,10 +46,11 @@
       }
     }
 
-    img {
+    svg {
       position: relative;
       z-index: 1;
       width: 50%;
+      height: 50%;
     }
   }
 
@@ -77,7 +78,8 @@
     }
 
     svg {
-      height: 3vmax;
+      height: 2vmax;
+      width: 2vmax;
     }
   }
 
@@ -102,6 +104,10 @@
     }
 
     .holdIcon svg {
+      width: 2vmax;
+    }
+
+    .microphoneIcon svg {
       width: 2vmax;
     }
   }

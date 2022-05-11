@@ -21,6 +21,7 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 import { IWebPhoneTransferValues } from "../WebPhone/WebPhone";
 import { useDispatch } from "react-redux";
 import { setWebPhoneTransferValues } from "../../store/webphone/actions";
+import NewBidBg from "../Icons/NewBidBg";
 
 interface IValues {
   phone: string;
@@ -542,11 +543,9 @@ const NewBid: FC = () => {
           </Button>
         </div>
       </form>
-      <img
-        className={classes.newBidBackground}
-        src="/newBidBackground.svg"
-        alt="background"
-      />
+      <div className={classes.newBidBackground}>
+        <NewBidBg />
+      </div>
     </div>
   );
 };

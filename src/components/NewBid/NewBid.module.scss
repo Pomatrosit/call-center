@@ -123,10 +123,11 @@
   }
 }
 
-.newBidBackground {
+.newBidBackground svg {
   position: absolute;
   z-index: 0;
   right: 0;
   top: 5vmax;
   width: 50vmax;
+  height: 50vmax;
 }

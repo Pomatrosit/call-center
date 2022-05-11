@@ -10,6 +10,7 @@ import { setAuth } from "../../store/auth/actions";
 import { SESSION_STORAGE, TOKENS } from "../../constants/common";
 import { HTTP_STATUS_CODES } from "../../constants/statusCodes";
 import { setUser } from "../../store/user/actions";
+import Logotype from "../Icons/Logotype";
 
 interface IValues {
   login: string;
@@ -67,7 +68,9 @@ const Auth: FC = () => {
     <>
       <form className={classes.auth} onSubmit={formik.handleSubmit}>
         <div className={classes.logo}>
-          <img src="/logotype.svg" alt="logo" className={classes.logotype} />
+          <div className={classes.logotype}>
+            <Logotype />
+          </div>
           <h2>Contact Center</h2>
         </div>
         <h3 className={classes.marginTop}>Авторизация</h3>

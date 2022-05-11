@@ -17,6 +17,8 @@ import PauseIcon from "../Icons/PauseIcon";
 import UnpauseIcon from "../Icons/UnpauseIcon";
 import { FormikProps } from "formik";
 import { IWebPhoneValues } from "../WebPhone/WebPhone";
+import GreenPhone from "../Icons/GreenPhone";
+import RedPhone from "../Icons/RedPhone";
 
 interface IProps {
   formik: FormikProps<IWebPhoneValues>;
@@ -114,7 +116,7 @@ const PhoneIcons: FC<IProps> = ({ formik, minified = false }) => {
           onClick={answerOnIncomingCall}
         >
           <div className={classes.ring}></div>
-          <img src="/icons/greenPhone.svg" alt="phone" />
+          <GreenPhone />
         </div>
       ) : (
         <div
@@ -124,10 +126,7 @@ const PhoneIcons: FC<IProps> = ({ formik, minified = false }) => {
           }
           onClick={phoneClickHandler}
         >
-          <img
-            src={!isOnCall ? "/icons/greenPhone.svg" : "/icons/redPhone.svg"}
-            alt="phone"
-          />
+          {!isOnCall ? <GreenPhone /> : <RedPhone />}
         </div>
       )}
 
